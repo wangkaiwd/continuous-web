@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-size: var(--font-size);
+    }
+
+    :root {
+      --button-height: 32px;
+      --font-size: 14px;
+      --button-bg: white;
+      --button-active-bg: #eee;
+      --border-radius: 4px;
+      --color: #333;
+      --border-color: #999;
+      --border-color-hover: #666;
+    }
+
+    #app {
+      margin: 20px;
+    }
+
+    .g-button {
+      font-size: var(--font-size);
+      height: var(--button-height);
+      padding: 0 1rem;
+      background-color: var(--button-bg);
+      border-radius: var(--border-radius);
+      color: var(--color);
+      border: 1px solid var(--border-color);
+    }
+
+    .g-button:focus {
+      outline: none;
+    }
+
+    .g-button:hover {
+      border-color: var(--border-color-hover);
+    }
+
+    .g-button:active {
+      background-color: var(--button-active-bg);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <g-button></g-button>
+  </div>
+  <script src="./node_modules/vue/dist/vue.min.js"></script>
+  <script src="./button.js"></script>
+  <script>
+    const vm = new Vue({
+      el: "#app",
+      data() {
+        return {
+          message: 'hi',
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
