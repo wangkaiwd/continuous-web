@@ -1,5 +1,17 @@
 Vue.component('g-button', {
-  props: ['icon', 'iconPosition'],
+  props: {
+    icon: {},
+    iconPosition: {
+      type: String,
+      default: 'left',
+      validator: function (value) {
+        console.log('value', value);
+        if (value !== 'left' && value !== 'right') {
+          return false;
+        }
+      }
+    }
+  },
   template: `
     <button class="g-button">
       <svg 
