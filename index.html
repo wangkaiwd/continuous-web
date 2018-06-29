@@ -33,52 +33,6 @@
     #app {
       margin: 20px;
     }
-
-    .g-button {
-      font-size: var(--font-size);
-      height: var(--button-height);
-      padding: 0 1em;
-      background-color: var(--button-bg);
-      border-radius: var(--border-radius);
-      color: var(--color);
-      border: 1px solid var(--border-color);
-    }
-
-    .g-button:focus {
-      outline: none;
-    }
-
-    .g-button:hover {
-      border-color: var(--border-color-hover);
-    }
-
-    .g-button:active {
-      background-color: var(--button-active-bg);
-    }
-
-    .icon {
-      width: 1em;
-      height: 1em;
-      vertical-align: top;
-      fill: currentColor;
-      overflow: hidden;
-    }
-
-    .g-button {
-      display: inline-flex;
-      vertical-align: top;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .icon-right {
-      margin-left: .3em;
-      order: 2;
-    }
-
-    .icon-left {
-      margin-right: .3em;
-    }
   </style>
 </head>
 
@@ -87,24 +41,18 @@
     <g-button>
       我爱js
     </g-button>
-    <!-- 在html中要用短横线连接 -->
+    <!-- html对大小写不敏感，通过短线进行连接 -->
     <g-button icon="setting" icon-position="right">
       按钮
     </g-button>
     <g-button icon="left" icon-position="left">
       箭头
     </g-button>
-    <g-button icon="download" icon-position="up">
-      默认
+    <g-button icon="download">
+      下载
     </g-button>
   </div>
-  <script src="./node_modules/vue/dist/vue.min.js"></script>
-  <script src="./button.js"></script>
-  <script>
-    const vm = new Vue({
-      el: "#app",
-    })
-  </script>
+  <script src="./src/app.js"></script>
   <script src="https://at.alicdn.com/t/font_725726_mrmmg32xefn.js"></script>
 </body>
 
