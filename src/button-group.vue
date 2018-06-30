@@ -23,7 +23,9 @@
     vertical-align: top;
     >>> .g-button {
       border-radius: 0;
-      margin-left: -1px;
+      &:not(:first-child) {
+        margin-left: -1px;
+      }
     }
     & /deep/ :first-child {
       border-bottom-left-radius: var(--border-radius);
