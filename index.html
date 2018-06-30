@@ -42,10 +42,22 @@
     我爱js
   </g-button>
   <!-- html对大小写不敏感，通过短线进行连接 -->
+  <!--通过click.native进行数据绑定,直接绑定相当于自定义组件的自定义事件-->
+  <!--
+    <g-button
+    icon="setting"
+    icon-position="right"
+    :loading="loading1"
+    @click.native="loading1 = !loading1"
+  >
+    按钮
+  </g-button>
+  -->
   <g-button
     icon="setting"
     icon-position="right"
-    :loading="true"
+    :loading="loading1"
+    @click="loading1 = !loading1"
   >
     按钮
   </g-button>
@@ -65,6 +77,30 @@
   >
     点赞
   </g-button>
+  <g-button-group>
+    <div>
+      <g-button icon="left">
+        上一页
+      </g-button>
+    </div>
+    <g-button>
+      更多
+    </g-button>
+    <g-button icon="right" icon-position="right">
+      下一页
+    </g-button>
+  </g-button-group>
+  <g-button-group>
+    <g-button icon="left">
+      上一页
+    </g-button>
+    <g-button
+      icon="right"
+      icon-position="right"
+    >
+      下一页
+    </g-button>
+  </g-button-group>
 </div>
 <script src="./src/app.js"></script>
 <script src="//at.alicdn.com/t/font_725726_euj28vwawxg.js"></script>
