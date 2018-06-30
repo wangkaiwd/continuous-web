@@ -17,6 +17,7 @@
 
     body {
       font-size: var(--font-size);
+      background-color: #fafafa;
     }
 
     html {
@@ -31,16 +32,26 @@
     }
 
     #app {
-      margin: 20px;
+      display: flex;
+      flex-direction: column;
+      width: 432px;
+      height: 428px;
+      margin: 100px auto;
+      padding: 30px;
+      background-color: #fff;
+      box-shadow: 4px 4px 16px 2px #ececec;
+    }
+    .row:not(:first-child) {
+      margin-top: 20px;
+    }
+    .button:not(:last-child) {
+      margin-right: 12px;
     }
   </style>
 </head>
 
 <body>
 <div id="app">
-  <g-button>
-    我爱js
-  </g-button>
   <!-- html对大小写不敏感，通过短线进行连接 -->
   <!--通过click.native进行数据绑定,直接绑定相当于自定义组件的自定义事件-->
   <!--
@@ -53,31 +64,72 @@
     按钮
   </g-button>
   -->
-  <g-button
-    icon="setting"
-    icon-position="right"
-    :loading="loading1"
-    @click="loading1 = !loading1"
-  >
-    按钮
-  </g-button>
-  <g-button
-    icon="left"
-    icon-position="left"
-    :loading="true"
-  >
-    箭头
-  </g-button>
-  <g-button icon="download">
-    下载
-  </g-button>
-  <g-button
-    icon="thumbs-up"
-    icon-position="right"
-  >
-    点赞
-  </g-button>
-  <g-button-group>
+  <div class="row">
+    <g-button
+      class="button"
+      icon="setting"
+      icon-position="right"
+      :loading="loading1"
+      @click="loading1 = !loading1"
+    >
+      按钮
+    </g-button>
+    <g-button
+      class="button"
+      icon="left"
+      icon-position="left"
+      :loading="true"
+    >
+      箭头
+    </g-button>
+    <g-button class="button" icon="download">
+      下载
+    </g-button>
+    <g-button
+      class="button"
+      icon="thumbs-up"
+      icon-position="right"
+    >
+      点赞
+    </g-button>
+  </div>
+  <div class="row">
+    <g-button
+      class="button"
+      icon="thumbs-up"
+    >
+      点赞
+    </g-button>
+    <g-button
+      class="button"
+      icon="download"
+      icon-position="right"
+    >
+      下载
+    </g-button>
+    <g-button
+      class="button"
+      icon="moreinfo"
+      icon-position="right"
+    >
+      更多
+    </g-button>
+  </div>
+  <div class="row">
+    <g-button-group class="button">
+      <g-button icon="left">
+        上一页
+      </g-button>
+      <g-button
+        icon="right"
+        icon-position="right"
+      >
+        下一页
+      </g-button>
+    </g-button-group>
+  </div>
+  <!--测试按钮-->
+<!--  <g-button-group>
     <div>
       <g-button icon="left">
         上一页
@@ -89,21 +141,10 @@
     <g-button icon="right" icon-position="right">
       下一页
     </g-button>
-  </g-button-group>
-  <g-button-group>
-    <g-button icon="left">
-      上一页
-    </g-button>
-    <g-button
-      icon="right"
-      icon-position="right"
-    >
-      下一页
-    </g-button>
-  </g-button-group>
+  </g-button-group>-->
 </div>
 <script src="./src/app.js"></script>
-<script src="//at.alicdn.com/t/font_725726_euj28vwawxg.js"></script>
+<script src="//at.alicdn.com/t/font_725726_icudxuvqe9n.js"></script>
 </body>
 
 </html>
