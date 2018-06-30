@@ -20,17 +20,20 @@ new Vue({
 import chai from 'chai';
 
 const expect = chai.expect;
+//根据每个传入的参数进行测试
 {
   const Constructor = Vue.extend(Button);
-  const button = new Constructor({
+  const vm = new Constructor({
     propsData: {
       icon: "setting"
     }
   });
-  button.$mount();
-  let useElement = button.$el.querySelector('use');
+  vm.$mount();
+  let useElement = vm.$el.querySelector('use');
   const href = useElement.getAttribute('xlink:href');
   expect(href).to.eq('#i-setting');
+  vm.$el.remove();
+  vm.$destroy();
 }
 {
   const Constructor = Vue.extend(Button);
@@ -44,18 +47,20 @@ const expect = chai.expect;
   let useElement = button.$el.querySelector('use');
   const href = useElement.getAttribute('xlink:href');
   expect(href).to.eq('#i-loading');
+  button.$el.remove();
+  button.$destroy();
 }
 {
   const div = document.createElement('div');
   document.body.appendChild(div);
   const Constructor = Vue.extend(Button);
-  const button = new Constructor({
+  const vm = new Constructor({
     propsData: {
       icon: "setting",
       loading: true,
     }
   });
-  button.$mount(div);
+  vm.$mount(div);
   /**
    * @desc
    *  得到浏览器最终计算出来的样式规则（style只能获取行内样式）,
@@ -63,7 +68,7 @@ const expect = chai.expect;
    * @param element：节点对象
    * @param pseudo: 当前当前元素的伪元素
    * */
-  const svg = button.$el.querySelector('svg');
+  const svg = vm.$el.querySelector('svg');
   //元素出现在页面之后才能获取到css样式
   const {order} = window.getComputedStyle(svg);
   /**
@@ -72,4 +77,43 @@ const expect = chai.expect;
    *  2. 所有的css属性都是字符串
    * */
   expect(order).to.eq("0");
+  vm.$el.remove();
+  vm.$destroy();
+}
+
+{
+  const div = document.createElement('div');
+  document.body.appendChild(div);
+  const Constructor = Vue.extend(Button);
+  const vm = new Constructor({
+    propsData: {
+      icon: "setting",
+      loading: true,
+      iconPosition:"right",
+    }
+  });
+  vm.$mount(div);
+  const svg = vm.$el.querySelector('svg');
+  //元素出现在页面之后才能获取到css样式
+  const {order} = window.getComputedStyle(svg);
+  expect(order).to.eq("1");
+  vm.$el.remove();
+  vm.$destroy();
+}
+{
+  const Constructor = Vue.extend(Button);
+  const vm = new Constructor({
+    propsData: {
+      icon: "setting",
+      loading: true,
+      iconPosition:"right",
+    }
+  });
+  vm.$mount();
+  //$el:Vue实例使用的根DOM元素
+  const button = vm.$el;
+  vm.$on('click',()=> console.log('click'))
+  button.click();
+  vm.$el.remove();
+  vm.$destroy();
 }

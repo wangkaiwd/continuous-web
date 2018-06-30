@@ -69,7 +69,7 @@
     }
     .icon-right {
       margin-left: 0.3em;
-      order: 2;
+      order: 1;
     }
 
     .icon-left {
