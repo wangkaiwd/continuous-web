@@ -18,13 +18,14 @@
   },
   "homepage": "https://github.com/wangkaiwd/self_UI#readme",
   "dependencies": {
+    "chai-spies": "^1.0.0",
     "vue": "^2.5.16",
     "vue-hot-reload-api": "^2.3.0",
     "yarn": "^1.7.0"
   },
   "devDependencies": {
     "@vue/component-compiler-utils": "^2.0.0",
-    "chai": "^4.1.2",
+    "chai": "*",
     "node-sass": "^4.9.0",
     "parcel-bundler": "^1.9.3",
     "vue-template-compiler": "^2.5.16"

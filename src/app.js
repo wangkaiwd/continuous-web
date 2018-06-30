@@ -18,6 +18,9 @@ new Vue({
 
 //单元测试
 import chai from 'chai';
+import spies from 'chai-spies'
+
+chai.use(spies);
 
 const expect = chai.expect;
 //根据每个传入的参数进行测试
@@ -89,7 +92,7 @@ const expect = chai.expect;
     propsData: {
       icon: "setting",
       loading: true,
-      iconPosition:"right",
+      iconPosition: "right",
     }
   });
   vm.$mount(div);
@@ -106,14 +109,16 @@ const expect = chai.expect;
     propsData: {
       icon: "setting",
       loading: true,
-      iconPosition:"right",
+      iconPosition: "right",
     }
   });
   vm.$mount();
+  let spy = chai.spy(function () {
+  })
   //$el:Vue实例使用的根DOM元素
   const button = vm.$el;
-  vm.$on('click',()=> console.log('click'))
+  vm.$on('click', spy)
   button.click();
-  vm.$el.remove();
+  expect(spy).to.have.been.called();
   vm.$destroy();
 }
