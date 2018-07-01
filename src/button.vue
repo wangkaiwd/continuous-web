@@ -7,7 +7,8 @@
         v-if="icon && !loading"
         :class="`icon-${iconPosition}`"
         :name="icon"
-    ></g-icon>
+    >
+    </g-icon>
     <g-icon
       v-if="loading"
       :class="['icon-loading',`icon-${iconPosition}`]"
@@ -19,6 +20,7 @@
 </template>
 
 <script>
+  import Icon from './icon'
   export default {
     props: {
       icon: {},
@@ -34,6 +36,9 @@
           return value === "left" || value === "right";
         }
       }
+    },
+    components: {
+      'g-icon': Icon,
     }
   };
 </script>
