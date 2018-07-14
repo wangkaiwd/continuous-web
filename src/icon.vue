@@ -9,6 +9,7 @@
 
 <script>
 export default {
+  name:'GlobalIcon',
   props: {
     name: {
       type: String

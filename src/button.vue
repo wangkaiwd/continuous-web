@@ -22,6 +22,7 @@
 <script>
   import Icon from './icon'
   export default {
+    name:'GlobalButton',
     props: {
       icon: {},
       loading: {
