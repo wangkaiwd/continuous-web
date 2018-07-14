@@ -8,7 +8,7 @@
     >
     <template v-if="error">
       <global-icon class="input-icon" name="error"></global-icon>
-      <span>{{error}}</span>
+      <span class="error-message">{{error}}</span>
     </template>
   </div>
 </template>
@@ -54,39 +54,18 @@
   $font-size: 12px;
   $box-shadow-color: rgba(0, 0, 0, 0.5);
   $red: #F1453D;
-  .wrapper-input {
-    font-size: $font-size;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 30px;
-    > input {
-      height: $height;
-      border: 1px solid $border-color;
-      border-radius: $border-radius;
-      font-size: $font-size;
-      padding: 0 8px;
-      &:hover {
-        border-color: $border-color-hover;
-      }
-      &:focus {
-        box-shadow: inset 0 1px 3px $box-shadow-color;
-        outline: none;
-      }
+  .wrapper-input {font-size: $font-size;display: inline-flex;align-items: center;justify-content: center;margin-top: 30px;
+    :not(:last-child) {margin-right: 4px;}
+    > input {height: $height;border: 1px solid $border-color;border-radius: $border-radius;font-size: $font-size;padding: 0 8px;
+      &:hover {border-color: $border-color-hover;}
+      &:focus {box-shadow: inset 0 1px 3px $box-shadow-color;outline: none;}
       &[disabled],
-      &[readonly] {
-        border-color: #bbb;
-        color: #bbb;
-        cursor: not-allowed;
-      }
+      &[readonly] {border-color: #bbb;color: #bbb;cursor: not-allowed;}
     }
     &.error {
-      > input {
-        border-color: $red;
-      }
+      > input {border-color: $red;}
     }
-    .input-icon {
-      margin-left: 4px;
-    }
+    .input-icon {color: $red;}
+    .error-message {color: $red;}
   }
 </style>
