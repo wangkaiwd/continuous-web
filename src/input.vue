@@ -1,10 +1,13 @@
 <template>
   <div class="wrapper-input" :class="{error}">
+    <!--input的value:控件的初始值，此属性是可选的-->
     <input
-      v-model="value"
+      :value="value"
       type="text"
       :disabled="disabled"
       :readonly="readonly"
+      @input="$emit('input',$event.target.value)"
+      @change="$emit('change',$event)"
     >
     <template v-if="error">
       <global-icon class="input-icon" name="error"></global-icon>
@@ -13,6 +16,13 @@
   </div>
 </template>
 <script>
+  /**
+   * v-model本质上不过是语法糖，它负责监听用户的输入事件以更新数据，并对一些极端场景进行一些特殊处理
+   * v-model会忽略所有表单元素的value,checked,selected特性的初始值，而总是将Vue实例的数据作为数据来源
+   * 要实现v-model:
+   *  1. value绑定传来的value(value:input的初始值)
+   *  2. input事件 value = $event.target.value
+   */
   import GlobalIcon from './icon'
 
   export default {

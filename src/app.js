@@ -16,6 +16,12 @@ new Vue({
   data () {
     return {
       loading1: false,
+      msg: 'hi'
     }
   },
+  methods: {
+    inputChange (e) {
+      console.log('e', e.target.value)
+    }
+  }
 })

@@ -130,6 +130,13 @@
       </g-button>
     </g-button-group>
     <div>
+      <g-input
+        value="正常情况"
+        v-model="msg"
+        @change="inputChange"
+      >
+      </g-input>
+      <p>{{msg}}</p>
       <g-input value="张三" disabled></g-input>
       <g-input value="李四" readonly></g-input>
       <g-input value="王五" error="提示信息"></g-input>

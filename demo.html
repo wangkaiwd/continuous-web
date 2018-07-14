@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Change事件</title>
+</head>
+<body>
+<div>
+  <select size="1" name="" id="" onchange="changeEventHandler(event)">
+    <option>选项1</option>
+    <option>选项2</option>
+    <option>选项3</option>
+    <option>选项4</option>
+  </select>
+  <input type="text" onchange="changeEventInput(event)">
+  <div class="radio-group">
+    <input type="radio" onchange="changeEventRadio(event)">是
+    <input type="checkbox" onchange="changeEventCheckbox(event)">
+  </div>
+  <textarea name="" cols="30" rows="10" onchange="changeEventTextarea(event)">
+
+  </textarea>
+</div>
+<script>
+  function changeEventHandler (event) {
+    console.log('select', event.target.value)
+  }
+
+  function changeEventRadio (e) {
+    console.log('radio', e.target.value)
+  }
+
+  function changeEventCheckbox (e) {
+    console.log('checkbox', e.target.value)
+  }
+
+  function changeEventTextarea (e) {
+    console.log('textarea', e)
+  }
+
+  function changeEventInput (e) {
+    console.log('input', e)
+  }
+
+  /**
+   * change事件总结
+   * 1. change事件不会连续触发，只有当全部修改完成时才会触发
+   * 2. 单选、复选框激活时触发(radio,checkbox)
+   * 3. select列表完成选择，在日期或文件输入框完成选择时触发（用户提交时触发）
+   * 4. input或textarea元素的值发生改变，并且丧失焦点时触发（二者都满足才会触发）
+   */
+</script>
+</body>
+</html>
