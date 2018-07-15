@@ -22,7 +22,7 @@
       },
       offset: {
         type: [String, Number]
-      }
+      },
     },
   }
 </script>
