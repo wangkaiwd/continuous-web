@@ -9,16 +9,9 @@
   <style>
     /* 简单的初始化样式 */
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * {margin: 0;padding: 0;box-sizing: border-box;}
 
-    body {
-      font-size: var(--font-size);
-      background-color: #fafafa;
-    }
+    body {font-size: var(--font-size);background-color: #fafafa;}
 
     html {
       --button-height: 32px;
@@ -31,29 +24,18 @@
       --border-color-hover: #666;
     }
 
-    #app {
-      display: flex;
-      flex-direction: column;
-      /*width: 432px;
-      height: 428px;
-      margin: 100px auto;*/
-      padding: 30px;
-      /*background-color: #fff;
-      box-shadow: 4px 4px 16px 2px #ececec;*/
-    }
+    #app {display: flex;flex-direction: column;padding: 30px;}
 
-    .row:not(:first-child) {
-      margin-top: 20px;
-    }
+    [v-cloak] {display: none;}
 
-    .button:not(:last-child) {
-      margin-right: 12px;
-    }
+    .row:not(:first-child) {margin-top: 20px;}
+
+    .button:not(:last-child) {margin-right: 12px;}
   </style>
 </head>
 
 <body>
-<div id="app">
+<div id="app" v-cloak>
   <!-- html对大小写不敏感，通过短线进行连接 -->
   <!--通过click.native进行数据绑定,直接绑定相当于自定义组件的自定义事件-->
   <!--
@@ -67,11 +49,11 @@
   </g-button>
   -->
   <div class="layout">
-    <g-row gutter="10">
+    <g-row gutter="10" align="right">
       <g-col span="4">1</g-col>
       <g-col span="20">2</g-col>
     </g-row>
-    <!--<g-row>
+    <g-row align="center">
       <g-col>1</g-col>
       <g-col>2</g-col>
       <g-col>3</g-col>
@@ -85,7 +67,7 @@
     <g-row>
       <g-col span="2">1</g-col>
       <g-col span="18" offset="2">2</g-col>
-    </g-row>-->
+    </g-row>
   </div>
 
 

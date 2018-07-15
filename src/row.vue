@@ -14,6 +14,15 @@
     props: {
       gutter: {
         type: [String, Number]
+      },
+      align: {
+        type: String,
+        validator (val) {
+          // console.log('val', val) // 不传align的话不会只执行这句话
+          // 学习includes()方法：判断一个数组是否包含指定的值，根据情况，如果包含则返回true,否则返回false
+          // return ['left','right','center'].includes();
+          return ['left', 'right', 'center'].indexOf(val) !== -1
+        }
       }
     },
     data () {
@@ -27,6 +36,7 @@
       // 为子组件传递gutter属性
       this.$children.forEach(vm => {
         vm.gutter = this.gutter
+        vm.align = this.align
       })
     }
   }

@@ -24,10 +24,7 @@
     data () {
       return {
         gutter: 0,
-        colClass: [
-          this.span && `span-${this.span}`,
-          this.offset && `offset-${this.offset}`
-        ]
+        align: 'left',
       }
     },
     computed: {
@@ -36,28 +33,28 @@
         return {
           marginRight: `${gutter}px`
         }
+      },
+      colClass () {
+        const {span, offset, align} = this
+        return [
+          span && `span-${span}`,
+          offset && `offset-${offset}`,
+          align && `align-${align}`,
+        ]
       }
     }
   }
 </script>
 <style lang="scss" scoped>
-  .global-col {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
-    background-color: skyblue;
-    border: 1px solid red;
-    width: 50%;
+  .global-col {display: flex;height: 40px;background-color: skyblue;border: 1px solid red;width: 50%;
+    &.align-right {justify-content: flex-end;}
+    &.align-left {justify-content: space-around;}
+    &.align-center {justify-content: center;}
     /*通过scss循环生成所有情况，根据传的参数添加对应的类名*/
     @for $n from 1 through 24 {
-      &.span-#{$n} {
-        width: ($n / 24) * 100%;
-      }
-      &.offset-#{$n} {
-        /*设置为百分比的时候是相对于父元素的宽度*/
-        margin-left: ($n / 24) * 100%;
-      }
+      &.span-#{$n} {width: ($n / 24) * 100%;}
+      /*设置为百分比的时候是相对于父元素的宽度*/
+      &.offset-#{$n} {margin-left: ($n / 24) * 100%;}
     }
   }
 </style>
