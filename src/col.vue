@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="global-col"
-    :class="[span && `span-${span}`,offset && `offset-${offset}`]"
-    :style="{marginRight: `${gutter}px`}"
-  >
+  <div class="global-col" :class="colClass" :style="colStyle">
     <slot></slot>
   </div>
 </template>
@@ -28,20 +24,23 @@
     data () {
       return {
         gutter: 0,
+        colClass: [
+          this.span && `span-${this.span}`,
+          this.offset && `offset-${this.offset}`
+        ]
+      }
+    },
+    computed: {
+      colStyle () {
+        const {gutter} = this
+        return {
+          marginRight: `${gutter}px`
+        }
       }
     }
   }
 </script>
 <style lang="scss" scoped>
-  /*.global-col {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
-    background-color: skyblue;
-    border: 1px solid red;
-    flex: 1;
-  }*/
   .global-col {
     display: flex;
     align-items: center;
@@ -50,7 +49,7 @@
     background-color: skyblue;
     border: 1px solid red;
     width: 50%;
-    /*通过scss循环生成所有情况，让根据传的参数添加对应的类名*/
+    /*通过scss循环生成所有情况，根据传的参数添加对应的类名*/
     @for $n from 1 through 24 {
       &.span-#{$n} {
         width: ($n / 24) * 100%;
