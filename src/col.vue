@@ -1,5 +1,8 @@
 <template>
-  <div class="global-col" :class="`data-span-${span}`">
+  <div
+    class="global-col"
+    :class="[span && `span-${span}`,offset && `offset-${offset}`]"
+  >
     <slot></slot>
   </div>
 </template>
@@ -15,6 +18,9 @@
     name: 'GlobalCol',
     props: {
       span: {
+        type: [String, Number]
+      },
+      offset: {
         type: [String, Number]
       }
     },
@@ -40,8 +46,12 @@
     width: 50%;
     /*通过scss循环生成所有情况，让根据传的参数添加对应的类名*/
     @for $n from 1 through 24 {
-      &.data-span-#{$n} {
+      &.span-#{$n} {
         width: ($n / 24) * 100%;
+      }
+      &.offset-#{$n} {
+        /*设置为百分比的时候是相对于父元素的宽度*/
+        margin-left: ($n / 24) * 100%;
       }
     }
   }
