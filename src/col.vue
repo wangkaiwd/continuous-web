@@ -1,9 +1,16 @@
 <template>
-  <div class="global-col" :style="{flex: currentFlex}">
+  <div class="global-col" :class="`data-span-${span}`">
     <slot></slot>
   </div>
 </template>
 <script>
+  // 自己的想法：通过flex来控制份数，将份数通过style来进行一个动态控制flex属性
+  /**
+   * flex属性回忆：
+   *  1. flex-wrap: nowrap; // 默认属性是nowrap，不换行
+   *  2. flex-shrink: 1; // 默认会缩小
+   *  3. flex-grow: 0; // 默认不会放大
+   */
   export default {
     name: 'GlobalCol',
     props: {
@@ -11,20 +18,10 @@
         type: [String, Number]
       }
     },
-    data () {
-      return {
-        flex: 24,
-      }
-    },
-    computed: {
-      currentFlex () {
-        return this.span / 24
-      }
-    }
   }
 </script>
 <style lang="scss" scoped>
-  .global-col {
+  /*.global-col {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -32,5 +29,20 @@
     background-color: skyblue;
     border: 1px solid red;
     flex: 1;
+  }*/
+  .global-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    background-color: skyblue;
+    border: 1px solid red;
+    width: 50%;
+    /*通过scss循环生成所有情况，让根据传的参数添加对应的类名*/
+    @for $n from 1 through 24 {
+      &.data-span-#{$n} {
+        width: ($n / 24) * 100%;
+      }
+    }
   }
 </style>
