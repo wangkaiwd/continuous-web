@@ -1,5 +1,5 @@
 <template>
-  <div class="global-row">
+  <div class="global-row" :style="{marginRight: -gutter+'px'}">
     <slot :gutter="gutter"></slot>
   </div>
 </template>

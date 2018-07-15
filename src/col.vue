@@ -2,6 +2,7 @@
   <div
     class="global-col"
     :class="[span && `span-${span}`,offset && `offset-${offset}`]"
+    :style="{marginRight: `${gutter}px`}"
   >
     <slot></slot>
   </div>
@@ -24,6 +25,11 @@
         type: [String, Number]
       },
     },
+    data () {
+      return {
+        gutter: 0,
+      }
+    }
   }
 </script>
 <style lang="scss" scoped>
