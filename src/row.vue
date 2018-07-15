@@ -31,6 +31,7 @@
           marginRight: -this.gutter + 'px'
         }
       }
+
     },
     mounted () {
       // 为子组件传递gutter属性
