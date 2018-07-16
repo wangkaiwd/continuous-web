@@ -48,5 +48,5 @@
   // body.appendChild(div) // 父组件： mounted
 </script>
 <style lang="scss" scoped>
-  .global-row {display: flex;}
+  .global-row {display: flex;flex-wrap: wrap;}
 </style>

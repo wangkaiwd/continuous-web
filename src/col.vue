@@ -20,6 +20,20 @@
       offset: {
         type: [String, Number]
       },
+      phone: {
+        type: Object,
+        validator (val) {
+          let valid = true, isObject = false
+          for (let p in val) {
+            isObject = true
+            if (val.hasOwnProperty(p)) {
+              valid = ['offset', 'span'].includes(p)
+              if (valid) break
+            }
+          }
+          return valid && isObject
+        }
+      }
     },
     data () {
       return {
@@ -35,11 +49,21 @@
         }
       },
       colClass () {
-        const {span, offset, align} = this
+        const {span, offset, align, phone} = this
+        const temp = []
+        for (let p in phone) {
+          if (p === 'span') {
+            temp.push(`span-phone-${phone[p]}`)
+          }
+          if (p === 'offset') {
+            temp.push(`offset-phone-${phone[p]}`)
+          }
+        }
         return [
           span && `span-${span}`,
           offset && `offset-${offset}`,
           align && `align-${align}`,
+          ...temp
         ]
       }
     }
@@ -55,6 +79,13 @@
       &.span-#{$n} {width: ($n / 24) * 100%;}
       /*设置为百分比的时候是相对于父元素的宽度*/
       &.offset-#{$n} {margin-left: ($n / 24) * 100%;}
+    }
+    @media (max-width: 576px) {
+      @for $n from 1 through 24 {
+        &.span-phone-#{$n} {width: ($n / 24) * 100%;}
+        /*设置为百分比的时候是相对于父元素的宽度*/
+        &.offset-phone-#{$n} {margin-left: ($n / 24) * 100%;}
+      }
     }
   }
 </style>

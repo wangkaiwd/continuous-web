@@ -50,23 +50,8 @@
   -->
   <div class="layout">
     <g-row gutter="10" align="right">
-      <g-col span="4">1</g-col>
-      <g-col span="20">2</g-col>
-    </g-row>
-    <g-row align="center">
-      <g-col>1</g-col>
-      <g-col>2</g-col>
-      <g-col>3</g-col>
-    </g-row>
-    <g-row gutter="12">
-      <g-col>1</g-col>
-      <g-col>2</g-col>
-      <g-col>3</g-col>
-      <g-col>4</g-col>
-    </g-row>
-    <g-row>
-      <g-col span="2">1</g-col>
-      <g-col span="18" offset="2">2</g-col>
+      <g-col span="4" :phone="{span: 22, offset:2}">1</g-col>
+      <g-col span="20" :phone="{span: 24}">2</g-col>
     </g-row>
   </div>
 
