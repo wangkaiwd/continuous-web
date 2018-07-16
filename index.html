@@ -50,8 +50,16 @@
   -->
   <div class="layout">
     <g-row gutter="10" align="right">
-      <g-col span="4" :phone="{span: 22, offset:2}">1</g-col>
-      <g-col span="20" :phone="{span: 24}">2</g-col>
+      <g-col span="4" :narrow-pc="{span: 22}">
+        <div style="background-color:gray;">
+          1
+        </div>
+      </g-col>
+      <g-col span="20" :narrow-pc="{span: 24}">
+        <div style="background-color:gray;">
+          2
+        </div>
+      </g-col>
     </g-row>
   </div>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="global-row" :style="rowStyle">
+  <div class="global-row" :class="rowClass" :style="rowStyle">
     <slot :gutter="gutter"></slot>
   </div>
 </template>
@@ -29,7 +29,8 @@
       return {
         rowStyle: {
           marginRight: -this.gutter + 'px'
-        }
+        },
+        rowClass: [this.align && `align-${this.align}`]
       }
 
     },
@@ -37,7 +38,6 @@
       // 为子组件传递gutter属性
       this.$children.forEach(vm => {
         vm.gutter = this.gutter
-        vm.align = this.align
       })
     }
   }
@@ -48,5 +48,9 @@
   // body.appendChild(div) // 父组件： mounted
 </script>
 <style lang="scss" scoped>
-  .global-row {display: flex;flex-wrap: wrap;}
+  .global-row {display: flex;flex-wrap: wrap;
+    &.align-right {justify-content: flex-end;}
+    &.align-left {justify-content: space-around;}
+    &.align-center {justify-content: center;}
+  }
 </style>
