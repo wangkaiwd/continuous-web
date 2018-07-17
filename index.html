@@ -24,136 +24,38 @@
       --border-color-hover: #666;
     }
 
-    #app {display: flex;flex-direction: column;padding: 30px;}
+    #app {display: flex;flex-direction: column;}
 
     [v-cloak] {display: none;}
 
-    .row:not(:first-child) {margin-top: 20px;}
+    .demo {
+      height: 100px;
+      background-color: #999;
+      border: 1px solid red;
+    }
 
-    .button:not(:last-child) {margin-right: 12px;}
+    .sider {
+      width: 200px;
+      background-color: #666;
+    }
+
+    .content {
+      background-color: #999;
+      border: 1px solid red;
+    }
   </style>
 </head>
 
 <body>
 <div id="app" v-cloak>
-  <!-- html对大小写不敏感，通过短线进行连接 -->
-  <!--通过click.native进行数据绑定,直接绑定相当于自定义组件的自定义事件-->
-  <!--
-    <g-button
-    icon="setting"
-    icon-position="right"
-    :loading="loading1"
-    @click.native="loading1 = !loading1"
-  >
-    按钮
-  </g-button>
-  -->
-  <div class="layout">
-    <g-row gutter="10" align="right">
-      <g-col span="4" :narrow-pc="{span: 22}">
-        <div style="background-color:gray;">
-          1
-        </div>
-      </g-col>
-      <g-col span="20" :narrow-pc="{span: 24}">
-        <div style="background-color:gray;">
-          2
-        </div>
-      </g-col>
-    </g-row>
-  </div>
-
-
-  <div class="row">
-    <g-button
-      class="button"
-      icon="setting"
-      icon-position="right"
-      :loading="loading1"
-      @click="loading1 = !loading1"
-    >
-      按钮
-    </g-button>
-    <g-button
-      class="button"
-      icon="left"
-      icon-position="left"
-      :loading="true"
-    >
-      箭头
-    </g-button>
-    <g-button class="button" icon="download">
-      下载
-    </g-button>
-    <g-button
-      class="button"
-      icon="thumbs-up"
-      icon-position="right"
-    >
-      点赞
-    </g-button>
-  </div>
-  <div class="row">
-    <g-button
-      class="button"
-      icon="thumbs-up"
-    >
-      点赞
-    </g-button>
-    <g-button
-      class="button"
-      icon="download"
-      icon-position="right"
-    >
-      下载
-    </g-button>
-    <g-button
-      class="button"
-      icon="moreinfo"
-      icon-position="right"
-    >
-      更多
-    </g-button>
-  </div>
-  <div class="row">
-    <g-button-group class="button">
-      <g-button icon="left">
-        上一页
-      </g-button>
-      <g-button
-        icon="right"
-        icon-position="right"
-      >
-        下一页
-      </g-button>
-    </g-button-group>
-    <div>
-      <g-input
-        value="正常情况"
-        v-model="msg"
-        @change="inputChange"
-      >
-      </g-input>
-      <p>{{msg}}</p>
-      <g-input value="张三" disabled></g-input>
-      <g-input value="李四" readonly></g-input>
-      <g-input value="王五" error="提示信息"></g-input>
-    </div>
-  </div>
-  <!--测试按钮-->
-  <!--  <g-button-group>
-      <div>
-        <g-button icon="left">
-          上一页
-        </g-button>
-      </div>
-      <g-button>
-        更多
-      </g-button>
-      <g-button icon="right" icon-position="right">
-        下一页
-      </g-button>
-    </g-button-group>-->
+  <g-layout>
+    <g-sider class="sider">sider</g-sider>
+    <g-layout>
+      <g-header class="demo">header</g-header>
+      <g-content class="content">content</g-content>
+      <g-footer class="demo">footer</g-footer>
+    </g-layout>
+  </g-layout>
 </div>
 <script src="./src/app.js"></script>
 <script src="//at.alicdn.com/t/font_725726_0nqea9lokl3l.js"></script>

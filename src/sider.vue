@@ -1,8 +1,12 @@
 <template>
-  <div></div>
+  <div class="global-sider">
+    <slot></slot>
+  </div>
 </template>
 <script>
-  export default {}
+  export default {
+    name: 'GlobalSider'
+  }
 </script>
 <style lang="scss" scoped>
 
