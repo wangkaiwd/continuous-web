@@ -93,7 +93,6 @@
     @media (min-width: 576px) {
       @for $n from 1 through 24 {
         &.span-ipad-#{$n} {width: ($n / 24) * 100%;}
-        /*设置为百分比的时候是相对于父元素的宽度*/
         &.offset-ipad-#{$n} {margin-left: ($n / 24) * 100%;}
       }
     }
@@ -101,7 +100,6 @@
     @media (min-width: 768px) {
       @for $n from 1 through 24 {
         &.span-narrowPc-#{$n} {width: ($n / 24) * 100%;}
-        /*设置为百分比的时候是相对于父元素的宽度*/
         &.offset-narrowPc-#{$n} {margin-left: ($n / 24) * 100%;}
       }
     }
@@ -109,7 +107,6 @@
     @media (min-width: 992px) {
       @for $n from 1 through 24 {
         &.span-pc-#{$n} {width: ($n / 24) * 100%;}
-        /*设置为百分比的时候是相对于父元素的宽度*/
         &.offset-pc-#{$n} {margin-left: ($n / 24) * 100%;}
       }
     }
@@ -117,7 +114,6 @@
     @media (min-width: 1200px) {
       @for $n from 1 through 24 {
         &.span-widePc-#{$n} {width: ($n / 24) * 100%;}
-        /*设置为百分比的时候是相对于父元素的宽度*/
         &.offset-widePc-#{$n} {margin-left: ($n / 24) * 100%;}
       }
     }
@@ -125,7 +121,6 @@
     @media (min-width: 1600px) {
       @for $n from 1 through 24 {
         &.span-largePc-#{$n} {width: ($n / 24) * 100%;}
-        /*设置为百分比的时候是相对于父元素的宽度*/
         &.offset-largePc-#{$n} {margin-left: ($n / 24) * 100%;}
       }
     }

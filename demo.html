@@ -9,7 +9,7 @@
 </head>
 <body>
 <div>
-  <select size="1" name="" id="" onchange="changeEventHandler(event)">
+  <select id="select" size="1" name="" id="" onchange="changeEventHandler(event)">
     <option>选项1</option>
     <option>选项2</option>
     <option>选项3</option>
@@ -45,9 +45,8 @@
     console.log('input', e)
   }
 
-  var a = []
-  console.log('a', a)
-  a.push(1)
+  var select = document.getElementById('select')
+  console.log(select.outerHTML)
   /**
    * change事件总结
    * 1. change事件不会连续触发，只有当全部修改完成时才会触发
