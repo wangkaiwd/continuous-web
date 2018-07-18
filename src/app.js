@@ -16,6 +16,10 @@ import Header from './header'
 import Footer from './footer'
 import Sider from './sider'
 
+import Plugin from './plugin'
+
+Vue.use(Plugin)
+
 Vue.component('g-button', Button)
 Vue.component('g-button-group', ButtonGroup)
 
@@ -38,9 +42,14 @@ new Vue({
       msg: 'hi'
     }
   },
+  mounted () {
+  },
   methods: {
     inputChange (e) {
       console.log('e', e.target.value)
+    },
+    showToast () {
+      this.$toast('I am toast')
     }
   }
 })

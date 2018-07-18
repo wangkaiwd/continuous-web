@@ -24,7 +24,7 @@
       --border-color-hover: #666;
     }
 
-    #app {display: flex;flex-direction: column;}
+    #app {padding: 30px;}
 
     [v-cloak] {display: none;}
 
@@ -48,14 +48,7 @@
 
 <body>
 <div id="app" v-cloak>
-  <g-layout>
-    <g-sider class="sider">sider</g-sider>
-    <g-layout>
-      <g-header class="demo">header</g-header>
-      <g-content class="content">content</g-content>
-      <g-footer class="demo">footer</g-footer>
-    </g-layout>
-  </g-layout>
+  <g-button @click="showToast">按钮弹出toast</g-button>
 </div>
 <script src="./src/app.js"></script>
 <script src="//at.alicdn.com/t/font_725726_0nqea9lokl3l.js"></script>
