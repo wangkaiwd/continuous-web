@@ -43,6 +43,7 @@ new Vue({
     }
   },
   mounted () {
+    this.showToast()
   },
   methods: {
     inputChange (e) {
