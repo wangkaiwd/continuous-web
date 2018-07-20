@@ -50,7 +50,15 @@ new Vue({
       console.log('e', e.target.value)
     },
     showToast () {
-      this.$toast('I am toast')
+      this.$toast({
+        message: 'I am toast',
+        closeButton: {
+          text: '关闭',
+          onCancel () {
+            console.log('toast测试')
+          }
+        }
+      })
     }
   }
 })
