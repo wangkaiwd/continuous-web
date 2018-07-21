@@ -1,7 +1,9 @@
 <template>
   <div class="global-toast">
-    <div v-if="enableHTML" class="message" v-html="message"></div>
-    <div v-else class="message">{{message}}</div>
+    <div class="message-content">
+      <div v-if="enableHTML" class="message" v-html="message"></div>
+      <div v-else class="message">{{message}}</div>
+    </div>
     <span class="close-button" @click="onClickclose" v-if="closeButton">{{closeButton.text}}</span>
   </div>
 </template>
@@ -48,16 +50,15 @@
 
 <style lang="scss" scoped>
   .global-toast {
-    position: fixed;top: 0;left: 50%;transform: translateX(-50%);
+    position: fixed;top: 0;left: 50%;transform: translateX(-50%);display: flex;
     color: #fff;background: rgba(0, 0, 0, 0.74);border-radius: 4px;
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.50);padding: 0 16px;
-    height: 40px;line-height: 40px;
+    min-height: 40px;
     .close-button {
-      display: inline-block;padding-left: 16px;border-left: 1px solid #666;
-      margin-left: 16px;cursor: pointer;
+      padding-left: 16px;border-left: 1px solid #666;
+      margin-left: 16px;cursor: pointer;flex-shrink: 0;
+      display: flex;justify-content: center;align-items: center;
     }
-    .message {
-      display: inline-block;
-    }
+    .message-content {padding: 8px 0;display: flex;justify-content: center;align-items: center;}
   }
 </style>

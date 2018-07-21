@@ -51,7 +51,7 @@ new Vue({
     },
     showToast () {
       this.$toast({
-        message: 'I am toast',
+        message: '关闭',
         closeButton: {
           text: '关闭',
           onCancel () {
