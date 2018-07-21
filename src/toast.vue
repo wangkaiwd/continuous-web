@@ -1,6 +1,7 @@
 <template>
   <div class="global-toast">
-    {{message}}
+    <div v-if="enableHTML" class="message" v-html="message"></div>
+    <div v-else class="message">{{message}}</div>
     <span class="close-button" @click="onClickclose" v-if="closeButton">{{closeButton.text}}</span>
   </div>
 </template>
@@ -9,29 +10,18 @@
   export default {
     name: 'GlobalToast',
     props: {
-      message: {
-        type: String,
-        default: 'toast描述'
-      },
-      autoClose: {
-        type: Boolean,
-        default: true
-      },
-      autoCloseDelay: {
-        type: Number,
-        default: 4000
-      },
+      message: {type: String, default: 'toast描述'},
+      autoClose: {type: Boolean, default: false},
+      autoCloseDelay: {type: Number, default: 4000},
       closeButton: {
         type: Object,
         default () {
           return {
-            text: '关闭',
-            onCancel () {
-              this.close()
-            }
+            text: '关闭', onCancel () {this.close()}
           }
         }
-      }
+      },
+      enableHTML: {type: Boolean, default: false}
     },
     mounted () {
       if (this.autoClose) {
@@ -65,6 +55,9 @@
     .close-button {
       display: inline-block;padding-left: 16px;border-left: 1px solid #666;
       margin-left: 16px;cursor: pointer;
+    }
+    .message {
+      display: inline-block;
     }
   }
 </style>

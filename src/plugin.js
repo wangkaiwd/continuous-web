@@ -2,7 +2,7 @@ import Toast from './toast'
 
 export default {
   install (Vue, options) {
-    Vue.prototype.$toast = function ({message, closeButton}) {
+    Vue.prototype.$toast = function ({message, closeButton, enableHTML}) {
       // const div = document.createElement('div')
       // div.innerHTML = '我是toast'
       // document.body.appendChild(div)
@@ -11,10 +11,7 @@ export default {
       // options中data选项必须是函数
       const Constructor = Vue.extend(Toast)
       let toast = new Constructor({
-        propsData: {
-          message,
-          closeButton
-        }
+        propsData: {message, closeButton, enableHTML}
       })
       //可以使用vm.$mount()手动地挂载一个未挂载的实例，如果没有提供参数，模板将被渲染为文档之外的元素
       //并且你必须使用原生DOM API把它插入文档中
