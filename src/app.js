@@ -53,7 +53,7 @@ new Vue({
     showToast3 () {this.showToast('bottom')},
     showToast (position) {
       this.$toast({
-        message: 'toast组件toast组件toast组件toast组件toast组件toast组件toast组件toast组件toast组件',
+        message: '服务器出小差了',
         closeButton: {
           text: '关闭',
           onCancel () {

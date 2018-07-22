@@ -73,13 +73,13 @@
       100% {opacity: 1;}
     }
     &.position-top {top: 0;
-      .animation-wrapper {animation: slide-down .6s}
+      .animation-wrapper {animation: slide-down .3s}
     }
     &.position-middle {top: 50%;transform: translate(-50%, -50%);
-      .animation-wrapper {animation: fade-in .6s}
+      .animation-wrapper {animation: fade-in .3s}
     }
     &.position-bottom {bottom: 0;
-      .animation-wrapper {animation: slide-up .6s}
+      .animation-wrapper {animation: slide-up .3s}
     }
     .animation-wrapper {
       display: flex;color: #fff;background: rgba(0, 0, 0, 0.74);
