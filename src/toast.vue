@@ -15,14 +15,17 @@
     name: 'GlobalToast',
     props: {
       message: {type: String, default: 'toast描述'},
-      autoClose: {type: Boolean, default: true},
-      autoCloseDelay: {type: Number, default: 2000},
+      autoClose: {
+        type: [Boolean, Number],
+        default: 2000,
+        validator (val) {
+          return val === false || typeof val === 'number'
+        }
+      },
       closeButton: {
         type: Object,
         default () {
-          return {
-            text: '关闭', onCancel () {this.close()}
-          }
+          return {text: '关闭', onCancel () {this.close()}}
         }
       },
       enableHTML: {type: Boolean, default: false},
@@ -35,13 +38,15 @@
       }
     },
     mounted () {
-      if (this.autoClose) {
-        setTimeout(() => {
-          this.close()
-        }, this.autoCloseDelay)
-      }
+      this.executeAutoClose()
     },
     methods: {
+      executeAutoClose () {
+        const delayTime = this.autoClose
+        if (delayTime) {
+          setTimeout(() => this.close(), delayTime)
+        }
+      },
       close () {
         this.$el.remove()
         //完全销毁一个实例。清理它与其它实例的连接，解绑它的全部指令和事件监听器
