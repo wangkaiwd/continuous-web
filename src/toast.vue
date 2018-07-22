@@ -15,8 +15,8 @@
     name: 'GlobalToast',
     props: {
       message: {type: String, default: 'toast描述'},
-      autoClose: {type: Boolean, default: false},
-      autoCloseDelay: {type: Number, default: 4000},
+      autoClose: {type: Boolean, default: true},
+      autoCloseDelay: {type: Number, default: 2000},
       closeButton: {
         type: Object,
         default () {
