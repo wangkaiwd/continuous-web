@@ -43,7 +43,6 @@ new Vue({
     }
   },
   mounted () {
-    this.showToast()
   },
   methods: {
     inputChange (e) {
@@ -57,7 +56,8 @@ new Vue({
           onCancel () {
             console.log('toast测试')
           }
-        }
+        },
+        position: 'bottom'
       })
     }
   }

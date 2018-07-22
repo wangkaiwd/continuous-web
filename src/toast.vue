@@ -1,5 +1,5 @@
 <template>
-  <div class="global-toast">
+  <div class="global-toast" :class="`position-${position}`">
     <div class="message-content">
       <div v-if="enableHTML" class="message" v-html="message"></div>
       <div v-else class="message">{{message}}</div>
@@ -23,7 +23,14 @@
           }
         }
       },
-      enableHTML: {type: Boolean, default: false}
+      enableHTML: {type: Boolean, default: false},
+      position: {
+        type: String,
+        default: 'top',
+        validator (val) {
+          return ['top', 'middle', 'bottom'].indexOf(val) > -1
+        }
+      }
     },
     mounted () {
       if (this.autoClose) {
@@ -50,7 +57,7 @@
 
 <style lang="scss" scoped>
   .global-toast {
-    position: fixed;top: 0;left: 50%;transform: translateX(-50%);display: flex;
+    position: fixed;left: 50%;transform: translateX(-50%);display: flex;
     color: #fff;background: rgba(0, 0, 0, 0.74);border-radius: 4px;
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.50);padding: 0 16px;
     min-height: 40px;
@@ -60,5 +67,8 @@
       display: flex;justify-content: center;align-items: center;
     }
     .message-content {padding: 8px 0;display: flex;justify-content: center;align-items: center;}
+    &.position-top {top: 0;}
+    &.position-middle {top: 50%;transform: translate(-50%, -50%);}
+    &.position-bottom {bottom: 0;}
   }
 </style>
