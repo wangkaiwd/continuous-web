@@ -48,16 +48,19 @@ new Vue({
     inputChange (e) {
       console.log('e', e.target.value)
     },
-    showToast () {
+    showToast1 () {this.showToast('top')},
+    showToast2 () {this.showToast('middle')},
+    showToast3 () {this.showToast('bottom')},
+    showToast (position) {
       this.$toast({
-        message: '关闭',
+        message: 'toast组件toast组件toast组件toast组件toast组件toast组件toast组件toast组件toast组件',
         closeButton: {
           text: '关闭',
           onCancel () {
             console.log('toast测试')
           }
         },
-        position: 'bottom'
+        position,
       })
     }
   }
