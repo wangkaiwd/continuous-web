@@ -3,6 +3,8 @@ import Vue from 'vue'
 import Button from './button.vue'
 import ButtonGroup from './button-group'
 
+import Icon from './icon'
+
 // Input组件
 import Input from './input'
 
@@ -16,12 +18,19 @@ import Header from './header'
 import Footer from './footer'
 import Sider from './sider'
 
+import Tabs from './globalTabs/tabs'
+import TabsNav from './globalTabs/tabsNav'
+import TabsContent from './globalTabs/tabsContent'
+import TabsItem from './globalTabs/tabsItem'
+import TabsPane from './globalTabs/tabsPane'
+
 import Plugin from './plugin'
 
 Vue.use(Plugin)
 
 Vue.component('g-button', Button)
 Vue.component('g-button-group', ButtonGroup)
+Vue.component('g-icon', Icon)
 
 Vue.component('g-input', Input)
 
@@ -33,6 +42,12 @@ Vue.component('g-content', Content)
 Vue.component('g-header', Header)
 Vue.component('g-footer', Footer)
 Vue.component('g-sider', Sider)
+
+Vue.component('g-tabs', Tabs)
+Vue.component('g-tabs-nav', TabsNav)
+Vue.component('g-tabs-content', TabsContent)
+Vue.component('g-tabs-item', TabsItem)
+Vue.component('g-tabs-pane', TabsPane)
 
 new Vue({
   el: '#app',
@@ -62,6 +77,7 @@ new Vue({
         },
         position,
       })
-    }
+    },
+
   }
 })

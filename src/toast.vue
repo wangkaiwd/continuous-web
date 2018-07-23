@@ -63,8 +63,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .global-toast {
-    position: fixed;left: 50%;transform: translateX(-50%);
+  .global-toast {position: fixed;left: 50%;transform: translateX(-50%);
     @keyframes slide-up {
       0% {opacity: 0;transform: translateY(100%);}
       100% {opacity: 1;}
@@ -86,8 +85,7 @@
     &.position-bottom {bottom: 0;
       .animation-wrapper {animation: slide-up .3s}
     }
-    .animation-wrapper {
-      display: flex;color: #fff;background: rgba(0, 0, 0, 0.74);
+    .animation-wrapper {display: flex;color: #fff;background: rgba(0, 0, 0, 0.74);
       border-radius: 4px;box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.50);
       padding: 0 16px;min-height: 40px;
       .close-button {
