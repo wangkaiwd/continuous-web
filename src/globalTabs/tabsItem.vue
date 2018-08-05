@@ -1,6 +1,7 @@
 <template>
   <div class="tabs-item" :class="{active}" @click="onClick">
     <slot></slot>
+    <div class="line" ref="line" v-if="active"></div>
   </div>
 </template>
 
@@ -26,6 +27,7 @@
     mounted () {
       this.eventBus.$on('updated:selected', (name) => {
         this.active = name === this.name
+        // this.moveLine()
       })
     },
     methods: {
@@ -35,17 +37,43 @@
          * 2. 由于代码逻辑都一样，所以自定义一个同名函数进行逻辑书写
          */
         this.eventBus.$emit('updated:selected', this.name)
-      }
+      },
+      // moveLine () {
+      //   const tabsItem = document.getElementsByClassName('active')[0]
+      //   const line = this.$refs.line
+      //   if (this.active) {
+      //     line.style.width = tabsItem.clientWidth + 'px'
+      //   }
+      //   else {
+      //     line.style.width = '0px'
+      //   }
+      // }
     }
   }
 </script>
 
 <style lang="scss" scoped>
+  $blue: blue;
   .tabs-item {
+    @keyframes lineMove {
+      0% {width: 0;}
+      100% {width: 100%;}
+    }
+    position: relative;
     padding: 0 1em;
     height: 32px;
     display: flex;
     align-items: center;
-    &.active {background-color: red;color: #fff;}
+    cursor: pointer;
+    &.active {font-weight: bold;color: $blue;}
+    > .line {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      width: 100%;
+      background-color: $blue;
+      animation: lineMove 1s;
+    }
   }
 </style>

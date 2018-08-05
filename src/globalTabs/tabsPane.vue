@@ -1,5 +1,5 @@
 <template>
-  <div class="tabs-pane" v-show="active" :class="{active}">
+  <div class="tabs-pane" v-if="active" :class="{active}">
     <slot></slot>
   </div>
 </template>
