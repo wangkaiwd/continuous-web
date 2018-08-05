@@ -43,25 +43,38 @@
       background-color: #999;
       border: 1px solid red;
     }
+
+    .toast-demo {
+      margin-bottom: 20px;
+    }
+
+    .tabs-demo {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   </style>
 </head>
 
 <body>
 <div id="app" v-cloak>
-  <g-button @click="showToast1">top</g-button>
-  <g-button @click="showToast2">middle</g-button>
-  <g-button @click="showToast3">bottom</g-button>
-
-  <div class="tabs">
-    <g-tabs selected="sports" @update-selected="" direction="horizontal">
+  <div class="toast-demo">
+    <g-button @click="showToast1">top</g-button>
+    <g-button @click="showToast2">middle</g-button>
+    <g-button @click="showToast3">bottom</g-button>
+  </div>
+  <hr/>
+  <div class="tabs-demo">
+    <g-tabs :selected.sync="selected" direction="horizontal">
       <g-tabs-nav>
         <g-button slot="actions">额外内容</g-button>
-        <g-tabs-item name="woman">
+        <g-tabs-item name="woman" @click="selected=$event">
           <g-icon name="setting"></g-icon>
           美女
         </g-tabs-item>
-        <g-tabs-item disabled="true" name="finance">财经</g-tabs-item>
-        <g-tabs-item name="sports">体育</g-tabs-item>
+        <g-tabs-item :disabled="true" name="finance" @click="clickEvent">财经</g-tabs-item>
+        <g-tabs-item name="sports" @click="selected=$event">体育</g-tabs-item>
       </g-tabs-nav>
       <g-tabs-content>
         <g-tabs-pane name="woman">美女相关咨讯</g-tabs-pane>

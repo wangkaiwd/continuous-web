@@ -54,7 +54,8 @@ new Vue({
   data () {
     return {
       loading1: false,
-      msg: 'hi'
+      msg: 'hi',
+      selected: 'sports'
     }
   },
   mounted () {
@@ -78,6 +79,11 @@ new Vue({
         position,
       })
     },
-
+    clickEvent (data) {
+      console.log('click', data)
+      // this.selected = data
+      console.log('data', this.selected)
+      this.selected = data
+    }
   }
 })
