@@ -44,16 +44,9 @@
       border: 1px solid red;
     }
 
-    .toast-demo {
-      margin-bottom: 20px;
-    }
+    .toast-demo {margin-bottom: 20px;}
 
-    .tabs-demo {
-      margin-top: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+    .tabs-demo {margin-top: 20px;}
   </style>
 </head>
 
@@ -68,7 +61,7 @@
   <div class="tabs-demo">
     <g-tabs :selected.sync="selected" direction="horizontal">
       <g-tabs-nav>
-        <g-button slot="actions">额外内容</g-button>
+        <span slot="actions">设置</span>
         <g-tabs-item name="woman" @click="selected=$event">
           <g-icon name="setting"></g-icon>
           美女

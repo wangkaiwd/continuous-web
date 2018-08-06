@@ -29,6 +29,6 @@
   .tabs-pane {
     padding: 1.5em 1.5em;
     min-height: 100px;;
-    &.active {background-color: pink;color: #fff;}
+    &.active {color: rgba(0, 0, 0, 0.65);}
   }
 </style>

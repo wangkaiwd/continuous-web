@@ -42,6 +42,6 @@
 
 <style lang="scss" scoped>
   .tabs {
-    width: 400px;
+    /*width: 400px;*/
   }
 </style>
