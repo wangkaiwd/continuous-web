@@ -8,29 +8,18 @@
   export default {
     name: 'GlobalTabsItem',
     props: {
-      disabled: {
-        type: Boolean,
-        default: false
-      },
-      name: {
-        type: String | Number,
-        required: true
-      }
+      disabled: {type: Boolean, default: false},
+      name: {type: String | Number, required: true}
     },
     computed: {
       tabsItemClasses () {
         const {active, disabled} = this
-        return {
-          active,
-          disabled
-        }
+        return {active, disabled}
       }
     },
     inject: ['eventBus'],
     data () {
-      return {
-        active: false
-      }
+      return {active: false}
     },
     mounted () {
       this.eventBus.$on('updated:selected', (name) => {
@@ -60,5 +49,6 @@
     margin-right: 1em;align-items: center;cursor: pointer;
     &.active {font-weight: bold;color: $blue;}
     &.disabled {cursor: not-allowed;color: rgba(0, 0, 0, 0.25);}
+    > .icon {margin-right: 4px;}
   }
 </style>
