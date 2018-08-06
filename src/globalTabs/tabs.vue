@@ -35,7 +35,7 @@
     },
     mounted () {
       this.$emit('updated:selected', this.selected)
-      this.eventBus.$emit('updated:selected', this.selected)
+      this.eventBus.$emit('updated:selected', this.selected, this)
     }
   }
 </script>
