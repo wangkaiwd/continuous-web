@@ -24,6 +24,8 @@ import TabsContent from './globalTabs/tabsContent'
 import TabsItem from './globalTabs/tabsItem'
 import TabsPane from './globalTabs/tabsPane'
 
+import Popover from './popover/popover'
+
 import Plugin from './plugin'
 
 Vue.use(Plugin)
@@ -49,13 +51,15 @@ Vue.component('g-tabs-content', TabsContent)
 Vue.component('g-tabs-item', TabsItem)
 Vue.component('g-tabs-pane', TabsPane)
 
+Vue.component('g-popover', Popover)
+
 new Vue({
   el: '#app',
   data () {
     return {
       loading1: false,
       msg: 'hi',
-      selected: 'sports'
+      selected: 'woman'
     }
   },
   mounted () {

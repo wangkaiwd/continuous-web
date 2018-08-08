@@ -46,7 +46,7 @@
 
     .toast-demo {margin-bottom: 20px;}
 
-    .tabs-demo {margin-top: 20px;}
+    .popover-demo {margin-top: 20px;}
   </style>
 </head>
 
@@ -58,23 +58,16 @@
     <g-button @click="showToast3">bottom</g-button>
   </div>
   <hr/>
-  <div class="tabs-demo">
-    <g-tabs :selected.sync="selected" direction="horizontal">
-      <g-tabs-nav>
-        <span slot="actions">设置</span>
-        <g-tabs-item name="woman" @click="selected=$event">
-          <g-icon class="icon" name="setting"></g-icon>
-          美女
-        </g-tabs-item>
-        <g-tabs-item :disabled="true" name="finance" @click="clickEvent">财经</g-tabs-item>
-        <g-tabs-item name="sports" @click="selected=$event">体育</g-tabs-item>
-      </g-tabs-nav>
-      <g-tabs-content>
-        <g-tabs-pane name="woman">美女相关咨讯</g-tabs-pane>
-        <g-tabs-pane name="finance">财经相关咨讯</g-tabs-pane>
-        <g-tabs-pane name="sports">体育相关咨讯</g-tabs-pane>
-      </g-tabs-content>
-    </g-tabs>
+  <div class="popover-demo">
+    <g-popover>
+      <div slot="content">propover的内容部分</div>
+      <button>点击</button>
+    </g-popover>
+
+    <g-popover>
+      <div slot="content">propover的内容部分</div>
+      <button>点击</button>
+    </g-popover>
   </div>
 </div>
 <script src="./src/app.js"></script>
