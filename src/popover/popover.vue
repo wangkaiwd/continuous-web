@@ -3,7 +3,7 @@
     <div class="content-wrapper" v-show="visible">
       <slot name="content"></slot>
     </div>
-    <div class="button-wrapper" @click="toggleContent">
+    <div class="button-wrapper" @click.stop="toggleContent">
       <slot name="trigger"></slot>
     </div>
   </div>
@@ -16,44 +16,44 @@
       return {visible: false}
     },
     mounted () {
-      // document.body.addEventListener('click', () => {
-      //   this.visible = false
-      //   console.log('点击body就关闭Popover')
-      // })
-      // body会被内容撑开，如果没有单独设置的话，是页面内容区域，而document是整个页面
-      // document.addEventListener('click', () => {
-      //   this.visible = false
-      //   console.log('点击body就关闭Popover')
-      // })
+      console.log('添加事件')
+      document.addEventListener('click', this.listenClick)
+    },
+    deactivated () {
+      console.log('删除事件')
+      document.removeEventListener('click', this.listenClick)
     },
     methods: {
       toggleContent () {
         this.visible = !this.visible
-        console.log('切换visible')
-        this.$nextTick(() => {
-          // document.removeEventListener('click', this.listenClick)
-          // document.addEventListener('click', () => {
-          //   this.visible = false
-          //   console.log('点击body就关闭Popover')
-          // })
-          // document.addEventListener('click', this.listenClick)
-          // console.log('新增监听器')
-          // bind会返回一个新的函数,所以 x 和 x.bind(this) 不是同一个函数,所以不能移除监听器
-          // document.addEventListener('click', function x () {
-          //   this.visible = false
-          //   console.log('点击body就关闭Popover')
-          //   console.log('删除监听器')
-          //   document.removeEventListener('click', x)
-          // }.bind(this))
-          let listenClick = () => {
-            this.visible = false
-            console.log('删除事件')
-            document.removeEventListener('click', listenClick)
-          }
-          console.log('添加事件')
-          document.addEventListener('click', listenClick)
-        })
+        // this.$nextTick(() => {
+        //   // document.removeEventListener('click', this.listenClick)
+        //   // document.addEventListener('click', () => {
+        //   //   this.visible = false
+        //   //   console.log('点击body就关闭Popover')
+        //   // })
+        //   // document.addEventListener('click', this.listenClick)
+        //   // console.log('新增监听器')
+        //   // bind会返回一个新的函数,所以 x 和 x.bind(this) 不是同一个函数,所以不能移除监听器
+        //   // document.addEventListener('click', function x () {
+        //   //   this.visible = false
+        //   //   console.log('点击body就关闭Popover')
+        //   //   console.log('删除监听器')
+        //   //   document.removeEventListener('click', x)
+        //   // }.bind(this))
+        //   let listenClick = () => {
+        //     this.visible = false
+        //     console.log('删除事件')
+        //     document.removeEventListener('click', listenClick)
+        //   }
+        //   console.log('添加事件')
+        //   document.addEventListener('click', listenClick)
+        // })
       },
+      listenClick () {
+        console.log('click')
+        this.visible = false
+      }
     }
   }
 </script>
