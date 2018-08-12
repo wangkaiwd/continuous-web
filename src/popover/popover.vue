@@ -16,43 +16,25 @@
       return {visible: false}
     },
     mounted () {
-      console.log('添加事件')
-      document.addEventListener('click', this.listenClick)
-    },
-    deactivated () {
-      console.log('删除事件')
-      document.removeEventListener('click', this.listenClick)
+
     },
     methods: {
       toggleContent () {
         this.visible = !this.visible
-        // this.$nextTick(() => {
-        //   // document.removeEventListener('click', this.listenClick)
-        //   // document.addEventListener('click', () => {
-        //   //   this.visible = false
-        //   //   console.log('点击body就关闭Popover')
-        //   // })
-        //   // document.addEventListener('click', this.listenClick)
-        //   // console.log('新增监听器')
-        //   // bind会返回一个新的函数,所以 x 和 x.bind(this) 不是同一个函数,所以不能移除监听器
-        //   // document.addEventListener('click', function x () {
-        //   //   this.visible = false
-        //   //   console.log('点击body就关闭Popover')
-        //   //   console.log('删除监听器')
-        //   //   document.removeEventListener('click', x)
-        //   // }.bind(this))
-        //   let listenClick = () => {
-        //     this.visible = false
-        //     console.log('删除事件')
-        //     document.removeEventListener('click', listenClick)
-        //   }
-        //   console.log('添加事件')
-        //   document.addEventListener('click', listenClick)
-        // })
+        // 如果visible是true才需要添加事件
+        if (this.visible) {
+          console.log('添加事件')
+          document.addEventListener('click', this.listenClick)
+        }
+        if (!this.visible) {
+          console.log('删除事件')
+          document.removeEventListener('click', this.listenClick)
+        }
       },
       listenClick () {
-        console.log('click')
         this.visible = false
+        document.removeEventListener('click', this.listenClick)
+        console.log('删除事件')
       }
     }
   }
