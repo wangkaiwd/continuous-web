@@ -1,6 +1,8 @@
 <template>
   <div class="popover">
-    <div class="content-wrapper" v-show="visible">
+    <!--只有修饰符 @click.stop-->
+    <div class="content-wrapper" v-show="visible" @click.stop>
+      <!--slot添加事件和class都是没有作用的-->
       <slot name="content"></slot>
     </div>
     <div class="button-wrapper" @click.stop="toggleContent">
@@ -21,7 +23,7 @@
     methods: {
       toggleContent () {
         this.visible = !this.visible
-        // 如果visible是true才需要添加事件
+        // 如果visible是true才需要添加事件，如果是false的话，将visible为true时的事件移除
         if (this.visible) {
           console.log('添加事件')
           document.addEventListener('click', this.listenClick)
