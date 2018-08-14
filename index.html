@@ -59,16 +59,18 @@
   </div>
   <hr/>
   <div class="popover-demo">
-    <g-popover>
-      <div slot="content">popover的内容部分</div>
-      <!--trigger:触发器-->
-      <button slot="trigger">点击</button>
-    </g-popover>
-
-    <!--<g-popover>
-      <div slot="content">propover的内容部分</div>
-      <button slot="trigger">点击</button>
-    </g-popover>-->
+    <div style="overflow:hidden;border:1px solid blue;padding:10px;">
+      <g-popover>
+        <div slot="content">popover的内容部分</div>
+        <!--trigger:触发器-->
+        <button slot="trigger">点击</button>
+      </g-popover>
+      <g-popover>
+        <div slot="content">popover的内容部分</div>
+        <!--trigger:触发器-->
+        <button slot="trigger">点击</button>
+      </g-popover>
+    </div>
   </div>
 </div>
 <script src="./src/app.js"></script>
