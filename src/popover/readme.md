@@ -50,3 +50,26 @@ const height = box.getBoundingClientRect().height
 const height = box.offsetHeight
 ```
 ## 项目中获取元素在页面中的位置
+> Element.offsetParent:返回最靠近当前元素的、并且`CSS`的`position`属性不等于`static`的上层元素
+* offsetLeft/offsetTop:返回当前元素左上角相对于`Element.offsetParent`节点的水平/垂直位移
+* Element.getBoundingClientRect().left/top: 元素左上角相对于视口的横/纵坐标
+
+当没有已定位父元素，即当前元素没有`offsetParent`的时候可以通过`offsetLeft`和`offsetTop`来获取到元素在整个页面的位置。
+但是这里有一个硬性条件，需要元素没有已定位的父元素
+```js
+// 方法一：
+const box = document.getElementsByClassName('box')[0];
+const left = box.offsetLeft;
+const top = box.offsetTop;
+
+// 方法二：
+const box = document.getElementsByClassName('box')[0];
+// 这里使用top替代y的话会导致和window.top冲突 
+const {x,y} = box.getBoundingClientRect();
+const left = x;
+// const top = y + window.scrollY;
+const top = y + document.documentElement.scrollTop;
+```
+
+这里的方法二没有前置条件约束，所以不管有没有已定位父元素，都可以用来获取元素在页面中的位置（坐标）。正常使用的话推荐方法二的写法，
+不会担心因为有没有被已经定位的父元素影响

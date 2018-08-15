@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .placeholder {
+      height: 1000px;
+      background-color: pink;
+    }
+
+    .box {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+<div class="placeholder">
+  占位
+</div>
+<div class="box">
+  haha
+</div>
+<div class="placeholder">
+  占位
+</div>
+<script>
+  const box = document.getElementsByClassName('box')[0];
+  var {x, y} = box.getBoundingClientRect();
+  console.log('offsetLeft', box.offsetLeft);
+  console.log('offsetTop', box.offsetTop);
+  console.log('left', x);
+  console.log('top', y + document.documentElement.scrollTop);
+</script>
+</body>
+</html>
