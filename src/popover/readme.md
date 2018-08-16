@@ -66,7 +66,7 @@ const top = box.offsetTop;
 const box = document.getElementsByClassName('box')[0];
 // 这里使用top替代y的话会导致和window.top冲突 
 const {x,y} = box.getBoundingClientRect();
-const left = x;
+const left = x + window.scrollX;
 // const top = y + window.scrollY;
 const top = y + document.documentElement.scrollTop;
 ```

@@ -71,7 +71,7 @@
           document.body.appendChild(contentWrapper)
           // getBoundingClientRect()方法获取到的left,top是相对视口左上角的坐标
           const {left, top} = buttonWrapper.getBoundingClientRect()
-          contentWrapper.style.left = left + 'px'
+          contentWrapper.style.left = left + window.scrollX + 'px'
           contentWrapper.style.top = top + window.scrollY + 'px'
         })
       }

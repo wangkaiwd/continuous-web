@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .box-wrapper {
+      background-color: rgba(0, 0, 0, .6);
+    }
+
+    .box {
+      width: 200px;
+      height: 200px;
+      background-color: pink;
+      /*animation: move 1s ease infinite;*/
+      /*transform: translateX(100%);*/
+    }
+
+    .slide-fade-enter-active {
+      transition: all .6s;
+    }
+
+    .slide-fade-leave-active {
+      transition: all .6s;
+    }
+
+    .slide-fade-enter, .slide-fade-leave-to
+      /* .slide-fade-leave-active for below version 2.1.8 */ {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+
+    [v-cloak] {
+      display: none;
+    }
+
+    /*.move {*/
+    /*transform: translateX(0);*/
+    /*transition: all 1s;*/
+    /*}*/
+
+    @keyframes move {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(100%);
+      }
+    }
+  </style>
+</head>
+<body>
+<div id="app" v-cloak>
+  <transition name="slide-fade">
+    <div class="box-wrapper" v-show="move">
+      <div class="box">
+        move
+      </div>
+    </div>
+  </transition>
+  <button @click="xxx">click</button>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+  const vm = new Vue({
+    el: '#app',
+    data () {
+      return {
+        move: false,
+      }
+    },
+    methods: {
+      xxx () {
+        this.move = !this.move
+      }
+    }
+  })
+</script>
+</body>
+</html>
