@@ -1,11 +1,11 @@
 <template>
   <div class="popover">
     <!--只有修饰符 @click.stop-->
-    <div class="content-wrapper" ref="contentWrapper" v-if="visible" @click.stop>
+    <div class="content-wrapper" ref="contentWrapper" v-if="visible">
       <!--slot添加事件和class都是没有作用的-->
       <slot name="content"></slot>
     </div>
-    <div class="button-wrapper" ref="buttonWrapper" @click.stop="toggleContent">
+    <div class="button-wrapper" ref="buttonWrapper" @click="toggleContent">
       <slot name="trigger"></slot>
     </div>
   </div>
@@ -39,6 +39,18 @@
     methods: {
       toggleContent () {
         this.visible = !this.visible
+        if (this.visible) { // 设置为true时，会有一个dom队列
+          // console.log(this.$refs.contentWrapper) // 获取不到dom,队列中的内容会异步执行
+          this.$nextTick(() => {
+            this.moveContent()
+            console.log('添加事件')
+            document.addEventListener('click', this.listenClick)
+          })
+        }
+        if (!this.visible) {
+          console.log('删除事件')
+          document.removeEventListener('click', this.listenClick)
+        }
         // 如果visible是true才需要添加事件，如果是false的话，将visible为true时的事件移除
         /**
          * 简短代码：看起来精简，但是不方便调试，不太方便阅读
@@ -48,32 +60,35 @@
         //   document.addEventListener('click', this.listenClick)
         //   :
         //   document.removeEventListener('click', this.listenClick)
-        if (this.visible) { // 设置为true时，会有一个dom队列
-          // console.log(this.$refs.contentWrapper) // 获取不到dom,队列中的内容会异步执行
-          console.log('添加事件')
-          document.addEventListener('click', this.listenClick)
-          this.moveContent()
-        }
-        if (!this.visible) {
-          console.log('删除事件')
-          document.removeEventListener('click', this.listenClick)
-        }
+        // if (this.visible) { // 设置为true时，会有一个dom队列
+        //   // console.log(this.$refs.contentWrapper) // 获取不到dom,队列中的内容会异步执行
+        //   this.$nextTick(() => {
+        //     this.moveContent()
+        //     console.log('添加事件')
+        //     document.addEventListener('click', this.listenClick)
+        //   })
+        // }
+        // if (!this.visible) {
+        //   console.log('删除事件')
+        //   document.removeEventListener('click', this.listenClick)
+        // }
       },
-      listenClick () {
-        this.visible = false
-        document.removeEventListener('click', this.listenClick)
-        console.log('删除事件')
+      listenClick (e) {
+        // contains: node.contains(otherNode) 如果otherNode是node的后代节点或是node节点本身，则返回true,否则返回false
+        if (!this.$refs.contentWrapper.contains(e.target)) {
+          this.visible = false
+          document.removeEventListener('click', this.listenClick)
+          console.log('删除事件')
+        }
       },
       moveContent () {
-        this.$nextTick(() => {
-          const contentWrapper = this.$refs.contentWrapper
-          const buttonWrapper = this.$refs.buttonWrapper
-          document.body.appendChild(contentWrapper)
-          // getBoundingClientRect()方法获取到的left,top是相对视口左上角的坐标
-          const {left, top} = buttonWrapper.getBoundingClientRect()
-          contentWrapper.style.left = left + window.scrollX + 'px'
-          contentWrapper.style.top = top + window.scrollY + 'px'
-        })
+        const contentWrapper = this.$refs.contentWrapper
+        const buttonWrapper = this.$refs.buttonWrapper
+        document.body.appendChild(contentWrapper)
+        // getBoundingClientRect()方法获取到的left,top是相对视口左上角的坐标
+        const {left, top} = buttonWrapper.getBoundingClientRect()
+        contentWrapper.style.left = left + window.scrollX + 'px'
+        contentWrapper.style.top = top + window.scrollY + 'px'
       },
       yyy () {
         console.log('yyy')
