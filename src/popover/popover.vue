@@ -74,6 +74,9 @@
           contentWrapper.style.left = left + window.scrollX + 'px'
           contentWrapper.style.top = top + window.scrollY + 'px'
         })
+      },
+      yyy () {
+        console.log('yyy')
       }
     }
   }

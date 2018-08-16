@@ -88,6 +88,9 @@ new Vue({
       // this.selected = data
       console.log('data', this.selected)
       this.selected = data
+    },
+    handleClick () {
+      console.log('yyy')
     }
   }
 })
