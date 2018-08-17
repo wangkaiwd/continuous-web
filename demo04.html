@@ -22,6 +22,11 @@
       background-color: pink;
       /*animation: move 1s ease infinite;*/
       /*transform: translateX(100%);*/
+      transition: all 1s;
+    }
+
+    .move {
+      transform: translateX(100%);
     }
 
     .slide-fade-enter-active {
@@ -59,13 +64,11 @@
 </head>
 <body>
 <div id="app" v-cloak>
-  <transition name="slide-fade">
-    <div class="box-wrapper" v-show="move">
-      <div class="box">
-        move
-      </div>
+  <div class="box-wrapper" v-show="move">
+    <div class="box" :class="{move}">
+      move
     </div>
-  </transition>
+  </div>
   <button @click="xxx">click</button>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

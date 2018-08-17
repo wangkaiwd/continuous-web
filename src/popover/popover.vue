@@ -39,18 +39,19 @@
     methods: {
       toggleContent () {
         this.visible = !this.visible
-        if (this.visible) { // 设置为true时，会有一个dom队列
-          // console.log(this.$refs.contentWrapper) // 获取不到dom,队列中的内容会异步执行
-          this.$nextTick(() => {
+        // if (this.visible) { // 设置为true时，会有一个dom队列
+        //   // console.log(this.$refs.contentWrapper) // 获取不到dom,队列中的内容会异步执行
+        // }
+        this.$nextTick(() => {
+          if (this.visible) {
             this.moveContent()
-            console.log('添加事件')
             document.addEventListener('click', this.listenClick)
-          })
-        }
-        if (!this.visible) {
-          console.log('删除事件')
-          document.removeEventListener('click', this.listenClick)
-        }
+          }
+          if (!this.visible) {
+            document.removeEventListener('click', this.listenClick)
+          }
+        })
+
         // 如果visible是true才需要添加事件，如果是false的话，将visible为true时的事件移除
         /**
          * 简短代码：看起来精简，但是不方便调试，不太方便阅读
@@ -75,10 +76,11 @@
       },
       listenClick (e) {
         // contains: node.contains(otherNode) 如果otherNode是node的后代节点或是node节点本身，则返回true,否则返回false
-        if (!this.$refs.contentWrapper.contains(e.target)) {
+        if (this.$refs.contentWrapper.contains(e.target) || this.$refs.buttonWrapper.contains(e.target)) {
+
+        } else {
           this.visible = false
           document.removeEventListener('click', this.listenClick)
-          console.log('删除事件')
         }
       },
       moveContent () {
@@ -98,6 +100,8 @@
 </script>
 
 <style lang="scss" scoped>
+  $border-color: #999;
+  $border-radius: 4px;
   .popover {
     display: inline-block;
     vertical-align: top;
@@ -106,8 +110,31 @@
   .content-wrapper {
     position: absolute;
     /* 元素设置定位之后的偏移量是根据父元素的宽(left)高(top)来进行计算的 */
-    background-color: skyblue;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    padding: 0.5em 1em;
     box-shadow: 0 0 3px rgba(0, 0, 0, .5);
     transform: translateY(-100%);
+    margin-top: -10px;
+    max-width: 20em;
+    /* 允许在单词内换行*/
+    word-break: break-all;
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 10px;
+      display: block;
+      width: 0;
+      height: 0;
+      border-width: 10px 10px 0;
+      border-style: solid;
+      border-color: #333 transparent;
+    }
+    &::after {
+      border-color: #fff transparent;
+      top: calc(100% - 1px);
+    }
   }
 </style>
