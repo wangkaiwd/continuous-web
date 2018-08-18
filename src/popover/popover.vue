@@ -1,7 +1,7 @@
 <template>
   <div class="popover">
     <!--只有修饰符 @click.stop-->
-    <div class="content-wrapper" ref="contentWrapper" v-if="visible">
+    <div class="content-wrapper" :class="position" ref="contentWrapper" v-if="visible">
       <!--slot添加事件和class都是没有作用的-->
       <slot name="content"></slot>
     </div>
@@ -14,6 +14,15 @@
 <script>
   export default {
     name: 'Popover',
+    props: {
+      position: {
+        type: String,
+        default: 'top',
+        validator (val) {
+          return ['left', 'right', 'top', 'bottom'].includes(val)
+        }
+      }
+    },
     data () {
       return {
         visible: false,
@@ -88,9 +97,28 @@
         const buttonWrapper = this.$refs.buttonWrapper
         document.body.appendChild(contentWrapper)
         // getBoundingClientRect()方法获取到的left,top是相对视口左上角的坐标
-        const {left, top} = buttonWrapper.getBoundingClientRect()
-        contentWrapper.style.left = left + window.scrollX + 'px'
-        contentWrapper.style.top = top + window.scrollY + 'px'
+        const {left, top, width, height} = buttonWrapper.getBoundingClientRect()
+        switch (this.position) {
+          case 'top':
+            contentWrapper.style.left = left + window.scrollX + 'px'
+            contentWrapper.style.top = top + window.scrollY + 'px'
+            break
+          case 'bottom':
+            contentWrapper.style.left = left + window.scrollX + 'px'
+            contentWrapper.style.top = top + window.scrollY + height + 'px'
+            break
+          case 'left':
+            contentWrapper.style.left = left + window.scrollX + 'px'
+            contentWrapper.style.top = top + window.scrollY + 'px'
+            break
+          case 'right':
+            contentWrapper.style.left = left + window.scrollX + width + 'px'
+            contentWrapper.style.top = top + window.scrollY + 'px'
+            break
+        }
+      },
+      controlPosition () {
+
       },
       yyy () {
         console.log('yyy')
@@ -108,6 +136,66 @@
   }
 
   .content-wrapper {
+    &.top {
+      transform: translateY(-100%);
+      margin-top: -10px;
+      &::before,
+      &::after {
+        top: 100%;
+        left: 10px;
+        border-width: 10px 10px 0;
+        border-color: #999 transparent;
+      }
+      &::after {
+        top: calc(100% - 1px);
+        border-color: #fff transparent;
+      }
+    }
+    &.bottom {
+      /*transform: translateY(100%);*/
+      margin-top: 10px;
+      &::before,
+      &::after {
+        bottom: 100%;
+        left: 10px;
+        border-width: 0 10px 10px;
+        border-color: #999 transparent;
+      }
+      &::after {
+        border-color: #fff transparent;
+        bottom: calc(100% - 1px);
+      }
+    }
+    &.right {
+      margin-left: 10px;
+      &::before,
+      &::after {
+        right: 100%;
+        top: 10px;
+        border-width: 10px 10px 10px 0;
+        border-color: transparent #fff;
+      }
+      &::after {
+        right: calc(100% - 1px);
+        border-color: transparent #fff;
+      }
+    }
+    &.left {
+      transform: translateX(-100%);
+      margin-left: -10px;
+      /* 这里为什么只能用margin-left,引入元素是根据left来进行定位的 */
+      &::before,
+      &::after {
+        left: 100%;
+        top: 10px;
+        border-width: 10px 0 10px 10px;
+        border-color: transparent #fff;
+      }
+      &::after {
+        left: calc(100% - 1px);
+        border-color: transparent #fff;
+      }
+    }
     position: absolute;
     /* 元素设置定位之后的偏移量是根据父元素的宽(left)高(top)来进行计算的 */
     border: 1px solid $border-color;
@@ -115,26 +203,19 @@
     padding: 0.5em 1em;
     /*box-shadow: 0 0 3px rgba(0, 0, 0, .5);*/
     filter: drop-shadow(0 0 3px rgba(0, 0, 0, .5));
+    /* 设置为百分比时相对于元素自身高度 */
     background-color: #fff;
-    max-width: 20em;
+    max-width: 10em;
     /* 允许在单词内换行*/
     word-break: break-all;
     &::before,
     &::after {
       content: '';
       position: absolute;
-      top: 100%;
-      left: 10px;
       display: block;
       width: 0;
       height: 0;
-      border-width: 10px 10px 0;
       border-style: solid;
-      border-color: #999 transparent;
-    }
-    &::after {
-      border-color: #fff transparent;
-      top: calc(100% - 1px);
     }
   }
 </style>
