@@ -1,9 +1,9 @@
 <template>
   <div class="popover" ref="popover">
     <!--只有修饰符 @click.stop-->
-    <div class="content-wrapper" :class="position" ref="contentWrapper" v-if="visible">
+    <div class="content-wrapper" :class="position" v-if="visible" ref="contentWrapper">
       <!--slot添加事件和class都是没有作用的-->
-      <slot name="content"></slot>
+      <slot name="content" :close="toggleContent"></slot>
     </div>
     <div class="button-wrapper" ref="buttonWrapper">
       <slot name="trigger"></slot>
@@ -28,7 +28,7 @@
         validator (val) {
           return ['click', 'mouseenter'].indexOf(val) > -1
         }
-      }
+      },
     },
     data () {
       return {visible: false}
@@ -77,6 +77,7 @@
         })
       },
       toggleContent () {
+        console.log('click')
         this.visible = !this.visible
         this.listenToDocument()
         // if (this.visible) { // 设置为true时，会有一个dom队列

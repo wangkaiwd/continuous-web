@@ -70,7 +70,11 @@
         <g-button slot="trigger">点击</g-button>
       </g-popover>
       <g-popover position="left">
-        <div slot="content">popover的内容部分</div>
+        <template slot="content" slot-scope="{toggleContent}">
+          <div>popover的内容部分
+            <g-button @click="toggleContent">关闭</g-button>
+          </div>
+        </template>
         <!--trigger:触发器-->
         <g-button slot="trigger">点击</g-button>
       </g-popover>
@@ -104,11 +108,12 @@
         <g-button slot="trigger">点击</g-button>
       </g-popover>
       <g-popover position="top" trigger="mouseenter">
-        <div slot="content">popover的内容部分</div>
+        <div slot="content">popover <a href="http://www.baidu.com">百度</a>的内容部分</div>
         <!--trigger:触发器-->
         <g-button slot="trigger">点击</g-button>
       </g-popover>
     </div>
+    <g-button @click="xxxx">哈哈</g-button>
   </div>
 </div>
 <script src="./src/app.js"></script>

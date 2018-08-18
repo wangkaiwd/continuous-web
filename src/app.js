@@ -91,6 +91,9 @@ new Vue({
     },
     handleClick () {
       console.log('yyy')
+    },
+    xxxx () {
+      console.log('xxx')
     }
   }
 })
