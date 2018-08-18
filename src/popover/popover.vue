@@ -93,29 +93,52 @@
         }
       },
       moveContent () {
-        const contentWrapper = this.$refs.contentWrapper
-        const buttonWrapper = this.$refs.buttonWrapper
+        // const contentWrapper = this.$refs.contentWrapper
+        // const buttonWrapper = this.$refs.buttonWrapper
+        // 优化一：
+        const {contentWrapper, buttonWrapper} = this.$refs
         document.body.appendChild(contentWrapper)
         // getBoundingClientRect()方法获取到的left,top是相对视口左上角的坐标
         const {left, top, width, height} = buttonWrapper.getBoundingClientRect()
-        switch (this.position) {
-          case 'top':
-            contentWrapper.style.left = left + window.scrollX + 'px'
-            contentWrapper.style.top = top + window.scrollY + 'px'
-            break
-          case 'bottom':
-            contentWrapper.style.left = left + window.scrollX + 'px'
-            contentWrapper.style.top = top + window.scrollY + height + 'px'
-            break
-          case 'left':
-            contentWrapper.style.left = left + window.scrollX + 'px'
-            contentWrapper.style.top = top + window.scrollY + height / 2 + 'px'
-            break
-          case 'right':
-            contentWrapper.style.left = left + window.scrollX + width + 'px'
-            contentWrapper.style.top = top + window.scrollY + height / 2 + 'px'
-            break
+        // 优化二：表驱动编程
+        const positions = {
+          top: {
+            left: left + window.scrollX,
+            top: left + window.scrollX
+          },
+          bottom: {
+            left: left + window.scrollX,
+            top: top + window.scrollY + height
+          },
+          left: {
+            left: left + window.scrollX,
+            top: top + window.scrollY + height / 2
+          },
+          right: {
+            left: left + window.scrollX + width,
+            top: top + window.scrollY + height / 2
+          }
         }
+        contentWrapper.left = positions[this.position].left
+        contentWrapper.top = positions[this.position].top
+        // switch (this.position) {
+        //   case 'top':
+        //     contentWrapper.style.left = left + window.scrollX + 'px'
+        //     contentWrapper.style.top = left + window.scrollX + 'px'
+        //     break
+        //   case 'bottom':
+        //     contentWrapper.style.left = left + window.scrollX + 'px'
+        //     contentWrapper.style.top = top + window.scrollY + height + 'px'
+        //     break
+        //   case 'left':
+        //     contentWrapper.style.left = left + window.scrollX + 'px'
+        //     contentWrapper.style.top = top + window.scrollY + height / 2 + 'px'
+        //     break
+        //   case 'right':
+        //     contentWrapper.style.left = left + window.scrollX + width + 'px'
+        //     contentWrapper.style.top = top + window.scrollY + height / 2 + 'px'
+        //     break
+        // }
       },
       yyy () {
         console.log('yyy')
