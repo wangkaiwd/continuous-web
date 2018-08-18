@@ -113,17 +113,22 @@
         //   document.removeEventListener('click', this.listenClick)
         // }
       },
-      mouseEnter () {
+      mouseEnter (e) {
         this.visible = true
         this.$nextTick(() => {
-          const {contentWrapper} = this.$refs
+          const {contentWrapper, buttonWrapper} = this.$refs
+          if (contentWrapper.contains(e.target) || buttonWrapper.contains(e.target)) {
+            clearTimeout(this.timerId)
+          }
           this.moveContent()
           contentWrapper.addEventListener('mouseenter', this.mouseEnter)
           contentWrapper.addEventListener('mouseleave', this.mouseLeave)
         })
       },
-      mouseLeave (e) {
-        this.visible = false
+      mouseLeave () {
+        this.timerId = setTimeout(() => {
+          this.visible = false
+        }, 200)
       },
       listenClick (e) {
         // console.log('target', this.$refs.popover.contains(e.target))
@@ -183,9 +188,6 @@
           contentWrapper.removeEventListener('mouseleave', this.mouseLeave)
         }
       },
-      yyy () {
-        console.log('yyy')
-      }
     }
   }
 </script>
