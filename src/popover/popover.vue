@@ -1,11 +1,11 @@
 <template>
-  <div class="popover">
+  <div class="popover" ref="popover">
     <!--只有修饰符 @click.stop-->
     <div class="content-wrapper" :class="position" ref="contentWrapper" v-if="visible">
       <!--slot添加事件和class都是没有作用的-->
       <slot name="content"></slot>
     </div>
-    <div class="button-wrapper" ref="buttonWrapper" @click="toggleContent">
+    <div class="button-wrapper" ref="buttonWrapper">
       <slot name="trigger"></slot>
     </div>
   </div>
@@ -21,12 +21,17 @@
         validator (val) {
           return ['left', 'right', 'top', 'bottom'].includes(val)
         }
+      },
+      trigger: {
+        type: String,
+        default: 'click',
+        validator (val) {
+          return ['click', 'mouseenter'].indexOf(val) > -1
+        }
       }
     },
     data () {
-      return {
-        visible: false,
-      }
+      return {visible: false}
     },
     mounted () {
       // 使用v-if页面中不会有这个元素，所以无法获取dom对象
@@ -44,13 +49,23 @@
       // contentWrapper.style.left = left + 'px'
       // contentWrapper.style.top = top + window.scrollY + 'px'
       // })
+      const {buttonWrapper} = this.$refs
+      // buttonWrapper.addEventListener(this.trigger, this.toggleContent)
+      if (this.trigger === 'click') {
+        buttonWrapper.addEventListener('click', this.toggleContent)
+      }
+      if (this.trigger === 'mouseenter') {
+        buttonWrapper.addEventListener('mouseenter', this.mouseEnter)
+        buttonWrapper.addEventListener('mouseleave', this.mouseLeave)
+
+      }
+    },
+    beforeDestroy () {
+      this.removeListenEvent()
     },
     methods: {
-      toggleContent () {
-        this.visible = !this.visible
-        // if (this.visible) { // 设置为true时，会有一个dom队列
-        //   // console.log(this.$refs.contentWrapper) // 获取不到dom,队列中的内容会异步执行
-        // }
+      listenToDocument () {
+        // 这里进行过v-if操作后要将dom放入一个队列，$nextTick保证内容在任务队列之后执行
         this.$nextTick(() => {
           if (this.visible) {
             this.moveContent()
@@ -60,7 +75,22 @@
             document.removeEventListener('click', this.listenClick)
           }
         })
-
+      },
+      toggleContent () {
+        this.visible = !this.visible
+        this.listenToDocument()
+        // if (this.visible) { // 设置为true时，会有一个dom队列
+        //   // console.log(this.$refs.contentWrapper) // 获取不到dom,队列中的内容会异步执行
+        // }
+        // this.$nextTick(() => {
+        //   if (this.visible) {
+        //     this.moveContent()
+        //     document.addEventListener('click', this.listenClick)
+        //   }
+        //   if (!this.visible) {
+        //     document.removeEventListener('click', this.listenClick)
+        //   }
+        // })
         // 如果visible是true才需要添加事件，如果是false的话，将visible为true时的事件移除
         /**
          * 简短代码：看起来精简，但是不方便调试，不太方便阅读
@@ -83,14 +113,27 @@
         //   document.removeEventListener('click', this.listenClick)
         // }
       },
+      mouseEnter () {
+        this.visible = true
+        this.$nextTick(() => {
+          const {contentWrapper} = this.$refs
+          this.moveContent()
+          contentWrapper.addEventListener('mouseenter', this.mouseEnter)
+          contentWrapper.addEventListener('mouseleave', this.mouseLeave)
+        })
+      },
+      mouseLeave (e) {
+        this.visible = false
+      },
       listenClick (e) {
+        // console.log('target', this.$refs.popover.contains(e.target))
         // contains: node.contains(otherNode) 如果otherNode是node的后代节点或是node节点本身，则返回true,否则返回false
-        if (this.$refs.contentWrapper.contains(e.target) || this.$refs.buttonWrapper.contains(e.target)) {
-
-        } else {
-          this.visible = false
-          document.removeEventListener('click', this.listenClick)
+        const {buttonWrapper, contentWrapper} = this.$refs
+        if (buttonWrapper.contains(e.target) || contentWrapper.contains(e.target)) {
+          return
         }
+        this.visible = false
+        document.removeEventListener('click', this.listenClick)
       },
       moveContent () {
         // const contentWrapper = this.$refs.contentWrapper
@@ -127,6 +170,18 @@
         //     contentWrapper.style.top = top + window.scrollY + height / 2 + 'px'
         //     break
         // }
+      },
+      removeListenEvent () {
+        const {buttonWrapper, contentWrapper} = this.$refs
+        if (this.trigger === 'click') {
+          buttonWrapper.removeEventListener('click', this.toggleContent)
+        }
+        if (this.trigger === 'mouseenter') {
+          buttonWrapper.removeEventListener('mouseenter', this.mouseEnter)
+          buttonWrapper.removeEventListener('mouseleave', this.mouseLeave)
+          contentWrapper.removeEventListener('mouseenter', this.mouseEnter)
+          contentWrapper.removeEventListener('mouseleave', this.mouseLeave)
+        }
       },
       yyy () {
         console.log('yyy')
