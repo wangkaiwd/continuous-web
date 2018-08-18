@@ -113,9 +113,9 @@
     border: 1px solid $border-color;
     border-radius: 4px;
     padding: 0.5em 1em;
-    box-shadow: 0 0 3px rgba(0, 0, 0, .5);
-    transform: translateY(-100%);
-    margin-top: -10px;
+    /*box-shadow: 0 0 3px rgba(0, 0, 0, .5);*/
+    filter: drop-shadow(0 0 3px rgba(0, 0, 0, .5));
+    background-color: #fff;
     max-width: 20em;
     /* 允许在单词内换行*/
     word-break: break-all;
@@ -130,7 +130,7 @@
       height: 0;
       border-width: 10px 10px 0;
       border-style: solid;
-      border-color: #333 transparent;
+      border-color: #999 transparent;
     }
     &::after {
       border-color: #fff transparent;
