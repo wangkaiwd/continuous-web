@@ -109,16 +109,13 @@
             break
           case 'left':
             contentWrapper.style.left = left + window.scrollX + 'px'
-            contentWrapper.style.top = top + window.scrollY + 'px'
+            contentWrapper.style.top = top + window.scrollY + height / 2 + 'px'
             break
           case 'right':
             contentWrapper.style.left = left + window.scrollX + width + 'px'
-            contentWrapper.style.top = top + window.scrollY + 'px'
+            contentWrapper.style.top = top + window.scrollY + height / 2 + 'px'
             break
         }
-      },
-      controlPosition () {
-
       },
       yyy () {
         console.log('yyy')
@@ -157,7 +154,8 @@
       &::before,
       &::after {
         bottom: 100%;
-        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
         border-width: 0 10px 10px;
         border-color: #999 transparent;
       }
@@ -167,11 +165,13 @@
       }
     }
     &.right {
+      transform: translateY(-50%);
       margin-left: 10px;
       &::before,
       &::after {
         right: 100%;
-        top: 10px;
+        top: 50%;
+        transform: translateY(-50%);
         border-width: 10px 10px 10px 0;
         border-color: transparent #fff;
       }
@@ -181,13 +181,14 @@
       }
     }
     &.left {
-      transform: translateX(-100%);
+      transform: translate(-100%, -50%);
       margin-left: -10px;
       /* 这里为什么只能用margin-left,引入元素是根据left来进行定位的 */
       &::before,
       &::after {
         left: 100%;
-        top: 10px;
+        top: 50%;
+        transform: translateY(-50%);
         border-width: 10px 0 10px 10px;
         border-color: transparent #fff;
       }
