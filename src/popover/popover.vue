@@ -102,29 +102,17 @@
         const {left, top, width, height} = buttonWrapper.getBoundingClientRect()
         // 优化二：表驱动编程
         const positions = {
-          top: {
-            left: left + window.scrollX,
-            top: left + window.scrollX
-          },
-          bottom: {
-            left: left + window.scrollX,
-            top: top + window.scrollY + height
-          },
-          left: {
-            left: left + window.scrollX,
-            top: top + window.scrollY + height / 2
-          },
-          right: {
-            left: left + window.scrollX + width,
-            top: top + window.scrollY + height / 2
-          }
+          top: {left: left + window.scrollX, top: top + window.scrollX},
+          bottom: {left: left + window.scrollX, top: top + window.scrollY + height},
+          left: {left: left + window.scrollX, top: top + window.scrollY + height / 2},
+          right: {left: left + window.scrollX + width, top: top + window.scrollY + height / 2}
         }
-        contentWrapper.left = positions[this.position].left
-        contentWrapper.top = positions[this.position].top
+        contentWrapper.style.left = positions[this.position].left + 'px'
+        contentWrapper.style.top = positions[this.position].top + 'px'
         // switch (this.position) {
         //   case 'top':
         //     contentWrapper.style.left = left + window.scrollX + 'px'
-        //     contentWrapper.style.top = left + window.scrollX + 'px'
+        //     contentWrapper.style.top = top + window.scrollX + 'px'
         //     break
         //   case 'bottom':
         //     contentWrapper.style.left = left + window.scrollX + 'px'
@@ -177,13 +165,15 @@
       &::before,
       &::after {
         bottom: 100%;
-        top: 50%;
+        left: 10px;
+        /*top: 50%;
         transform: translateY(-50%);
+        z-index: 10;*/
         border-width: 0 10px 10px;
-        border-color: #999 transparent;
+        border-color: transparent transparent #999;
       }
       &::after {
-        border-color: #fff transparent;
+        border-color: transparent transparent #fff;
         bottom: calc(100% - 1px);
       }
     }
