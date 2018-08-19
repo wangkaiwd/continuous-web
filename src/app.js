@@ -12,21 +12,29 @@ import Input from './input'
 import Col from './col'
 import Row from './row'
 
+// 布局组件
 import Layout from './layout'
 import Content from './content'
 import Header from './header'
 import Footer from './footer'
 import Sider from './sider'
 
+// tabs组件
 import Tabs from './globalTabs/tabs'
 import TabsNav from './globalTabs/tabsNav'
 import TabsContent from './globalTabs/tabsContent'
 import TabsItem from './globalTabs/tabsItem'
 import TabsPane from './globalTabs/tabsPane'
 
+// popover弹出框组件
 import Popover from './popover/popover'
 
+// toast组件
 import Plugin from './plugin'
+
+// 折叠面板
+import Collapse from './collapse/collapse'
+import CollapseItem from './collapse/collapseItem'
 
 Vue.use(Plugin)
 
@@ -52,6 +60,9 @@ Vue.component('g-tabs-item', TabsItem)
 Vue.component('g-tabs-pane', TabsPane)
 
 Vue.component('g-popover', Popover)
+
+Vue.component('g-collapse', Collapse)
+Vue.component('g-collapse-item', CollapseItem)
 
 new Vue({
   el: '#app',
