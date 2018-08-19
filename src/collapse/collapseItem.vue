@@ -30,19 +30,27 @@
       }
     },
     mounted () {
-      if (this.$parent.selected === this.name) {
+      if (this.$parent.selected.includes(this.name)) {
         this.active = true
       }
       // 相当于进行一个事件的监听，不用在updated中进行监听
       this.$parent.single && this.eventBus.$on('changeContent', (vm) => {
         if (vm !== this) {
           this.active = false
+          this.eventBus.$emit('closeContent', this)
         }
       })
+
     },
     methods: {
       toggle () {
         this.active = !this.active
+        if (this.active === true) {
+          this.eventBus.$emit('openContent', this)
+        }
+        if (this.active === false) {
+          this.eventBus.$emit('closeContent', this)
+        }
         if (this.active && this.$parent.single) {
           this.eventBus.$emit('changeContent', this)
         }

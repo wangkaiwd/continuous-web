@@ -70,7 +70,8 @@ new Vue({
     return {
       loading1: false,
       msg: 'hi',
-      selected: 'woman'
+      selected: ['3'],
+      selected1: ['1'],
     }
   },
   mounted () {

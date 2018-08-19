@@ -18,7 +18,7 @@
         default: false
       },
       selected: {
-        type: String,
+        type: Array,
         required: false
       }
     },
@@ -40,7 +40,15 @@
       //     vm.active = false
       //   }
       // })
-
+      this.eventBus.$on('openContent', (vm) => {
+        this.selected.push(vm.name)
+        this.$emit('update:selected', this.selected)
+      })
+      this.eventBus.$on('closeContent', (vm) => {
+        const index = this.selected.indexOf(vm.name)
+        index > -1 && this.selected.splice(index, 1)
+        this.$emit('update:selected', this.selected)
+      })
     },
     provide () {
       return {

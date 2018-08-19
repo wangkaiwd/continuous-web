@@ -58,7 +58,7 @@
   <hr/>
   <div class="text"></div>
   <div class="collapse-demo">
-    <g-collapse selected="1">
+    <g-collapse :selected.sync="selected">
       <g-collapse-item name="1" title="标题1">
         <div>我是内容</div>
         <div>我是内容</div>
@@ -75,9 +75,10 @@
         <div>我是内容</div>
       </g-collapse-item>
     </g-collapse>
+    {{selected}}
   </div>
   <div class="collapse-demo">
-    <g-collapse selected="1" :single="true">
+    <g-collapse :selected.sync="selected1" :single="true">
       <g-collapse-item name="1" title="标题1">
         <div>我是内容</div>
         <div>我是内容</div>
@@ -94,6 +95,7 @@
         <div>我是内容</div>
       </g-collapse-item>
     </g-collapse>
+    {{selected1}}
   </div>
 </div>
 <script src="./src/app.js"></script>
