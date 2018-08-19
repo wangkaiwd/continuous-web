@@ -70,9 +70,9 @@
         <g-button slot="trigger">点击</g-button>
       </g-popover>
       <g-popover position="left">
-        <template slot="content" slot-scope="{toggleContent}">
+        <template slot="content" slot-scope="{close}">
           <div>popover的内容部分
-            <g-button @click="toggleContent">关闭</g-button>
+            <g-button @click="close">关闭</g-button>
           </div>
         </template>
         <!--trigger:触发器-->

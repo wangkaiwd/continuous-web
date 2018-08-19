@@ -16,8 +16,13 @@
         {'todos-list': {text:'list2',id:'2'}}
         {'todos-list': {text:'list3',id:'3'}}
     -->
-    <template slot-scope="{item}">
-      <button>{{item.text}}</button>
+    <!-- 这里的todosList是所有slot上的绑定的属性组成的对象 -->
+    <!--{
+          todosList: item,
+          test: 'test'
+        }-->
+    <template slot-scope="todosList">
+      <button>{{todosList.todosList.text}}</button>
     </template>
   </my-todos>
 </div>
@@ -27,8 +32,8 @@
   Vue.component('my-todos', {
     template: `
       <ul>
-        <li v-for="item in todos" :key="todo.id">
-          <slot :todos-list="item"></slot>
+        <li v-for="item in todos" :key="item.id">
+          <slot test="test" :todos-list="item"></slot>
         </li>
       </ul>
     `,

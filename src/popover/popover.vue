@@ -77,7 +77,6 @@
         })
       },
       toggleContent () {
-        console.log('click')
         this.visible = !this.visible
         this.listenToDocument()
         // if (this.visible) { // 设置为true时，会有一个dom队列
