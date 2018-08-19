@@ -128,7 +128,7 @@
       mouseLeave () {
         this.timerId = setTimeout(() => {
           this.visible = false
-        }, 200)
+        }, 100)
       },
       listenClick (e) {
         // console.log('target', this.$refs.popover.contains(e.target))
