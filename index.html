@@ -42,14 +42,9 @@
       background-color: #666;
     }
 
-    .content {
-      background-color: #999;
-      border: 1px solid red;
-    }
-
     .toast-demo {margin-bottom: 20px;}
 
-    .popover-demo {margin-top: 100px;margin-left: 200px;}
+    .collapse-demo {margin-top: 100px;}
   </style>
 </head>
 
@@ -62,62 +57,16 @@
   </div>
   <hr/>
   <div class="text"></div>
-  <div class="popover-demo">
-    <div>
-      <g-popover position="right">
-        <div slot="content">popover的内容部分sdfsdfsdfsdfdsfsdfsdfsdffsdsdfsdfasfdsadasd</div>
-        <!--trigger:触发器-->
-        <g-button slot="trigger">点击</g-button>
-      </g-popover>
-      <g-popover position="left">
-        <template slot="content" slot-scope="{close}">
-          <div>popover的内容部分
-            <g-button @click="close">关闭</g-button>
-          </div>
-        </template>
-        <!--trigger:触发器-->
-        <g-button slot="trigger">点击</g-button>
-      </g-popover>
-      <g-popover position="bottom">
-        <div slot="content">popover的内容部分</div>
-        <!--trigger:触发器-->
-        <g-button slot="trigger">点击</g-button>
-      </g-popover>
-      <g-popover position="top">
-        <div slot="content">popover的内容部分</div>
-        <!--trigger:触发器-->
-        <g-button slot="trigger">点击</g-button>
-      </g-popover>
-    </div>
-  </div>
-  <div class="popover-demo">
-    <div>
-      <g-popover position="right" trigger="mouseenter">
-        <div slot="content">popover的内容部分sdfsdfsdfsdfdsfsdfsdfsdffsdsdfsdfasfdsadasd</div>
-        <!--trigger:触发器-->
-        <g-button slot="trigger">点击</g-button>
-      </g-popover>
-      <g-popover position="left" trigger="mouseenter">
-        <div slot="content">popover的内容部分</div>
-        <!--trigger:触发器-->
-        <g-button slot="trigger">点击</g-button>
-      </g-popover>
-      <g-popover position="bottom" trigger="mouseenter">
-        <div slot="content">popover的内容部分</div>
-        <!--trigger:触发器-->
-        <g-button slot="trigger">点击</g-button>
-      </g-popover>
-      <g-popover position="top" trigger="mouseenter">
-        <div slot="content">popover <a href="http://www.baidu.com">百度</a>的内容部分</div>
-        <!--trigger:触发器-->
-        <g-button slot="trigger">点击</g-button>
-      </g-popover>
-    </div>
-    <g-button @click="xxxx">哈哈</g-button>
+  <div class="collapse-demo">
+    <g-collapse>
+      <g-collapse-item title="标题1">内容1</g-collapse-item>
+      <g-collapse-item title="标题2">内容2</g-collapse-item>
+      <g-collapse-item title="标题3">内容3</g-collapse-item>
+    </g-collapse>
   </div>
 </div>
 <script src="./src/app.js"></script>
-<script src="//at.alicdn.com/t/font_725726_0nqea9lokl3l.js"></script>
+<script src="//at.alicdn.com/t/font_725726_uegwlx056no.js"></script>
 </body>
 
 </html>
