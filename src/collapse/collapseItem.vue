@@ -1,6 +1,6 @@
 <template>
   <div class="collapse-item">
-    <div class="title" @click="active = !active">
+    <div class="title" @click="toggle">
       <span>{{title}}</span>
       <span class="title-icon" :class="{active}"><g-icon name="right-arrow"></g-icon></span>
     </div>
@@ -17,11 +17,35 @@
       title: {
         type: String,
         required: true
+      },
+      name: {
+        type: String,
+        required: true
       }
     },
+    inject: ['eventBus'],
     data () {
       return {
         active: false
+      }
+    },
+    mounted () {
+      if (this.$parent.selected === this.name) {
+        this.active = true
+      }
+      // 相当于进行一个事件的监听，不用在updated中进行监听
+      this.$parent.single && this.eventBus.$on('changeContent', (vm) => {
+        if (vm !== this) {
+          this.active = false
+        }
+      })
+    },
+    methods: {
+      toggle () {
+        this.active = !this.active
+        if (this.active && this.$parent.single) {
+          this.eventBus.$emit('changeContent', this)
+        }
       }
     }
   }
@@ -38,7 +62,7 @@
       justify-content: space-between;
       align-items: center;
       .title-icon {
-        transition: all .4s;
+        transition: all .3s;
         display: flex;
         justify-content: center;
         align-items: center;}
