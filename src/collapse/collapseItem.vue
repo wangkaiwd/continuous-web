@@ -63,6 +63,7 @@
 
 <style lang="scss" scoped>
   $border-color: #ddd;
+  $background-color: #EEEEEE;
   .collapse-item {
     > .title {
       padding: 0.5em 1em;
@@ -71,6 +72,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      background-color: $background-color;
       .title-icon {
         transition: all .3s;
         display: flex;
