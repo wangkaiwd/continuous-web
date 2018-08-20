@@ -4,9 +4,11 @@
       <span>{{title}}</span>
       <span class="title-icon" :class="{active}"><g-icon name="right-arrow"></g-icon></span>
     </div>
-    <div class="content" v-if="active">
-      <slot></slot>
-    </div>
+    <transition name="slide-fade">
+      <div class="content" v-if="active">
+        <slot></slot>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -80,12 +82,21 @@
       border: 0;
     }
     > .content {
+      position: relative;
       padding: 0.5em 1em;
       border-bottom: 1px solid $border-color;
-      transition: all 1s;
     }
     &:last-child > .content {
       border: 0;
+    }
+    .slide-fade-enter-active {
+      transition: all .3s ease;
+    }
+    .slide-fade-leave-active {
+      transition: all .3s ease;
+    }
+    .slide-fade-enter, .slide-fade-leave-to {
+      opacity: 0;
     }
   }
 </style>
