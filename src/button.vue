@@ -4,9 +4,9 @@
     @click="$emit('click')"
   >
     <g-icon
-        v-if="icon && !loading"
-        :class="`icon-${iconPosition}`"
-        :name="icon"
+      v-if="icon && !loading"
+      :class="`icon-${iconPosition}`"
+      :name="icon"
     >
     </g-icon>
     <g-icon
@@ -21,8 +21,9 @@
 
 <script>
   import Icon from './icon'
+
   export default {
-    name:'GlobalButton',
+    name: 'GlobalButton',
     props: {
       icon: {},
       loading: {
@@ -31,20 +32,29 @@
       },
       iconPosition: {
         type: String,
-        default: "left",
+        default: 'left',
         // 自定义验证函数，return true通过校验，return false不通过校验
-        validator(value) {
-          return value === "left" || value === "right";
+        validator (value) {
+          return value === 'left' || value === 'right'
         }
       }
     },
     components: {
       'g-icon': Icon,
     }
-  };
+  }
 </script>
 
 <style lang="scss" scoped>
+  $font-size: 14px;
+  $button-height: 32px;
+  $button-bg: white;
+  $border-radius: 4px;
+  $color: #333;
+  $border-color: #999;
+  $border-colo-hover: #666;
+  $button-active-bg: #eee;
+
   @keyframes spin {
     0% {
       transform: rotate(0deg);
@@ -59,19 +69,19 @@
     vertical-align: top;
     justify-content: center;
     align-items: center;
-    font-size: var(--font-size);
-    height: var(--button-height);
+    font-size: $font-size;
+    height: $button-height;
     padding: 0 1em;
-    background-color: var(--button-bg);
-    border-radius: var(--border-radius);
-    color: var(--color);
-    border: 1px solid var(--border-color);
+    background-color: $button-bg;
+    border-radius: $border-radius;
+    color: $color;
+    border: 1px solid $border-color;
     &:focus {
       outline: none;
     }
     &:hover {
-      border-color: var(--border-color-hover);
-      background-color: var(--button-active-bg);
+      border-color: $border-colo-hover;
+      background-color: $button-active-bg;
     }
     .icon-right {
       margin-left: 0.3em;
