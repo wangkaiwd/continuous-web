@@ -1,5 +1,5 @@
 <template>
-  <svg 
+  <svg
     class="g-icon"
     aria-hidden="true"
   >
@@ -8,22 +8,24 @@
 </template>
 
 <script>
-export default {
-  name:'GlobalIcon',
-  props: {
-    name: {
-      type: String
+  import './svg'
+
+  export default {
+    name: 'GlobalIcon',
+    props: {
+      name: {
+        type: String
+      }
     }
   }
-};
 </script>
 
 <style lang="scss" scoped>
-.g-icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: top;
-  fill: currentColor;
-  overflow: hidden;
-}
+  .g-icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: top;
+    fill: currentColor;
+    overflow: hidden;
+  }
 </style>

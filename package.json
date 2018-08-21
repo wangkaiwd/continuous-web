@@ -23,6 +23,7 @@
   "homepage": "https://github.com/wangkaiwd/self_UI#readme",
   "dependencies": {
     "chai-spies": "^1.0.0",
+    "sass-loader": "^7.1.0",
     "vue": "^2.5.16",
     "vue-hot-reload-api": "^2.3.0",
     "yarn": "^1.7.0"

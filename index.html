@@ -49,56 +49,9 @@
 
 <body>
 <div id="app" v-cloak>
-  <div class="toast-demo">
-    <g-button @click="showToast1">top</g-button>
-    <g-button @click="showToast2">middle</g-button>
-    <g-button @click="showToast3">bottom</g-button>
-  </div>
-  <hr/>
-  <div class="text"></div>
-  <div class="collapse-demo">
-    <g-collapse :selected.sync="selected">
-      <g-collapse-item name="1" title="标题1">
-        <div>我是内容</div>
-        <div>我是内容</div>
-        <div>我是内容</div>
-      </g-collapse-item>
-      <g-collapse-item name="2" title="标题2">
-        <div>我是内容</div>
-        <div>我是内容</div>
-        <div>我是内容</div>
-      </g-collapse-item>
-      <g-collapse-item name="3" title="标题3">
-        <div>我是内容</div>
-        <div>我是内容</div>
-        <div>我是内容</div>
-      </g-collapse-item>
-    </g-collapse>
-    {{selected}}
-  </div>
-  <div class="collapse-demo">
-    <g-collapse :selected.sync="selected1" :single="true">
-      <g-collapse-item name="1" title="标题1">
-        <div>我是内容</div>
-        <div>我是内容</div>
-        <div>我是内容</div>
-      </g-collapse-item>
-      <g-collapse-item name="2" title="标题2">
-        <div>我是内容</div>
-        <div>我是内容</div>
-        <div>我是内容</div>
-      </g-collapse-item>
-      <g-collapse-item name="3" title="标题3">
-        <div>我是内容</div>
-        <div>我是内容</div>
-        <div>我是内容</div>
-      </g-collapse-item>
-    </g-collapse>
-    {{selected1}}
-  </div>
+  <g-button icon="setting">设置</g-button>
 </div>
 <script src="./src/app.js"></script>
-<script src="//at.alicdn.com/t/font_725726_uegwlx056no.js"></script>
 </body>
 
 </html>

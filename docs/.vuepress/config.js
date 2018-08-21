@@ -6,7 +6,6 @@ module.exports = {
   title: 'Vue UI',
   description: '简单 好用 的Vue UI 框架',
   themeConfig: {
-    // displayAllHeaders: true,
     sidebar: [
       {
         title: '简单组件',
@@ -19,12 +18,7 @@ module.exports = {
       },
       {
         title: '复杂组件',
-        children: [
-          '/components/easy/button',
-          '/components/easy/input',
-          '/components/easy/layout',
-          '/components/easy/col',
-        ]
+        children: []
       },
     ],// 自动生成侧边栏
     // activeHeaderLinks: false,
