@@ -5,11 +5,6 @@ module.exports = {
   title: 'Vue UI',
   description: '简单 好用 的Vue UI 框架',
   themeConfig: {
-    nav: [
-      {text: 'Home', link: '/'},
-      {text: 'Guide', link: '/guide/'},
-      {text: 'External', link: 'https://google.com'},
-    ],
     sidebar: [
       {
         title: '简单组件',
