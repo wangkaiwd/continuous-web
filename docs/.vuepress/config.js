@@ -2,7 +2,6 @@
  * Created by Administrator on 2018/8/20/020
  */
 module.exports = {
-  base: '/self_UI/',
   home: true,
   title: 'Vue UI',
   description: '简单 好用 的Vue UI 框架',
@@ -23,10 +22,11 @@ module.exports = {
       },
     ],// 自动生成侧边栏
     // activeHeaderLinks: false,
+    base: '/self_UI/',
     repo: 'https://github.com/wangkaiwd/self_UI', // github地址
     docsBranch: 'master', // 项目分支
     lastUpdated: 'Last Updated', // 最后更新时间
-    // activeHeaderLinks: false
+    // activeHeaderLinks: false,
     // refresh按钮可以立即激活新的Service Worker
     serviceWorker: {
       updatePopup: true
