@@ -2,7 +2,7 @@
  * Created by Administrator on 2018/8/20/020
  */
 module.exports = {
-  base: '/wangkaiwd/self_UI/',
+  base: '/self_UI/',
   home: true,
   title: 'Vue UI',
   description: '简单 好用 的Vue UI 框架',
