@@ -87,18 +87,20 @@
       position: relative;
       padding: 0.5em 1em;
       border-bottom: 1px solid $border-color;
+      overflow: hidden;
+      height: 100px;
     }
     &:last-child > .content {
       border: 0;
     }
-    .slide-fade-enter-active {
-      transition: all .3s ease;
-    }
+    .slide-fade-enter-active,
     .slide-fade-leave-active {
-      transition: all .3s ease;
+      transition: all .3s linear;
     }
     .slide-fade-enter, .slide-fade-leave-to {
+      padding: 0 1em;
       opacity: 0;
+      height: 0;
     }
   }
 </style>
