@@ -34,7 +34,7 @@ iconPosition|设置按钮图标的位置|string| left
 ### `parcel`
 > `npx`: 会自动查找当前依赖包中的可执行文件，如果找不到就会帮你**临时**安装
 (下次运行时，还需要重新安装)这样，我们的命令就从`./node_modules/.bin/parcel`变为`npx parcel`  
-> `--no-cache`:每次打包会生成`dist`目录，有些文件会缓存，会引发奇怪的`bug`。加入这行代码会禁止缓存
+> `--no-cache`:每次打包会生成`dist`目录，有些文件会缓存到`cache`目录中，会引发奇怪的`bug`。加入这行代码会禁止缓存
 
 先搭建页面的初始结构：
 ```html
@@ -81,7 +81,87 @@ npx parcel index.html --no-cache
  /*左右的内边距为1个字的大小*/
  padding: 0 1em;   
 }
+.g-icon {
+  /*icon的宽高都是一个字的大小*/
+  width: 1em;
+  height: 1em;
+}
 ```
-   
+
+#### 2. 通过`flex`布局的`order`属性来改变元素位置
+> `order`: 属性定义项目的排列顺序。数值越小，排列越靠前，默认为0  
+> `justify-content`: 属性定义了项目在主轴上的对齐方式，默认为`flex-start`:左对齐
+
+[demo演示](https://jsfiddle.net/wangkaiwd/dq3emy6c/11/)  
+
+**前提：父元素设置`display:flex`**    
+当用户设置`iconPosition="right"`的时候，将字体图标的样式中设置为`order:1`,在`iconPosition`不为
+`right`的时候不用设置。因为元素的`order`属性默认为0,
+并且`justify-content`默认为`flex-start`左右对齐
+
+实现代码:
+```css
+/*icon在右边，设置order:1;*/
+.icon-right {
+  margin-left: 0.3em;
+  order: 1;
+}
+/*icon在左边，order: 0;（默认）*/
+.icon-left {
+  margin-right: 0.3em;
+}
+```
+这样可以简单的通过`css`来实现按钮图标位置的需求
+
+#### 3. `button-group`的`border`叠加问题
+效果展示  
+![border](../../.vuepress/public/images/button-group-border.png)  
+这个时候我们可能会想到将除了第一个盒子之外的每一个盒子的左边框设置为0
+```css
+box:not(:first-child) {
+  border-left: 0;
+}
+```
+之后页面变成了这个样子：
 
 
+
+### `Vue`
+#### 1. 为元素添加类
+```html
+<div id="app">
+  <div class="emo" :class="iconPosition">demo</div>
+  <div class="demo" :class="{iconPosition}">demo</div>
+  <div class="demo" :class="{[iconPosition]:true}">demo</div>
+  <div class="demo" :class="{[`icon-${iconPosition}`]: true}">demo</div>
+</div>
+```
+```js
+new Vue({
+  el: "#app",
+  data: {
+    iconPosition: 'left'
+  },
+})
+```
+* 第二种写法：是否为`div`添加`iconPosition`类名(类名固定为`iconPosition`)。
+* 第三种写法`iconPosition`是一个变量，达成的效果
+和第一种一样。
+* 最后一种写法：相当于为`div`添加了`icon-left`类名，这里`icon`为写死的字符串，而`iconPosition`是变量
+
+#### 2. 改变组件中插槽的样式
+```html
+<div class="g-button-group">
+  <slot></slot>
+</div>
+```
+这里为`slot`添加`class`类型是没有效果的，可以为他添加一个父元素，然后通过父元素的`class`
+来为`slot`中的内容设置样式
+```html
+<div class="g-button-group">
+  <!--可以通过.slot-content来为slot插槽中的内容设置样式-->
+  <div class="slot-content">
+    <slot></slot>
+  </div>
+</div>
+```

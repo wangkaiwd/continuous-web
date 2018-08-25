@@ -5,6 +5,7 @@
       <g-button :loading="true">按钮</g-button>
       <g-button icon="thumbs-up">按钮</g-button>
       <g-button icon="success" icon-position="right">按钮</g-button>
+      <g-button icon="download" :loading="loading" @click="loading=!loading">加载</g-button>
     </div>
     <div class="row">
       <g-button-group>
@@ -22,6 +23,11 @@
     components: {
       GButton: Button,
       GButtonGroup: ButtonGroup
+    },
+    data () {
+      return {
+        loading: false
+      }
     }
   }
 </script>
