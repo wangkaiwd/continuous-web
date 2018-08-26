@@ -36,6 +36,8 @@ import Plugin from './plugin'
 import Collapse from './collapse/collapse'
 import CollapseItem from './collapse/collapseItem'
 
+import Cascader from './cascader/cascader'
+
 Vue.use(Plugin)
 
 Vue.component('g-button', Button)
@@ -64,6 +66,8 @@ Vue.component('g-popover', Popover)
 Vue.component('g-collapse', Collapse)
 Vue.component('g-collapse-item', CollapseItem)
 
+Vue.component('g-cascader', Cascader)
+
 new Vue({
   el: '#app',
   data () {
@@ -72,6 +76,40 @@ new Vue({
       msg: 'hi',
       selected: ['3'],
       selected1: ['1'],
+      options: [
+        {
+          name: '设计原则',
+          children: [
+            {
+              name: '一致',
+              children: [
+                {name: '哈哈'},
+                {name: '呵呵'},
+              ]
+            },
+            {
+              name: '反馈'
+            },
+            {
+              name: '效率'
+            },
+            {
+              name: '可控'
+            },
+          ]
+        },
+        {
+          name: '导航',
+          children: [
+            {
+              name: '侧向导航'
+            },
+            {
+              name: '顶部导航'
+            }
+          ]
+        },
+      ]
     }
   },
   mounted () {

@@ -55,7 +55,7 @@
   $border-radius: 4px;
   $color: #333;
   $border-color: #999;
-  $border-colo-hover: #666;
+  $border-color-hover: #666;
   $button-active-bg: #eee;
 
   @keyframes spin {
@@ -83,7 +83,7 @@
       outline: none;
     }
     &:hover {
-      border-color: $border-colo-hover;
+      border-color: $border-color-hover;
       background-color: $button-active-bg;
     }
     .icon-right {
