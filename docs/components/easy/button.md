@@ -62,15 +62,15 @@ new Vue({
 npm i parcel-bundler -D
 ```
 使用`parcel`启动项目
-```js
+```
 npx parcel index.html --no-cache
 ```
-![parcel](../../.vuepress/public/images/parcel.png)
-![less](../../.vuepress/public/images/less.png)
+![parcel](../../.vuepress/public/images/button/parcel.png)
+![less](../../.vuepress/public/images/button/less.png)
 之后的页面运行效果：
-![parcel-error](../../.vuepress/public/images/parcel-error.png)
+![parcel-error](../../.vuepress/public/images/button/parcel-error.png)
 这是由于使用`parcel`时还要进行对应的配置，官方文档有介绍
-![parcel-config](../../.vuepress/public/images/parcel-config.png)
+![parcel-config](../../.vuepress/public/images/button/parcel-config.png)
 之后我们的页面就可以正常显示，我们也可以安心撸码了。
 ### css
 #### 1. 用`em`来作为元素大小的计量单位
@@ -115,7 +115,7 @@ npx parcel index.html --no-cache
 
 #### 3. `button-group`的`border`叠加问题
 效果展示  
-![border](../../.vuepress/public/images/button-group-border.png)  
+![border](../../.vuepress/public/images/button/button-group-border.png)  
 这个时候我们可能会想到将除了第一个盒子之外的每一个盒子的左边框设置为0
 ```css
 box:not(:first-child) {
@@ -123,6 +123,40 @@ box:not(:first-child) {
 }
 ```
 之后页面变成了这个样子：
+![hover](../../.vuepress/public/images/button/hover.png) 
+很显然，当`box`处于`hover`状态的时候左边框还是黑色，并不会变红。
+
+比较好的实现方案：
+* 将除了第一个盒子的其它盒子的左边框和前一个盒子的右边框重合
+（比如第二个盒子的左边框和第一个盒子的右边框重合，第三个盒子和第二个盒子的右边框重合...），
+设置`margin-left: -1px`(border宽度)即可。
+* 为`hover`的盒子设置：`position: relative; z-index:1;`（只有定位元素才能设置`z-index`）。这样当前
+盒子层级变高之后就会把被其它盒子遮住的边框显示出来。
+```css
+/*父盒子弹性布局*/
+.box-container {
+  margin: 60px;
+  display: flex;
+}
+/*每个盒子添加1px的黑色边框*/
+.box {
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+}
+/*除了第一个盒子，其它盒子的左边框与前一个盒子的右边框重合*/
+.box:not(:first-child) {
+  margin-left: -1px;
+}
+/*提高hover盒子的层级，显示被遮住的边框*/
+.box:hover {
+  position: relative;
+  border-color: red;
+  z-index: 1;
+}
+```
+这样我们就可以完美实现了
+![normal](../../.vuepress/public/images/button/normal.png) 
 
 
 
@@ -165,3 +199,10 @@ new Vue({
   </div>
 </div>
 ```
+
+### 细节注意
+1. `iconfont`提供的字体图标的整体前缀更改
+![icon-prefix](../../.vuepress/public/images/button/icon-prefix.png)
+2. 在使用之前要进行批量去色
+![remove-color](../../.vuepress/public/images/button/remove-color.png)
+3. 要注意字体图标是否对齐以及大小是否合适
