@@ -8,6 +8,7 @@
       :readonly="readonly"
       @input="$emit('input',$event.target.value)"
       @change="$emit('change',$event)"
+      :placeholder="placeholder"
     >
     <template v-if="error">
       <global-icon class="input-icon" name="error"></global-icon>
@@ -41,6 +42,10 @@
       },
       error: {
         type: String,
+      },
+      placeholder: {
+        type: String,
+        default: '请输入内容'
       }
     },
     components: {
@@ -49,33 +54,56 @@
   }
 </script>
 <style lang="scss" scoped>
-  /*--button-height: 32px;
-  --font-size: 14px;
-  --button-bg: white;
-  --button-active-bg: #eee;
-  --border-radius: 4px;
-  --color: #333;
-  --border-color: #999;
-  --border-color-hover: #666;*/
   $height: 32px;
   $border-color: #999;
   $border-color-hover: #666;
   $border-radius: 4px;
-  $font-size: 12px;
+  $font-size: 14px;
   $box-shadow-color: rgba(0, 0, 0, 0.5);
   $red: #F1453D;
-  .wrapper-input {font-size: $font-size;display: inline-flex;align-items: center;justify-content: center;margin-top: 30px;
-    :not(:last-child) {margin-right: 4px;}
-    > input {height: $height;border: 1px solid $border-color;border-radius: $border-radius;font-size: $font-size;padding: 0 8px;
-      &:hover {border-color: $border-color-hover;}
-      &:focus {box-shadow: inset 0 1px 3px $box-shadow-color;outline: none;}
+  .wrapper-input {
+    font-size: $font-size;
+    display: inline-flex;
+    vertical-align: top;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+    :not(:last-child) {
+      margin-right: 4px;
+    }
+    > input {
+      height: $height;
+      border: 1px solid $border-color;
+      border-radius: $border-radius;
+      font-size: $font-size;
+      padding: 0 8px;
+      &:hover {
+        border-color: $border-color-hover;
+      }
+      &:focus {
+        box-shadow: inset 0 1px 3px $box-shadow-color;
+        outline: none;
+      }
       &[disabled],
-      &[readonly] {border-color: #bbb;color: #bbb;cursor: not-allowed;}
+      &[readonly] {
+        border-color: #bbb;
+        color: #bbb;
+        cursor: not-allowed;
+      }
+      &::placeholder {
+        color: $border-color;
+      }
     }
     &.error {
-      > input {border-color: $red;}
+      > input {
+        border-color: $red;
+      }
     }
-    .input-icon {color: $red;}
-    .error-message {color: $red;}
+    .input-icon {
+      color: $red;
+    }
+    .error-message {
+      color: $red;
+    }
   }
 </style>

@@ -92,8 +92,6 @@ npx parcel index.html --no-cache
 > `order`: 属性定义项目的排列顺序。数值越小，排列越靠前，默认为0  
 > `justify-content`: 属性定义了项目在主轴上的对齐方式，默认为`flex-start`:左对齐
 
-[demo演示](https://jsfiddle.net/wangkaiwd/dq3emy6c/11/)  
-
 **前提：父元素设置`display:flex`**    
 当用户设置`iconPosition="right"`的时候，将字体图标的样式中设置为`order:1`,在`iconPosition`不为
 `right`的时候不用设置。因为元素的`order`属性默认为0,
