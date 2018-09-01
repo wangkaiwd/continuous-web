@@ -1,10 +1,14 @@
 <template>
   <div class="cascader-child">
-    <div class="popover2" v-for="(item,index) in optionsItem" :key="index">
-      {{item.name}}
-      <template v-if="item.children">
-        <cascader-child :optionsItem="item.children"></cascader-child>
-      </template>
+    <div class="left">
+      <p v-for="(item,index) in optionsItem"
+         :key="index"
+         @click="selected=item">
+        {{item.name}}
+      </p>
+    </div>
+    <div class="right" v-if="rightItem">
+      <cascader-child :optionsItem="rightItem"></cascader-child>
     </div>
   </div>
 </template>
@@ -16,26 +20,31 @@
       optionsItem: {
         type: Array,
       }
+    },
+    data () {
+      return {
+        selected: {}
+      }
+    },
+    computed: {
+      rightItem () {
+        if (this.selected.children) {
+          return this.selected.children
+        } else {
+          return null
+        }
+      }
     }
   }
 </script>
 
 <style lang="scss" scoped>
   .cascader-child {
-    position: relative;
-    width: 80px;
-    /*width: 100px;*/
-    border: 1px solid red;
+    display: inline-flex;
+    height: 200px;
+    .left {width: 80px;}
     .cascader-child {
-      position: absolute;
-      top: 0;
-      left: 100%;
-      width: 80px;
       border: 1px solid blue;
-      display: none;
-    }
-    .popover2:hover .cascader-child {
-      display: block;
     }
   }
 </style>
