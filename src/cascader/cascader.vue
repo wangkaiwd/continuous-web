@@ -6,20 +6,20 @@
     </div>
     <div class="popover" v-if="visible">
       <div class="level1">
-        <p @click="activeIndex=index" v-for="(item,index) in options" :key="index">
-          {{item.name}}
+        <p @click="selected1=item1" v-for="(item1,index) in options" :key="index">
+          {{item1.name}}
         </p>
       </div>
-      <div class="level2" v-if="options[activeIndex].children">
-        <p v-for="(subItem,index) in options[activeIndex].children"
+      <div class="level2" v-if="level2Selected">
+        <p v-for="(item2,index) in level2Selected"
            :key="index"
-           @click="activeIndex2=index">
-          {{subItem.name}}
+           @click="selected2=item2">
+          {{item2.name}}
         </p>
       </div>
-      <div class="level3" v-if="options[activeIndex].children && options[activeIndex].children[activeIndex2].children">
-        <p v-for="(subItem2,index) in options[activeIndex].children[activeIndex2].children" :key="index">
-          {{subItem2.name}}
+      <div class="level3" v-if="level3Selected">
+        <p v-for="(item3,index) in level3Selected" :key="index">
+          {{item3.name}}
         </p>
       </div>
     </div>
@@ -46,8 +46,26 @@
         visible: false,
         activeIndex: 0,
         activeIndex2: 0,
+        selected1: {},
+        selected2: {},
       }
     },
+    computed: {
+      level2Selected () {
+        if (this.selected1.children) {
+          return this.selected1.children
+        } else {
+          return null
+        }
+      },
+      level3Selected () {
+        if (this.selected2.children) {
+          return this.selected2.children
+        } else {
+          return null
+        }
+      }
+    }
   }
 </script>
 
