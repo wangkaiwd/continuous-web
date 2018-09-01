@@ -40,6 +40,11 @@
 
 <style lang="scss" scoped>
   .cascader-child {
+    position: absolute;
+    /*top: 100%;*/
+    top: 100%;
+    left: 0;
+    border: 4px solid red;
     display: inline-flex;
     height: 200px;
     .left {width: 80px;}

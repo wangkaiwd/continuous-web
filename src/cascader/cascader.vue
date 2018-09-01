@@ -33,6 +33,7 @@
   @import '../var';
 
   .cascader {
+    position: relative;
     .trigger {
       width: 100px;
       height: $button-height;
