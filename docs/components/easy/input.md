@@ -79,3 +79,17 @@ Vue.component('custom-input', {
 初始值。
 
 ### 细节注意
+#### `git`版本回退
+1. `git log`: 显示commit历史，以及每次commit发生变更的文件
+    ![git log](../../.vuepress/public/images/input/git-log.jpg)
+2. `git reset --hard [commit]`:重置当前分支的HEAD为指定commit,同时重置暂存区和工作区，与指定commit一致
+    ![git reset](../../.vuepress/public/images/input/git-reset.jpg)
+   **这个命令非常危险，会把当前磁盘上的所有变更删掉，所以在执行这个操作之前一定要`commit`提交代码，所有代码才能回来**  
+   `npm i`:确保依赖安装正确
+3. 之后继续在第一个`git log`生成的`commit`日志中赋值版本号重复第二步。**此时执行`git log`是不会有当前版本之后的代码的，所以commit提交代码之后的第一次`git log`很重要，只有依靠这个日志才能随意切换版本号**
+4. `git show [commit]`: 显示某次提交的元数据和内容变化
+    ![git show](../../.vuepress/public/images/input/git-show.jpg)
+5. `git reflog`:显示当前分支的最近几次提交(commit)
+    ![git reflog](../../.vuepress/public/images/input/git-reflog.jpg)
+
+这样我们就可以随意切换`git`版本，定位问题到底是在哪个版本出的问题，之后查看我们在出问题的版本到底写了哪些代码，然后根据代码定位所出现的问题。
