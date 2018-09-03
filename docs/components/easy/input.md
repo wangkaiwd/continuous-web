@@ -35,11 +35,44 @@ placeholder|输入框占位文本|string| 请输入内容
 <input v-model="text">
 ```
 `v-model`实际上是`Vue`为我们提供的一个语法糖，它的实现原理是通过： 
-* `value`特性动态绑定到变量上
+* 将`value`特性动态绑定到变量上
 * 通过`input`事件在`value`改变的时候进行重新赋值
-```js
 
+所以上面的`html`结构等价于
+```html
+<!--$event.target.value相当于原生的e.target.value-->
+<input 
+  :value="text"
+  :input="text=$event.target.value"  
+>
 ```
+用组件封装一下是这样：
+```js
+Vue.component('custom-input', {
+  props: ['value'],
+  template: `
+    <div class="wrapper-input" :class="{error}">
+      <!--input的value:控件的初始值，此属性是可选的-->
+      <input
+        :value="value"
+        @input="$emit('input',$event.target.value)"
+      >
+      <template v-if="error">
+        <global-icon class="input-icon" name="error"></global-icon>
+        <span class="error-message">{{error}}</span>
+      </template>
+    </div>
+  `
+})
+```
+```html
+<!--使用v-model指令-->
+<custom-input v-model="text"></custom-input>
+<!--不使用v-model指令-->
+<custom-input :value="text" @input="text=$event"></custom-input>
+```
+从上面可以看出，`v-model`只不过是`:value="text @input="text=$event"`的一个简写，也就是`Vue`
+为我们提供的一个简单的语法糖。之后，我们自己的组件就可以支持双向数据绑定了。
 
 **注意**：`v-model`会忽略所有表单元素的`value`,`checked`,`selected`特性的初始值，而
 总是**将`Vue`实例的数据作为数据来源**。应该通过`javascript`在组件中的`data`选项中声名
