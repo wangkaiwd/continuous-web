@@ -42,6 +42,7 @@
       },
       error: {
         type: String,
+        required: false
       },
       placeholder: {
         type: String,
