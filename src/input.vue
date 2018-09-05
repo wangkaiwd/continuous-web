@@ -3,7 +3,7 @@
     <!--input的value:控件的初始值，此属性是可选的-->
     <input
       :value="value"
-      type="text"
+      :type="type"
       :disabled="disabled"
       :readonly="readonly"
       @input="$emit('input',$event.target.value)"
@@ -47,6 +47,10 @@
       placeholder: {
         type: String,
         default: '请输入内容'
+      },
+      type: {
+        type: String,
+        default: 'text'
       }
     },
     components: {

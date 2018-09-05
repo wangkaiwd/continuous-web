@@ -79,9 +79,10 @@ Vue.component('custom-input', {
 初始值。
 
 ### 细节注意
-#### `git`版本回退
+#### 1. `git`版本回退
 1. `git log`: 显示commit历史，以及每次commit发生变更的文件
-    ![git log](../../.vuepress/public/images/input/git-log.jpg)
+    ![git log](../../.vuepress/public/images/input/git-log.png)
+    ![commit-history](../../.vuepress/public/images/input/commit-history.png)
 2. `git reset --hard [commit]`:重置当前分支的HEAD为指定commit,同时重置暂存区和工作区，与指定commit一致
     ![git reset](../../.vuepress/public/images/input/git-reset.jpg)
    **这个命令非常危险，会把当前磁盘上的所有变更删掉，所以在执行这个操作之前一定要`commit`提交代码，所有代码才能回来**  
@@ -93,3 +94,9 @@ Vue.component('custom-input', {
     ![git reflog](../../.vuepress/public/images/input/git-reflog.jpg)
 
 这样我们就可以随意切换`git`版本，定位问题到底是在哪个版本出的问题，之后查看我们在出问题的版本到底写了哪些代码，然后根据代码定位所出现的问题。
+
+#### 2. `chrome`调试工具中`css`的`computed`功能
+有时候在浏览器中，一个元素的某个`css`属性并不能在样式中找到，这个时候我们可以通过浏览器的`computed`功能来对一个`html`元素的最终计算出来的`css`属性进行搜索，
+这样就可以很直观的看到一个元素的某个对应属性的对应值的最终大小
+
+![css-computed](../../.vuepress/public/images/input/css-computed.png)
