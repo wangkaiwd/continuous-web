@@ -20,7 +20,21 @@ placeholder|输入框占位文本|string| 请输入内容
 2. 支持双向数据绑定(`input`事件)
 
 ## 知识总结
-### css
+### html
+#### 添加`disabled`属性
+```html
+<g-input value="禁用" disabled></g-input>
+<g-input value="只读" readonly></g-input>
+```
+这样写实际上相当于:
+```html
+<!--错误写法-->
+<g-input value="禁用" disabled></g-input>
+<g-input value="只读" readonly></g-input>
+<!--正确写法-->
+<g-input value="禁用" :disabled="true"></g-input>
+<g-input value="只读" :readonly="true"></g-input>
+```
 ### Vue
 #### 1. 让自己的`input`组件支持双向数据绑定
 > 官网教程：
