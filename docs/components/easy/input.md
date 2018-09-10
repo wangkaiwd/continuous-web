@@ -29,8 +29,8 @@ placeholder|输入框占位文本|string| 请输入内容
 这样写实际上相当于:
 ```html
 <!--错误写法-->
-<g-input value="禁用" disabled></g-input>
-<g-input value="只读" readonly></g-input>
+<g-input value="禁用" disabled="true"></g-input>
+<g-input value="只读" readonly="true"></g-input>
 <!--正确写法-->
 <g-input value="禁用" :disabled="true"></g-input>
 <g-input value="只读" :readonly="true"></g-input>

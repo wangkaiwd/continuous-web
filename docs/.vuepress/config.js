@@ -3,8 +3,12 @@
  */
 module.exports = {
   base: '/self_UI/',
-  title: 'Vue UI',
-  description: '简单 好用 的Vue UI 框架',
+  home: true,
+  title: '前端知识记录(wk)',
+  description: 'Enjoy what you are doing!',
+  head: [
+    ['link', { rel: 'icon', href: '/favicon.ico' }], // 增加一个自定义的 favicon(网页标签的图标)
+  ],
   themeConfig: {
     sidebar: [
       {
@@ -20,7 +24,10 @@ module.exports = {
         title: '复杂组件',
         children: []
       },
-    ],// 自动生成侧边栏
+    ],
+    nav: [
+
+    ],
     // activeHeaderLinks: false,
     repo: 'https://github.com/wangkaiwd/self_UI', // github地址
     docsBranch: 'master', // 项目分支
