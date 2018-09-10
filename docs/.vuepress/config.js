@@ -7,7 +7,7 @@ module.exports = {
   title: '前端知识记录(wk)',
   description: 'Enjoy what you are doing!',
   head: [
-    ['link', { rel: 'icon', href: '/favicon.ico' }], // 增加一个自定义的 favicon(网页标签的图标)
+    ['link', {rel: 'icon', href: '/favicon.ico'}], // 增加一个自定义的 favicon(网页标签的图标)
   ],
   themeConfig: {
     sidebar: [
@@ -26,7 +26,9 @@ module.exports = {
       },
     ],
     nav: [
-
+      {text: 'Vue组件库', link: '/components/'},
+      {text: '积累', link: '/front_end_record'},
+      {text: 'Node', link: '/node_relevant'}
     ],
     // activeHeaderLinks: false,
     repo: 'https://github.com/wangkaiwd/self_UI', // github地址
