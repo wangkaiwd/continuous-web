@@ -2,7 +2,7 @@
 home: true
 heroImage: /logo.png
 actionText: 开始阅读 →
-actionLink: /zh/guide/
+actionLink: /components/
 features:
 - title: 积累
   details: 在前端学习中关于html,css和js的相关小技巧，记录容易出错和忘记的知识点以及工作中的小技巧。

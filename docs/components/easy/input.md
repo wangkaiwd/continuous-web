@@ -12,6 +12,7 @@
 value|输入框绑定值|string| _
 disabled|是否禁用| boolean| false
 readonly|是否只读| boolean| false
+type| 表单类型 | string | text
 err | 错误提示信息| string | _
 placeholder|输入框占位文本|string| 请输入内容
 
