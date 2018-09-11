@@ -42,7 +42,7 @@ iconPosition|设置按钮图标的位置|string| left
   <my-demo></my-demo>
   {{msg}}
 </div>
-<script src="./src/app.js"></script>
+<script src="./src/app.vue"></script>
 ```
 ```js
 import Vue from 'vue'

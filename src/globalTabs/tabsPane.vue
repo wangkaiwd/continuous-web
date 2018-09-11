@@ -25,7 +25,7 @@
   }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
   .tabs-pane {
     padding: 1.5em 1.5em;
     min-height: 100px;;
