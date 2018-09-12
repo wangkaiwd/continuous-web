@@ -43,34 +43,38 @@
   @import '../var';
 
   .cascader-child {
-    /*border: 2px solid red;*/
     display: inline-flex;
     position: absolute;
     top: 100%;
     left: 0;
     height: 200px;
     background-color: #fff;
+    @extend .box-shadow;
     .left {
       padding: .3em 0;
       &:not(:last-child) {
-        /*border-right: 1px solid #ccc;*/
+        border-right: 1px solid $border-color-light;
       }
       p {
         padding: .3em 1em;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        cursor: pointer;
+        &:hover {
+          background-color: red;
+        }
       }
     }
     .right-icon {
-      margin-left: 12px;
+      margin-left: 1em;
       color: rgba(0, 0, 0, .45);
       font-size: 14px;
     }
     .cascader-child {
       position: relative;
       top: 0;
-      /*border: 1px solid blue;*/
+      box-shadow: none;
     }
   }
 </style>

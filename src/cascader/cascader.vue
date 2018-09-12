@@ -40,8 +40,5 @@
       height: $button-height;
       border: 1px solid red;
     }
-    .popover {
-      @extend .box-shadow;
-    }
   }
 </style>
