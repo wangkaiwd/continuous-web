@@ -89,5 +89,9 @@
   }
 </script>
 <style lang="scss" scoped>
-
+  .index {
+    width: 400px;
+    background-color: rgba(255, 255, 255, .4);
+    margin: 40px auto;
+  }
 </style>

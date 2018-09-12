@@ -5,6 +5,7 @@
          :key="index"
          @click="selected=item">
         {{item.name}}
+        <g-icon v-if="item.children" class="right-icon" name="right-thin"></g-icon>
       </p>
     </div>
     <div class="right" v-if="rightItem">
@@ -39,19 +40,37 @@
 </script>
 
 <style lang="scss" scoped>
+  @import '../var';
+
   .cascader-child {
-    border: 2px solid red;
+    /*border: 2px solid red;*/
     display: inline-flex;
     position: absolute;
     top: 100%;
     left: 0;
     height: 200px;
     background-color: #fff;
-    .left {width: 80px;}
+    .left {
+      padding: .3em 0;
+      &:not(:last-child) {
+        /*border-right: 1px solid #ccc;*/
+      }
+      p {
+        padding: .3em 1em;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+    .right-icon {
+      margin-left: 12px;
+      color: rgba(0, 0, 0, .45);
+      font-size: 14px;
+    }
     .cascader-child {
       position: relative;
       top: 0;
-      border: 1px solid blue;
+      /*border: 1px solid blue;*/
     }
   }
 </style>

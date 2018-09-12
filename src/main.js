@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import App from './app.vue'
+
+import 'style/reset.scss'
+
 // Button组件
 import Button from './button.vue'
 import ButtonGroup from './button-group'

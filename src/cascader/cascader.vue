@@ -4,10 +4,11 @@
       <!--<slot></slot>-->
       click
     </div>
-    <cascader-child :optionsItem="options" v-if="visible"></cascader-child>
+    <div class="popover">
+      <cascader-child :optionsItem="options" v-if="visible"></cascader-child>
+    </div>
   </div>
 </template>
-
 <script>
   import CascaderChild from './cascaderChild'
 
@@ -38,6 +39,9 @@
       width: 100px;
       height: $button-height;
       border: 1px solid red;
+    }
+    .popover {
+      @extend .box-shadow;
     }
   }
 </style>
