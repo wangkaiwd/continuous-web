@@ -26,7 +26,8 @@
     name: 'GlobalCol',
     props: {
       span: {
-        type: [String, Number]
+        type: [String, Number],
+        default: '24'
       },
       offset: {
         type: [String, Number]
@@ -82,6 +83,7 @@
 </script>
 <style lang="scss" scoped>
   .global-col {
+    min-height: 40px;
     /*通过scss循环生成所有情况，根据传的参数添加对应的类名*/
     /*默认是phone移动端*/
     @for $n from 1 through 24 {
