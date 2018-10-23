@@ -1,13 +1,9 @@
 <template>
-  <button
-    class="g-button"
-    @click="$emit('click')"
-  >
-    <g-icon
-      v-if="icon && !loading"
-      :class="`icon-${iconPosition}`"
-      :name="icon"
-    >
+  <button class="g-button"
+          @click="$emit('click')">
+    <g-icon v-if="icon && !loading"
+            :class="`icon-${iconPosition}`"
+            :name="icon">
     </g-icon>
     <g-icon
       v-if="loading"
@@ -20,7 +16,7 @@
 </template>
 
 <script>
-  import Icon from './icon';
+  import Icon from './icon'
 
   export default {
     name: 'GlobalButton',
@@ -38,14 +34,14 @@
         default: 'left',
         // 自定义验证函数，return true通过校验，return false不通过校验
         validator (value) {
-          return value === 'left' || value === 'right';
+          return value === 'left' || value === 'right'
         }
       }
     },
     components: {
       'g-icon': Icon,
     }
-  };
+  }
 </script>
 
 <style lang="scss" scoped>

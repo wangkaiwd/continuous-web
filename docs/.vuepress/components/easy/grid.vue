@@ -2,29 +2,69 @@
   <div class="grid">
     <g-row class="row">
       <h4>基础栅格</h4>
-      <g-col class="col">1</g-col>
-      <g-col class="col" span="14">2</g-col>
-      <g-col class="col-right" span="10">3</g-col>
-      <g-col class="col" span="12">4</g-col>
-      <g-col class="col-right" span="12">5</g-col>
+      <g-col>
+        <div class="col">1</div>
+      </g-col>
+      <g-col span="14">
+        <div class="col">2</div>
+      </g-col>
+      <g-col span="10">
+        <div class="col-right">3</div>
+      </g-col>
+      <g-col span="12">
+        <div class="col">4</div>
+      </g-col>
+      <g-col span="12">
+        <div class="col-right">5</div>
+      </g-col>
     </g-row>
     <g-row class="row" gutter="12">
-      <h4>区块间隔</h4>
-      <g-col class="col">1</g-col>
-      <g-col class="col" span="3">2</g-col>
-      <g-col class="col-right" span="4">3</g-col>
-      <g-col class="col" span="5">4</g-col>
-      <g-col class="col-right" span="6">5</g-col>
-      <g-col class="col" span="6">6</g-col>
+      <h2>区块间隔</h2>
+      <g-col>
+        <div class="col">
+          1
+        </div>
+      </g-col>
+      <g-col span="3">
+        <div class="col">2</div>
+      </g-col>
+      <g-col span="5">
+        <div class="col">3</div>
+      </g-col>
+      <g-col span="6">
+        <div class="col-right">4</div>
+      </g-col>
+      <g-col span="6">
+        <div class="col">5</div>
+      </g-col>
+      <g-col span="4">
+        <div class="col">6</div>
+      </g-col>
     </g-row>
     <g-row class="row">
       <h4>左右偏移</h4>
-      <g-col class="col">1</g-col>
-      <g-col class="col" span="6">2</g-col>
-      <g-col class="col-right" span="4" offset="4">3</g-col>
-      <g-col class="col" span="5" offset="2">4</g-col>
-      <g-col class="col-right" span="6" offset="2">5</g-col>
-      <g-col class="col" span="6" offset="6">6</g-col>
+      <g-col>
+        <div class="col">1</div>
+      </g-col>
+      <g-col span="6">
+        <div class="col">2</div>
+      </g-col>
+      <g-col span="4" offset="4">
+        <div class="col-right">
+          3
+        </div>
+      </g-col>
+      <g-col span="5" offset="2">
+        <div class="col">4</div>
+      </g-col>
+      <g-col span="6" offset="2">
+        <div class="col-right">
+          5
+        </div>
+      </g-col>
+      <g-col span="6" offset="6">
+        <div class="col">6</div>
+      </g-col>
     </g-row>
   </div>
 </template>
