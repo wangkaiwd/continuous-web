@@ -5,7 +5,11 @@
         <div v-if="enableHTML" class="message" v-html="message"></div>
         <div v-else class="message">{{message}}</div>
       </div>
-      <span class="close-button" @click="onClickclose" v-if="closeButton">{{closeButton.text}}</span>
+      <span class="close-button"
+            @click="onClickClose"
+            v-if="closeButton">
+        {{closeButton.text}}
+      </span>
     </div>
   </div>
 </template>
@@ -52,10 +56,10 @@
         //完全销毁一个实例。清理它与其它实例的连接，解绑它的全部指令和事件监听器
         this.$destroy()
       },
-      onClickclose () {
-        if (this.closeButton && typeof this.closeButton.onCancel === 'function') {
-          this.closeButton.onCancel.call(this)
-          this.close()
+      onClickClose () {
+        this.close()
+        if (this.closeButton && (typeof this.closeButton.onCancel === 'function')) {
+          this.closeButton.onCancel(this)
         }
       },
     }
@@ -63,7 +67,8 @@
 </script>
 
 <style lang="scss" scoped>
-  .global-toast {position: fixed;left: 50%;transform: translateX(-50%);
+  .global-toast {
+    position: fixed;left: 50%;transform: translateX(-50%);
     @keyframes slide-up {
       0% {opacity: 0;transform: translateY(100%);}
       100% {opacity: 1;}
@@ -76,13 +81,13 @@
       0% {opacity: 0;}
       100% {opacity: 1;}
     }
-    &.position-top {top: 0;
+    &.position-top {top: 20px;
       .animation-wrapper {animation: slide-down .3s}
     }
     &.position-middle {top: 50%;transform: translate(-50%, -50%);
       .animation-wrapper {animation: fade-in .3s}
     }
-    &.position-bottom {bottom: 0;
+    &.position-bottom {bottom: 20px;
       .animation-wrapper {animation: slide-up .3s}
     }
     .animation-wrapper {display: flex;color: #fff;background: rgba(0, 0, 0, 0.74);
