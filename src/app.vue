@@ -1,15 +1,28 @@
 <template>
   <div class="component-wrapper">
-    <g-slide></g-slide>
+    <!--要把轮播的每一项也设置为子组件，否则要进行dom操作了-->
+    <g-slide>
+      <g-slide-item>
+        <div class="box">1</div>
+      </g-slide-item>
+      <g-slide-item>
+        <div class="box">2</div>
+      </g-slide-item>
+      <g-slide-item>
+        <div class="box">3</div>
+      </g-slide-item>
+    </g-slide>
   </div>
 </template>
 <script>
   import GSlide from './slide/slide'
+  import GSlideItem from './slide/slideItem'
 
   export default {
     name: 'App',
-    components: {GSlide},
+    components: {GSlide, GSlideItem},
     data () {
+      return {}
     },
     mounted () {
     },
@@ -17,17 +30,12 @@
   }
 </script>
 <style lang="scss" scoped>
-  .col,
-  .col-right {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 60px;
-    margin-top: 10px;
-    background-color: rgba(0, 160, 233, 0.7);
-  }
-
-  .col-right {
-    background-color: rgba(0, 0, 0, .1);
+  .component-wrapper {
+    .box {
+      width: 200px;
+      height: 200px;
+      background-color: #ddd;
+      border: 1px solid red;
+    }
   }
 </style>
