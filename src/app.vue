@@ -1,7 +1,7 @@
 <template>
   <div class="component-wrapper">
     <!--要把轮播的每一项也设置为子组件，否则要进行dom操作了-->
-    <g-slide :select="select">
+    <g-slide>
       <g-slide-item name="1">
         <div class="box">1</div>
       </g-slide-item>
@@ -27,12 +27,12 @@
       }
     },
     mounted () {
-      let n = 1
-      setInterval(() => {
-        n++
-        if (n > 3) { n = 1}
-        this.select = n.toString()
-      }, 1000)
+      // let n = 1
+      // setInterval(() => {
+      //   n++
+      //   if (n > 3) { n = 1}
+      //   this.select = n.toString()
+      // }, 1000)
     },
     methods: {}
   }

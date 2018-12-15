@@ -12,6 +12,10 @@
     props: {
       select: {
         type: String,
+      },
+      autoPlay: {
+        type: Boolean,
+        default: true
       }
     },
     data () {
@@ -19,12 +23,26 @@
     },
     mounted () {
       this.updateChild()
+      if (this.autoPlay) {
+        this.playAutomatically()
+      }
     },
     methods: {
       updateChild () {
         const child = this.$children
         const select = this.select || child[0].name
-        child.map(vm => vm.select = this.select)
+        child.map(vm => vm.select = select)
+      },
+      playAutomatically () {
+        const names = this.$children.map(vm => vm.name)
+        let index = names.indexOf(this.select) === -1 ? 0 : names.indexOf(this.select)
+        setInterval(() => {
+          index++
+          if (index > names.length - 1) {
+            index = 0
+          }
+          this.$children.map(vm => vm.select = names[index])
+        }, 1000)
       }
     },
     // 由于数据更改导致的虚拟dom重新渲染和打补丁，在这之后会调用该钩子
