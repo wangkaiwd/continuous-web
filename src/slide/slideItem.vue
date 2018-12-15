@@ -38,8 +38,12 @@
 </script>
 
 <style lang="scss" scoped>
+  .slide-item {
+    width: 100%;
+  }
+
   .slide-enter {
-    transform: translateX(100%);
+    transform: translateX(100%) scale(0.5);
   }
 
   /*
@@ -47,30 +51,43 @@
     在过渡/动画完成之后移除
   */
   .slide-leave-to {
+    transform: translateX(-100%) scale(0.5);
+  }
+
+  /*
+    在整个离开过程中设置position: absolute
+    之前自己是将这段代码放到了slide-leave-to中，导致动画会有一个闪动效果
+  */
+  .slide-leave-active {
     position: absolute;
     top: 0;
     left: 0;
-    transform: translateX(-100%);
+    transition: all 1s;
   }
 
-  .slide-enter-active,
-  .slide-leave-active {
+  .slide-enter-active {
     transition: all 1s;
   }
 
   .slide-back-enter {
-    transform: translateX(-100%);
+    transform: translateX(-100%) scale(0.5);
   }
 
   .slide-back-leave-to {
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    transform: translateX(100%) scale(0.5);
+  }
+
+  .slide-back-leave-active {
     position: absolute;
     top: 0;
     left: 0;
-    transform: translateX(100%);
+    transition: all 1s;
   }
 
-  .slide-back-enter-active,
-  .slide-back-leave-active {
+  .slide-back-enter-active {
     transition: all 1s;
   }
 </style>

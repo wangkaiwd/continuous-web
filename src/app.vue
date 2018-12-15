@@ -33,11 +33,19 @@
 </script>
 <style lang="scss" scoped>
   .component-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     .box {
-      width: 200px;
-      height: 200px;
+      width: 100%;
+      height: 400px;
       background-color: #ddd;
-      border: 1px solid red;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      color: red;
+      font-weight: bold;
     }
   }
 </style>

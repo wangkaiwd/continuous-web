@@ -65,10 +65,10 @@
         // 原因：使用setInterval如果忘记clear的话，会导致内存不断扩大
         //      setTimeout: 可以自动停止
         const run = () => {
-          // index++
-          // if (index > names.length - 1) {index = 0}
-          index--
-          if (index < 0) { index = names.length - 1}
+          index++
+          if (index > names.length - 1) {index = 0}
+          // index--
+          // if (index < 0) { index = names.length - 1}
           // 当select不传递的时候，这段代码并不会执行
           this.$emit('update:select', names[index])
           setTimeout(run, 1000)
@@ -87,9 +87,14 @@
 
 <style lang="scss" scoped>
   .slide {
+    margin-top: 40px;
     display: inline-block;
+    width: 100%;
     &-window {
+      position: relative;
+      overflow: hidden;
       display: flex;
+      width: 100%;
     }
   }
 </style>
