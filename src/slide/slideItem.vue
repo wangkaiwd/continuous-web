@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide">
+  <transition :name="transitionName">
     <div class="slide-item" v-if="visible">
       <slot></slot>
     </div>
@@ -16,12 +16,20 @@
     },
     data () {
       return {
-        select: '' // 这个参数加在这里的目的是什么？
+        select: '', // 这个参数加在这里的目的是什么？这个参数没有其实也可以，但是加上之后逻辑会变得更简单
+        reverse: false // 用来判断是否要反向动画
       }
     },
     computed: {
       visible () {
         return this.select === this.name
+      },
+      // 语法复习：逻辑与(&&)，expr1 && expr2 如果expr1能转换为false则返回expr1,否则返回 expr2
+      // `slide${this.reverse && '-back'}`:
+      //  this.reverse = false => 'slidefalse'
+      //  this.reverse = true => 'slide-back'
+      transitionName () {
+        return `slide${this.reverse ? '' : '-back'}`
       }
     }
   }
@@ -47,6 +55,22 @@
 
   .slide-enter-active,
   .slide-leave-active {
+    transition: all 1s;
+  }
+
+  .slide-back-enter {
+    transform: translateX(-100%);
+  }
+
+  .slide-back-leave-to {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateX(100%);
+  }
+
+  .slide-back-enter-active,
+  .slide-back-leave-active {
     transition: all 1s;
   }
 </style>

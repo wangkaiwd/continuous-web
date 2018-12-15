@@ -22,27 +22,58 @@
       return {}
     },
     mounted () {
+      this.getNames()
       this.updateChild()
       if (this.autoPlay) {
         this.playAutomatically()
       }
     },
     methods: {
-      updateChild () {
+      // 代码优化技巧：由于这俩行代码在比较多的地方用到，可以通过一个方法来进行处理
+      getSelect () {
         const child = this.$children
-        const select = this.select || child[0].name
-        child.map(vm => vm.select = select)
+        return this.select || child[0].name
+      },
+      getNames () {
+        this.names = this.$children.map(vm => vm.name)
+      },
+      updateChild () {
+        const {names} = this
+        const select = this.getSelect()
+        this.$children.map(vm => {
+          const newIndex = names.indexOf(vm.name)
+          const oldIndex = names.indexOf(this.getSelect())
+          vm.select = select
+          vm.reverse = newIndex < oldIndex
+        })
       },
       playAutomatically () {
-        const names = this.$children.map(vm => vm.name)
-        let index = names.indexOf(this.select) === -1 ? 0 : names.indexOf(this.select)
-        setInterval(() => {
-          index++
-          if (index > names.length - 1) {
-            index = 0
-          }
-          this.$children.map(vm => vm.select = names[index])
-        }, 1000)
+        const {names} = this
+        let index = names.indexOf(this.getSelect())
+        // setInterval(() => {
+        //   index++
+        //   if (index > names.length - 1) {
+        //     index = 0
+        //   }
+        //   // 这里应该更新父组件的select
+        //   this.$emit('update:select', names[index])
+        //   // 不更新父组件的select，可能会出现问题，而这种简写在react中并不支持
+        //   // this.$children.map(vm => vm.select = names[index])
+        // }, 1000)
+
+        // 使用setTimeout来模拟setInterval
+        // 原因：使用setInterval如果忘记clear的话，会导致内存不断扩大
+        //      setTimeout: 可以自动停止
+        const run = () => {
+          // index++
+          // if (index > names.length - 1) {index = 0}
+          index--
+          if (index < 0) { index = names.length - 1}
+          // 当select不传递的时候，这段代码并不会执行
+          this.$emit('update:select', names[index])
+          setTimeout(run, 1000)
+        }
+        setTimeout(run, 1000)
       }
     },
     // 由于数据更改导致的虚拟dom重新渲染和打补丁，在这之后会调用该钩子
