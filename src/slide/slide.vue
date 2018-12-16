@@ -1,6 +1,10 @@
 <template>
   <div class="slide">
-    <div class="slide-window">
+    <div
+      class="slide-window"
+      @mouseover="pause"
+      @mouseleave="playAutomatically"
+    >
       <slot></slot>
       <div class="controls">
         <ul>
@@ -34,7 +38,8 @@
     data () {
       return {
         names: [],
-        lastSelect: ''
+        lastSelect: '',
+        timerId: null
       }
     },
     computed: {},
@@ -63,11 +68,22 @@
           // 还有一个反向动画：在更新reverse时，并没有在挂载在dom上之后再进行动画
           // 而进行动画的时间是从visible进行切换的时候开始的
           vm.reverse = newIndex < oldIndex
+          // 分析：3-1:无缝应该是正向
+          //      0-3:无缝应该是反向
+          if (newIndex === 0 && oldIndex === names.length - 1) {
+            vm.reverse = false
+          }
+          if (newIndex === 3 && oldIndex === 0) {
+            vm.reverse = true
+          }
           // 确保reverse在更新到DOM上之后再进行动画
           this.$nextTick(() => vm.select = select)
         })
       },
       playAutomatically () {
+        // 如果有timerId的话，不执行动画(防止动画的重复执行)
+        // 会重复执行的情况：当你的鼠标一直停在轮播图上的时候进行页面刷新，那在鼠标移除的时候就会立即执行这个函数
+        if (this.timerId) return
         const {names} = this
         let index = names.indexOf(this.getSelect())
         // setInterval(() => {
@@ -91,9 +107,9 @@
           // if (index < 0) { index = names.length - 1}
           // 当select不传递的时候，这段代码并不会执行
           this.updatedSelect(index)
-          setTimeout(run, 1000)
+          this.timerId = setTimeout(run, 1500)
         }
-        setTimeout(run, 1000)
+        this.timerId = setTimeout(run, 1500)
       },
       // 通过方法来简化模板
       controlActive (n) {
@@ -113,13 +129,17 @@
         this.lastSelect = this.select
         this.$emit('update:select', this.names[index])
       },
+      pause () {
+        clearTimeout(this.timerId)
+        this.timerId = null
+      }
     },
     // 由于数据更改导致的虚拟dom重新渲染和打补丁，在这之后会调用该钩子
     // 当这个钩字被调用时，组件dom已经更新，所以你先可以执行依赖于DOM的操作
     // 注意：在组件首次加载的时候，这个钩子函数并不会执行
     updated () {
       this.updateChild()
-    }
+    },
   }
 </script>
 

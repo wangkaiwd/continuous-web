@@ -1,7 +1,7 @@
 <template>
   <div class="component-wrapper">
     <!--要把轮播的每一项也设置为子组件，否则要进行dom操作了-->
-    <g-slide :select.sync="select" :auto-play="false">
+    <g-slide :select.sync="select">
       <g-slide-item name="1">
         <div class="box">1</div>
       </g-slide-item>

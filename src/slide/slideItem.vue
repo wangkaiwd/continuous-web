@@ -29,7 +29,7 @@
       //  this.reverse = false => 'slidefalse'
       //  this.reverse = true => 'slide-back'
       transitionName () {
-        return `slide${this.reverse ? '' : '-back'}`
+        return `slide${this.reverse ? '-back' : ''}`
       }
     }
   }
