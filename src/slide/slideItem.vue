@@ -62,11 +62,6 @@
     position: absolute;
     top: 0;
     left: 0;
-    transition: all 1s;
-  }
-
-  .slide-enter-active {
-    transition: all 1s;
   }
 
   .slide-back-enter {
@@ -84,9 +79,11 @@
     position: absolute;
     top: 0;
     left: 0;
-    transition: all 1s;
   }
 
+  .slide-enter-active,
+  .slide-leave-active,
+  .slide-back-leave-active,
   .slide-back-enter-active {
     transition: all 1s;
   }

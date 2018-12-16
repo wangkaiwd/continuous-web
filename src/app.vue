@@ -1,7 +1,7 @@
 <template>
   <div class="component-wrapper">
     <!--要把轮播的每一项也设置为子组件，否则要进行dom操作了-->
-    <g-slide :select.sync="select">
+    <g-slide :select.sync="select" :auto-play="false">
       <g-slide-item name="1">
         <div class="box">1</div>
       </g-slide-item>
@@ -33,9 +33,7 @@
 </script>
 <style lang="scss" scoped>
   .component-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin: 40px;
     .box {
       width: 100%;
       height: 400px;
@@ -43,7 +41,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 60px;
+      font-size: 100px;
       color: red;
       font-weight: bold;
     }
