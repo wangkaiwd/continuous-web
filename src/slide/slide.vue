@@ -10,6 +10,7 @@
     >
       <slot></slot>
       <div class="controls">
+        <g-icon name="left" @click="back"></g-icon>
         <ul>
           <!--注意：当v-for遍历一个数字的时候，这里的n是从1开始，所以在取名的时候不要用index-->
           <li
@@ -21,12 +22,15 @@
             {{index}}
           </li>
         </ul>
+        <g-icon name="right" @click="forward"></g-icon>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import GIcon from '../icon'
+
   export default {
     name: 'GSlide',
     props: {
@@ -38,6 +42,7 @@
         default: true
       }
     },
+    components: {GIcon},
     data () {
       return {
         names: [],
@@ -58,9 +63,7 @@
     mounted () {
       this.getNames()
       this.updateChild()
-      if (this.autoPlay) {
-        this.playAutomatically()
-      }
+      this.playAutomatically()
     },
     methods: {
       // 代码优化技巧：由于这俩行代码在比较多的地方用到，可以通过一个方法来进行处理
@@ -69,7 +72,8 @@
         return this.select || child[0].name
       },
       getNames () {
-        this.names = this.$children.map(vm => vm.name)
+        this.names = this.$children.filter(vm => vm.$options.name === 'GSlideItem')
+          .map(vm => vm.name)
       },
       updateChild () {
         const {names} = this
@@ -88,7 +92,9 @@
           // 如果是用户手动点击：3-1是反向
           // 而当用户点击的时候，就一定会触发onmouseover事件
 
-          // 这里其实是有3个状态：1. 点击下方小点 2. 自动轮播 3. 移动端滑屏
+          // 这里其实是有4个状态：1. 点击下方小点 2. 自动轮播 3. 移动端滑屏 4. 点击左右箭头
+          // 1. 点击小点时需要进行正常的前进和后退动画
+          // 2. 2,3,4是需要进行无缝轮播动画
           if (this.timerId) {
             if (newIndex === 0 && oldIndex === names.length - 1) {vm.reverse = false}
             if (newIndex === names.length - 1 && oldIndex === 0) {vm.reverse = true}
@@ -98,6 +104,7 @@
         })
       },
       playAutomatically () {
+        if (!this.autoPlay) return
         // 如果有timerId的话，不执行动画(防止动画的重复执行)
         // 会重复执行的情况：当你的鼠标一直停在轮播图上的时候进行页面刷新，那在鼠标移除的时候就会立即执行这个函数
         if (this.timerId) return
@@ -163,7 +170,12 @@
         this.playAutomatically()
       },
       onTouchMove (e) {
-        // console.log('move', e)
+      },
+      back () {
+        this.updatedSelect(this.selectIndex - 1)
+      },
+      forward () {
+        this.updatedSelect(this.selectIndex + 1)
       }
     },
     // 由于数据更改导致的虚拟dom重新渲染和打补丁，在这之后会调用该钩子
@@ -187,9 +199,17 @@
     }
     .controls {
       position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       left: 50%;
       transform: translateX(-50%);
       bottom: 1em;
+      /*
+      这里虽然设置了display:flex;但是ul还是能单独占据一行，不过宽度是由子元素进行撑开
+      display: flex;只是让容器中的子元素具有了伸缩性，而不能改变父元素的元素性质，
+      所以这里的ul还是块级元素
+      */
       ul {display: flex;}
       li {
         display: flex;align-items: center;justify-content: center;

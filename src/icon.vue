@@ -2,6 +2,7 @@
   <svg
     class="g-icon"
     aria-hidden="true"
+    @click="$emit('click')"
   >
     <use :xlink:href="`#i-${name}`"></use>
   </svg>
@@ -22,6 +23,7 @@
 
 <style lang="scss" scoped>
   .g-icon {
+    display: inline-flex;
     width: 1em;
     height: 1em;
     vertical-align: top;
