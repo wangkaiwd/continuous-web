@@ -1,6 +1,6 @@
 <template>
   <div class="component-wrapper">
-    <wd-pagination></wd-pagination>
+    <wd-pagination :total="100" :current.sync="current"></wd-pagination>
   </div>
 </template>
 <script>
@@ -10,7 +10,9 @@
     name: 'App',
     components: { WdPagination },
     data () {
-      return {};
+      return {
+        current: 2
+      };
     },
     mounted () {
     },
