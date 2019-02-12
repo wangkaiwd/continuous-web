@@ -63,25 +63,11 @@
       },
       numbers () {
         const { current, totalPage } = this;
-        const array = [];
-        for (let i = 1; i < 7; i++) {
-          array.push(i);
-        }
-        array.push(totalPage);
-        if (totalPage > 7) {
-          if (current > 5) {
-            array[current - 2] = current - 1;
-            array[current - 3] = current - 2;
-            array.splice(1, 0, '...');
-          }
-          if (current < totalPage - 3) {
-            // 第一个参数如果是负数，则表示从数组末位开始的第几位(从-1计数)
-            array[current] = current + 1;
-            array[current + 1] = current + 2;
-            array.splice(-1, 0, '...');
-          }
-        }
-        return array;
+        // [1,2,3,4,5,6,7]
+        const pages = [1, current - 2, current - 1, current, current + 1, current + 2, totalPage];
+        //  1.去重  2.去除小于0的内容
+        const newPages = pages.filter((page, i) => page >= 1 && i === pages.indexOf(page) && page <= totalPage);
+        return newPages;
       }
     },
     methods: {
