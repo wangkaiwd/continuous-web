@@ -5,14 +5,36 @@
     </div>
     <div class="numbers">
       <ul>
-        <li
+        <!--这里要根据不同的number和来区分...和数字-->
+        <!--这样写只能加类，不能根据不同的number来渲染不同的html-->
+        <!--<template
+          v-for="(number,i) in numbers"
+          :key="i"
+        >
+          <li v-if="number === '...'">
+            <g-icon name="ellipsis"></g-icon>
+          </li>
+          <li
+            :class="{active: number === current}"
+            @click="onClick(number)"
+          >
+            {{number}}
+          </li>
+        </template>-->
+        <!--<li
           v-for="(number,i) in numbers"
           :key="i"
           :class="{active: number === current}"
           @click="onClick(number)"
         >
           {{number}}
-        </li>
+        </li>-->
+        <!--<template
+          v-for="(number,i) in numbers"
+          :key="i"
+        >
+          &lt;!&ndash;<li>{{number}}</li>&ndash;&gt;
+        </template>-->
       </ul>
     </div>
     <div class="next" @click="onClick('next')" :class="{disabled: current >= totalPage}">
@@ -63,10 +85,24 @@
       },
       numbers () {
         const { current, totalPage } = this;
-        // [1,2,3,4,5,6,7]
-        const pages = [1, current - 2, current - 1, current, current + 1, current + 2, totalPage];
-        //  1.去重  2.去除小于0的内容
-        const newPages = pages.filter((page, i) => page >= 1 && i === pages.indexOf(page) && page <= totalPage);
+        let pages;
+        if (current < 5) {
+          pages = [1, 2, 3, 4, 5, 6, totalPage];
+        } else if (current > totalPage - 3) {
+          pages = [1, totalPage - 5, totalPage - 4, totalPage - 3, totalPage - 2, totalPage - 1, totalPage];
+        } else {
+          pages = [1, current - 2, current - 1, current, current + 1, current + 2, totalPage];
+        }
+        const newPages = pages
+        // 1.删除<1 2.去重 3.删除>totalPage
+          .filter((page, i) => page >= 1 && i === pages.indexOf(page) && page <= totalPage)
+          .reduce((prev, page, i, array) => {
+            prev.push(page);
+            if (array[i + 1] && array[i + 1] - page > 1) {
+              prev.push('...');
+            }
+            return prev;
+          }, []);
         return newPages;
       }
     },
