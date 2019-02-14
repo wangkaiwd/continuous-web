@@ -1,6 +1,6 @@
 <template>
   <div class="component-wrapper">
-    <wd-pagination :total="80" :current.sync="current"></wd-pagination>
+    <wd-pagination :total="600" :current.sync="current"></wd-pagination>
   </div>
 </template>
 <script>

@@ -7,34 +7,22 @@
       <ul>
         <!--这里要根据不同的number和来区分...和数字-->
         <!--这样写只能加类，不能根据不同的number来渲染不同的html-->
-        <!--<template
+        <!--key不能给template加-->
+        <template
           v-for="(number,i) in numbers"
-          :key="i"
         >
-          <li v-if="number === '...'">
+          <li v-if="number === '...'" class="ellipsis" :key="i">
             <g-icon name="ellipsis"></g-icon>
           </li>
           <li
+            v-else
             :class="{active: number === current}"
             @click="onClick(number)"
+            :key="i"
           >
             {{number}}
           </li>
-        </template>-->
-        <!--<li
-          v-for="(number,i) in numbers"
-          :key="i"
-          :class="{active: number === current}"
-          @click="onClick(number)"
-        >
-          {{number}}
-        </li>-->
-        <!--<template
-          v-for="(number,i) in numbers"
-          :key="i"
-        >
-          &lt;!&ndash;<li>{{number}}</li>&ndash;&gt;
-        </template>-->
+        </template>
       </ul>
     </div>
     <div class="next" @click="onClick('next')" :class="{disabled: current >= totalPage}">
@@ -137,6 +125,7 @@
     li,
     .prev,
     .next {
+      user-select: none;
       cursor: pointer;
       display: flex;
       justify-content: center;
@@ -160,6 +149,15 @@
       &:hover {
         border-color: #d9d9d9;
         color: rgba(0, 0, 0, 0.25);
+      }
+    }
+    .ellipsis {
+      border: 1px solid #d9d9d9;
+      color: rgba(0, 0, 0, .65);
+      &:hover {
+        cursor: default;
+        border: 1px solid #d9d9d9;
+        color: rgba(0, 0, 0, .65);
       }
     }
   }
