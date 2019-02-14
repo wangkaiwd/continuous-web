@@ -1,6 +1,6 @@
 <template>
   <div class="pagination">
-    <div class="prev" @click="onClick('prev')" :class="{disabled: current<=1}">
+    <div class="prev" @click="onClick(current-1)" :class="{disabled: current<=1}">
       <g-icon name="s-left"></g-icon>
     </div>
     <div class="numbers">
@@ -25,7 +25,7 @@
         </template>
       </ul>
     </div>
-    <div class="next" @click="onClick('next')" :class="{disabled: current >= totalPage}">
+    <div class="next" @click="onClick(current+1)" :class="{disabled: current >= totalPage}">
       <g-icon name="s-right"></g-icon>
     </div>
   </div>
@@ -34,7 +34,6 @@
 <script>
   import GIcon from '../icon';
 
-  const PAGE_LENGTH = 7;
   export default {
     props: {
       hideOnSinglePage: {
@@ -95,19 +94,10 @@
       }
     },
     methods: {
-      onClick (flag) {
-        const { current, totalPage } = this;
-        if (flag === 'prev') {
-          if (current <= 1) return;
-          this.$emit('update:current', current - 1);
-        }
-        if (flag === 'next') {
-          if (current >= totalPage) return;
-          this.$emit('update:current', current + 1);
-        }
-        if (typeof flag === 'number') {
-          this.$emit('update:current', flag);
-        }
+      onClick (current) {
+        if (current < 1) return;
+        if (current > this.totalPage) return;
+        this.$emit('update:current', current);
       }
     }
   };
