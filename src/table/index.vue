@@ -3,6 +3,7 @@
     <table>
       <thead>
       <tr>
+        <th><input type="checkbox"></th>
         <th v-for="col in columns" :key="col.key">
           {{col.title}}
         </th>
@@ -10,8 +11,9 @@
       </thead>
       <tbody>
       <tr v-for="data in dataSource" :key="data.key">
-        <td v-for="item in data">
-          {{item}}
+        <td><input type="checkbox"></td>
+        <td v-for="col in columns">
+          {{data[col.dataKey]}}
         </td>
       </tr>
       </tbody>
