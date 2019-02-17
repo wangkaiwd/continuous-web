@@ -11,7 +11,7 @@
       </thead>
       <tbody>
       <tr v-for="data in dataSource" :key="data.key">
-        <td><input type="checkbox"></td>
+        <td><input type="checkbox" @change="changeSelect"></td>
         <td v-for="col in columns">
           {{data[col.dataKey]}}
         </td>
@@ -41,6 +41,11 @@
         type: Boolean,
         default: false
       }
+    },
+    methods: {
+      changeSelect () {
+        this.$emit('change-select', 'change')
+      }
     }
   }
 </script>
@@ -67,6 +72,7 @@
     td, th {
       padding: 8px;
       border-bottom: 1px solid #e8e8e8;
+      line-height: 1.2;
     }
   }
 </style>

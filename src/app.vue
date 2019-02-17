@@ -7,16 +7,23 @@
       >
       </wd-table>
       <!--绑定style的时候，短横线(kebab-case)和驼峰(camelCase)命名都可以，但是html只支持短横线格式-->
+      <!--
+        组件：以.vue文件形式书写的话，驼峰命名和短横线格式都可以。以字符串模板书写只有短横线格式有效。
+              强烈推荐遵循W3C规范中的自定义组件名（字母全小写且必须包含一个连字符）
+        prop: HTML中的特性名是大小写不敏感的，所以浏览器会把所有大写字符解释为小写字符。
+        事件名：
+      -->
       <wd-table
         style="margin-top: 20px;"
         :data-source="dataSource"
         :columns="columns"
+        @change-select="onChangeSelect"
         bordered
       >
       </wd-table>
     </div>
     <div class="component-wrapper">
-      <wd-pagination :total="600" :current.sync="current"></wd-pagination>
+      <wdPagination :total="600" :current.sync="current"></wdPagination>
     </div>
   </div>
 </template>
@@ -58,7 +65,11 @@
     },
     mounted () {
     },
-    methods: {}
+    methods: {
+      onChangeSelect (data) {
+        console.log('data', data)
+      }
+    }
   }
 </script>
 <style lang="scss" scoped>
