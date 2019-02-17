@@ -1,6 +1,6 @@
 <template>
   <div class="wd-table">
-    <table>
+    <table :class="{bordered,stripe}">
       <thead>
       <tr>
         <th><input type="checkbox"></th>
@@ -32,6 +32,14 @@
       dataSource: {
         type: Array,
         default: []
+      },
+      stripe: {
+        type: Boolean,
+        default: true
+      },
+      bordered: {
+        type: Boolean,
+        default: false
       }
     }
   }
@@ -40,5 +48,25 @@
 <style lang="scss" scoped>
   .wd-table {
 
+    table {
+      width: 100%;
+      /*border: 1px solid red;*/
+    }
+    .bordered {
+      td, th {
+        border: 1px solid #e8e8e8;
+      }
+    }
+    .stripe {
+      tbody {
+        tr:nth-child(even) {
+          background-color: #FAFAFA;
+        }
+      }
+    }
+    td, th {
+      padding: 8px;
+      border-bottom: 1px solid #e8e8e8;
+    }
   }
 </style>
