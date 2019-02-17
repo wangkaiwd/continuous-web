@@ -15,8 +15,8 @@
   </div>
 </template>
 <script>
-  import GSlide from './slide/slide'
-  import GSlideItem from './slide/slideItem'
+  import GSlide from './slide/slide';
+  import GSlideItem from './slide/slideItem';
 
   export default {
     name: 'App',
@@ -24,16 +24,17 @@
     data () {
       return {
         select: '1'
-      }
+      };
     },
     mounted () {
     },
     methods: {}
-  }
+  };
 </script>
 <style lang="scss" scoped>
   .component-wrapper {
     margin: 40px;
+
     .box {
       width: 100%;
       height: 400px;
