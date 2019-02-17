@@ -11,17 +11,17 @@
         layoutClass: {
           'has-sider': false,
         }
-      }
+      };
     },
     mounted () {
-      console.log('children', this.$children)
+      console.log('children', this.$children);
       this.$children.forEach((vm) => {
         if (vm.$options.name === 'GlobalSider') {
-          this.layoutClass['has-sider'] = true
+          this.layoutClass['has-sider'] = true;
         }
-      })
+      });
     }
-  }
+  };
 </script>
 <style lang="scss" scoped>
   .global-layout {
