@@ -10,8 +10,8 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="data in dataSource" :key="data.key">
-        <td><input type="checkbox" @change="changeSelect"></td>
+      <tr v-for="(data,i) in dataSource" :key="data.key">
+        <td><input type="checkbox" @change="changeSelect($event,data,i)"></td>
         <td v-for="col in columns">
           {{data[col.dataKey]}}
         </td>
@@ -42,17 +42,28 @@
         default: false
       }
     },
+    data () {
+      return {
+        selectItem: []
+      };
+    },
     methods: {
-      changeSelect () {
-        this.$emit('change-select', 'change')
+      changeSelect (e, item, i) {
+        // 将所有选中项组成数组
+        // console.log(e.target.checked, item, i);
+        // if (e.target.checked) {
+        //   this.selectItem.push(item);
+        // } else {
+        //   this.selectItem.findIndex()
+        // }
+        this.$emit('change-select', { selected: e.target.checked, item, i });
       }
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
   .wd-table {
-
     table {
       width: 100%;
       /*border: 1px solid red;*/
