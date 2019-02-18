@@ -2,6 +2,8 @@
   <div>
     <div class="component-wrapper">
       <wd-checkbox></wd-checkbox>
+      <wd-checkbox></wd-checkbox>
+      <wd-checkbox></wd-checkbox>
     </div>
     <div class="component-wrapper">
       <wd-table
@@ -44,7 +46,7 @@
 
   export default {
     name: 'App',
-    components: { WdPagination, WdTable, WdCheckbox },
+    components: {WdPagination, WdTable, WdCheckbox},
     data () {
       return {
         current: 2,
@@ -61,17 +63,18 @@
           }
         ],
         dataSource: [
-          { key: 1, name: '小熊猫', score: 83 },
-          { key: 2, name: '小袋鼠', score: 90 },
-          { key: 3, name: '小松鼠', score: 100 },
-          { key: 4, name: '青蛙', score: 19 },
-          { key: 5, name: '雷神', score: 80 },
+          {key: 1, name: '小熊猫', score: 83},
+          {key: 2, name: '小袋鼠', score: 90},
+          {key: 3, name: '小松鼠', score: 100},
+          {key: 4, name: '青蛙', score: 19},
+          {key: 5, name: '雷神', score: 80},
           // {key: 6, name: '钢铁侠', score: 40},
           // {key: 7, name: '闪电侠', score: 10},
           // {key: 8, name: '蜗牛', score: 10},
           // {key: 9, name: '兔子', score: 92},
           // {key: 10, name: '花生米', score: 11},
-        ]
+        ],
+        selectItem: []
       };
     },
     mounted () {
@@ -79,6 +82,8 @@
     methods: {
       onChangeSelect (data) {
         console.log('data', data);
+        this.selectItem = data;
+        console.log(this.selectItem);
       }
     }
   };

@@ -50,13 +50,15 @@
     methods: {
       changeSelect (e, item, i) {
         // 将所有选中项组成数组
-        // console.log(e.target.checked, item, i);
-        // if (e.target.checked) {
-        //   this.selectItem.push(item);
-        // } else {
-        //   this.selectItem.findIndex()
-        // }
-        this.$emit('change-select', { selected: e.target.checked, item, i });
+        if (e.target.checked) {
+          this.selectItem.push(item);
+        } else {
+          // 当数组的内容是对象或其它复杂数据结构的时候，要将引用内容传来，才能得到正确的index
+          const index = this.selectItem.indexOf(item);
+          // this.selectItem = this.selectItem.filter((item, i) => i !== index);
+          this.selectItem.splice(index, 1);
+        }
+        this.$emit('change-select', this.selectItem);
       }
     }
   };
