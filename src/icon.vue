@@ -26,7 +26,7 @@
     display: inline-flex;
     width: 1em;
     height: 1em;
-    vertical-align: top;
+    /*vertical-align: top;*/
     fill: currentColor;
     overflow: hidden;
   }

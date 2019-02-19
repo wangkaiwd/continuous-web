@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="component-wrapper">
-      <wd-checkbox></wd-checkbox>
+      <wd-checkbox v-model="checkStatus" :disabled="true"></wd-checkbox>
+      <wd-checkbox v-model="checkStatus"></wd-checkbox>
+      <wd-checkbox v-model="checkStatus1"></wd-checkbox>
+      <wd-checkbox v-model="checkStatus" :disabled="true"></wd-checkbox>
     </div>
     <div class="component-wrapper">
       <wd-table
@@ -39,7 +42,7 @@
 </template>
 <script>
   import WdPagination from './pagination';
-  import WdCheckbox from './checkbox';
+  import WdCheckbox from './checkbox1';
   import WdTable from './table';
 
   export default {
@@ -47,6 +50,8 @@
     components: { WdPagination, WdTable, WdCheckbox },
     data () {
       return {
+        checkStatus: true,
+        checkStatus1: false,
         current: 2,
         columns: [
           {
@@ -96,7 +101,6 @@
       justify-content: center;
       font-size: 100px;
       color: red;
-      font-weight: bold;
     }
   }
 </style>
