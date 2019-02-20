@@ -1,12 +1,6 @@
 <template>
   <div>
     <div class="component-wrapper">
-      <wd-checkbox v-model="checkStatus" :disabled="true"></wd-checkbox>
-      <wd-checkbox v-model="checkStatus"></wd-checkbox>
-      <wd-checkbox v-model="checkStatus1"></wd-checkbox>
-      <wd-checkbox v-model="checkStatus" :disabled="true"></wd-checkbox>
-    </div>
-    <div class="component-wrapper">
       <wd-table
         :data-source="dataSource"
         :columns="columns"
@@ -66,11 +60,11 @@
           }
         ],
         dataSource: [
-          {key: 1, name: '小熊猫', score: 83},
-          {key: 2, name: '小袋鼠', score: 90},
-          {key: 3, name: '小松鼠', score: 100},
-          {key: 4, name: '青蛙', score: 19},
-          {key: 5, name: '雷神', score: 80},
+          { key: 1, name: '小熊猫', score: 83 },
+          { key: 2, name: '小袋鼠', score: 90 },
+          { key: 3, name: '小松鼠', score: 100 },
+          { key: 4, name: '青蛙', score: 19 },
+          { key: 5, name: '雷神', score: 80 },
           // {key: 6, name: '钢铁侠', score: 40},
           // {key: 7, name: '闪电侠', score: 10},
           // {key: 8, name: '蜗牛', score: 10},
@@ -104,6 +98,9 @@
       justify-content: center;
       font-size: 100px;
       color: red;
+    }
+    .space {
+      margin: 10px;
     }
   }
 </style>

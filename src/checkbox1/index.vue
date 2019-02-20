@@ -69,8 +69,10 @@
     display: inline-flex;
     .wk-checkbox-label {
       display: inline-flex;
-      width: 15px;
-      height: 15px;
+      justify-content: center;
+      align-items: center;
+      width: 14px;
+      height: 14px;
       border: 1px solid $blue;
       border-radius: 2px;
       &.disabled {
