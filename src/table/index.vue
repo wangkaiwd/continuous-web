@@ -3,7 +3,7 @@
     <table :class="{bordered,stripe}">
       <thead>
       <tr>
-        <th><input type="checkbox"></th>
+        <th><input type="checkbox" ref="allCheck"></th>
         <th v-for="col in columns" :key="col.key">
           {{col.title}}
         </th>
@@ -57,6 +57,12 @@
           const index = this.selectItem.indexOf(item);
           // this.selectItem = this.selectItem.filter((item, i) => i !== index);
           this.selectItem.splice(index, 1);
+        }
+        const selectLen = this.selectItem.length, allLen = this.dataSource.length;
+        if (selectLen > 0 && selectLen < allLen) {
+          this.$refs.allCheck.indeterminate = true;
+        } else {
+          this.$refs.allCheck.indeterminate = false;
         }
         this.$emit('change-select', this.selectItem);
       }
