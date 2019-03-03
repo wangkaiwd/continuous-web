@@ -18,7 +18,13 @@
       </thead>
       <tbody>
       <tr v-for="(data,i) in dataSource" :key="data.key">
-        <td><input type="checkbox" @change="changeSelect($event,data,i)"></td>
+        <td>
+          <input
+            type="checkbox"
+            @change="changeSelect($event,data,i)"
+            :checked="selectItem.findIndex(item => item.key === data.key) > -1"
+          >
+        </td>
         <td v-for="col in columns">
           {{data[col.dataKey]}}
         </td>
@@ -34,11 +40,11 @@
     props: {
       columns: {
         type: Array,
-        default: []
+        default: () => []
       },
       dataSource: {
         type: Array,
-        default: []
+        default: () => []
       },
       stripe: {
         type: Boolean,
@@ -64,11 +70,11 @@
           copy.push(item);
         } else {
           // 当数组的内容是对象或其它复杂数据结构的时候，要将引用内容传来，才能得到正确的index
-          const index = copy.indexOf(item);
+          const index = copy.findIndex(one => one.key === item.key);
           // this.selectItem = this.selectItem.filter((item, i) => i !== index);
           copy.splice(index, 1);
         }
-        const selectLen = this.selectItem.length, allLen = this.dataSource.length;
+        const selectLen = copy.length, allLen = this.dataSource.length;
         this.$refs.allCheck.indeterminate = (selectLen > 0 && selectLen < allLen) ? true : false;
         // if (selectLen > 0 && selectLen < allLen) {
         //   this.$refs.allCheck.indeterminate = true;
