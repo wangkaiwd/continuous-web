@@ -24,7 +24,7 @@
         style="margin-top: 20px;"
         :data-source="dataSource"
         :columns="columns"
-        @change-select="onChangeSelect"
+        :select-item.sync="selectItem"
         bordered
       >
       </wd-table>
@@ -77,11 +77,6 @@
     mounted () {
     },
     methods: {
-      onChangeSelect (data) {
-        console.log('data', data);
-        this.selectItem = data;
-        console.log(this.selectItem);
-      }
     }
   };
 </script>

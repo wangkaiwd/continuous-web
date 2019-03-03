@@ -3,7 +3,14 @@
     <table :class="{bordered,stripe}">
       <thead>
       <tr>
-        <th><input type="checkbox" ref="allCheck"></th>
+        <th>
+          <input
+            type="checkbox"
+            ref="allCheck"
+            @change="onChangeAllItem"
+            :checked="dataSource.length === selectItem.length"
+          >
+        </th>
         <th v-for="col in columns" :key="col.key">
           {{col.title}}
         </th>
@@ -40,31 +47,43 @@
       bordered: {
         type: Boolean,
         default: false
+      },
+      selectItem: {
+        type: Array,
+        default: () => []
       }
     },
     data () {
-      return {
-        selectItem: []
-      };
+      return {};
     },
     methods: {
-      changeSelect (e, item, i) {
+      changeSelect (e, item) {
+        const copy = JSON.parse(JSON.stringify(this.selectItem));
         // 将所有选中项组成数组
         if (e.target.checked) {
-          this.selectItem.push(item);
+          copy.push(item);
         } else {
           // 当数组的内容是对象或其它复杂数据结构的时候，要将引用内容传来，才能得到正确的index
-          const index = this.selectItem.indexOf(item);
+          const index = copy.indexOf(item);
           // this.selectItem = this.selectItem.filter((item, i) => i !== index);
-          this.selectItem.splice(index, 1);
+          copy.splice(index, 1);
         }
         const selectLen = this.selectItem.length, allLen = this.dataSource.length;
-        if (selectLen > 0 && selectLen < allLen) {
-          this.$refs.allCheck.indeterminate = true;
+        this.$refs.allCheck.indeterminate = (selectLen > 0 && selectLen < allLen) ? true : false;
+        // if (selectLen > 0 && selectLen < allLen) {
+        //   this.$refs.allCheck.indeterminate = true;
+        // } else {
+        //   this.$refs.allCheck.indeterminate = false;
+        // }
+        this.$emit('update:selectItem', copy);
+      },
+      onChangeAllItem (e) {
+        const { checked } = e.target;
+        if (checked) {
+          this.$emit('update:selectItem', this.dataSource);
         } else {
-          this.$refs.allCheck.indeterminate = false;
+          this.$emit('update:selectItem', []);
         }
-        this.$emit('change-select', this.selectItem);
       }
     }
   };
