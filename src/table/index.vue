@@ -12,7 +12,13 @@
           >
         </th>
         <th v-for="col in columns" :key="col.key">
-          {{col.title}}
+          <div class="wd-table-header">
+            {{col.title}}
+            <span class="wd-table-sorter">
+              <g-icon name="ascend"></g-icon>
+              <g-icon name="descend"></g-icon>
+            </span>
+          </div>
         </th>
       </tr>
       </thead>
@@ -41,8 +47,11 @@
    *  2. key值必须要唯一，且key值不能是索引，因为数组的索引在删除的时候会发生变化，只有在纯列表展示的时候使用key才不会出现问题，
    *    但还是使用唯一的key较好，不同一出现问题
    */
+  import GIcon from '../icon';
+
   export default {
     name: 'WdTable',
+    components: { GIcon },
     props: {
       columns: {
         type: Array,
@@ -132,6 +141,7 @@
 </script>
 
 <style lang="scss" scoped>
+  @import '../var';
   .wd-table {
     table {
       width: 100%;
@@ -153,6 +163,22 @@
       padding: 8px;
       border-bottom: 1px solid #e8e8e8;
       line-height: 1.2;
+    }
+    &-header {
+      display: flex;
+      align-items: center;
+    }
+    &-sorter {
+      margin: 0 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: rgb(191, 191, 191);
+      svg {
+        width: 8px;
+        height: 8px;
+      }
     }
   }
 </style>

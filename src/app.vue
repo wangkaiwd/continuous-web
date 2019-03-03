@@ -59,6 +59,13 @@
             dataKey: 'score'
           }
         ],
+        // 排序规则：
+        //    1. 升序：ascend  2. 降序：descend
+        //    3. 没有传：不显示图标  4. false 默认排序
+        orderBy: {
+          name: 'ascend',
+          score: 'descend'
+        },
         dataSource: [
           { key: 1, name: '小熊猫', score: 83 },
           { key: 2, name: '小袋鼠', score: 90 },
@@ -76,8 +83,7 @@
     },
     mounted () {
     },
-    methods: {
-    }
+    methods: {}
   };
 </script>
 <style lang="scss" scoped>
