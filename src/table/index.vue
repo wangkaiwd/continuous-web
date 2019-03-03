@@ -25,7 +25,7 @@
             :checked="selectItem.findIndex(item => item.key === data.key) > -1"
           >
         </td>
-        <td v-for="col in columns">
+        <td v-for="col in columns" :key="col.key">
           {{data[col.dataKey]}}
         </td>
       </tr>
@@ -35,6 +35,12 @@
 </template>
 
 <script>
+  /**
+   * vue渲染元素问题：
+   *  1. 要为每一个v-for循环添加 key值
+   *  2. key值必须要唯一，且key值不能是索引，因为数组的索引在删除的时候会发生变化，只有在纯列表展示的时候使用key才不会出现问题，
+   *    但还是使用唯一的key较好，不同一出现问题
+   */
   export default {
     name: 'WdTable',
     props: {
@@ -71,6 +77,7 @@
         } else {
           // 当数组的内容是对象或其它复杂数据结构的时候，要将引用内容传来，才能得到正确的index
           const index = copy.findIndex(one => one.key === item.key);
+          // const index = copy.indexOf(item);
           // this.selectItem = this.selectItem.filter((item, i) => i !== index);
           copy.splice(index, 1);
         }
