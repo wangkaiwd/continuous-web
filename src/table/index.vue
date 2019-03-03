@@ -8,7 +8,7 @@
             type="checkbox"
             ref="allCheck"
             @change="onChangeAllItem"
-            :checked="dataSource.length === selectItem.length"
+            :checked="allStatus"
           >
         </th>
         <th v-for="col in columns" :key="col.key">
@@ -68,6 +68,37 @@
     data () {
       return {};
     },
+    computed: {
+      allStatus () {
+        // 这里不能通过简单判断数组长度是否相等，要判断数组中的每一项id和另一项相同
+        // this.dataSource.length === this.selectItem.length
+        // 思路：
+        //    1. 首先要数组的长度相同
+        //    2. 将俩个数组根据id进行排序
+        //    3. 将排序后的2个数组的每一项id进行对比，如果某一项不相等，则俩数组不相等，否则俩数组相同
+
+        // sort: a - b 升序， b - a 降序。如何没有传参，则为字典序（按照英文顺序：查字典，会先显示a开头，之后才是b开头。之后类似）
+        const allArray = this.dataSource.map(item => item.key).sort((a, b) => a - b);
+        const selectArray = this.selectItem.map(item => item.key).sort((a, b) => a - b);
+        if (allArray.length === selectArray.length) {
+          let equal = true;
+          for (let i = 0; i < selectArray.length; i++) {
+            if (selectArray[i] !== allArray[i]) {
+              equal = false;
+              break;
+            }
+          }
+          return equal;
+        }
+        return false;
+      }
+    },
+    watch: {
+      selectItem (newValue) {
+        const selectLen = newValue.length, allLen = this.dataSource.length;
+        this.$refs.allCheck.indeterminate = (selectLen > 0 && selectLen < allLen) ? true : false;
+      }
+    },
     methods: {
       changeSelect (e, item) {
         const copy = JSON.parse(JSON.stringify(this.selectItem));
@@ -81,9 +112,7 @@
           // this.selectItem = this.selectItem.filter((item, i) => i !== index);
           copy.splice(index, 1);
         }
-        const selectLen = copy.length, allLen = this.dataSource.length;
-        this.$refs.allCheck.indeterminate = (selectLen > 0 && selectLen < allLen) ? true : false;
-        // if (selectLen > 0 && selectLen < allLen) {
+        // if (selectLen > 0 && selectLen < allLen) {L
         //   this.$refs.allCheck.indeterminate = true;
         // } else {
         //   this.$refs.allCheck.indeterminate = false;
