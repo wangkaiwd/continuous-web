@@ -91,6 +91,7 @@
         // 2. 排序之后将id进行一一对比
         let equal = false;
         if (dataSource.length === selectItem.length) {
+          // 获取排序后的id组成的数组
           const allIds = dataSource.map(item => item.id).sort((a, b) => a - b);
           const selectIds = selectItem.map(item => item.id).sort((a, b) => a - b);
           for (let i = 0; i < allIds.length; i++) {
@@ -162,7 +163,13 @@
     &-sorter {
       display: flex;
       align-items: center;
+      flex-direction: column;
       margin: 0 4px;
+      color: $border-color-light;
+      svg {
+        width: 8px;
+        height: 8px;
+      }
     }
   }
 </style>
