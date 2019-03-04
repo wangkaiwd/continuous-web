@@ -11,7 +11,15 @@
             ref="allChangeInput"
           >
         </th>
-        <th v-for="col in columns" :key="col.id">{{col.title}}</th>
+        <th v-for="col in columns" :key="col.id">
+          <div class="wd-table-header">
+            {{col.title}}
+            <span class="wd-table-sorter">
+              <g-icon name="ascend"></g-icon>
+              <g-icon name="descend"></g-icon>
+            </span>
+          </div>
+        </th>
       </tr>
       </thead>
       <tbody>
@@ -41,8 +49,11 @@
    *  4. bordered
    *  5. striped
    */
+  import GIcon from '../icon';
+
   export default {
     name: 'WdTable',
+    components: { GIcon },
     props: {
       columns: {
         type: Array,
@@ -143,6 +154,15 @@
       td, th {
         border: 1px solid $border-color-light;
       }
+    }
+    &-header {
+      display: flex;
+      align-items: center;
+    }
+    &-sorter {
+      display: flex;
+      align-items: center;
+      margin: 0 4px;
     }
   }
 </style>
