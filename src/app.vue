@@ -1,11 +1,6 @@
 <template>
   <div>
     <div class="component-wrapper">
-      <wd-table
-        :data-source="dataSource"
-        :columns="columns"
-      >
-      </wd-table>
       <!--绑定style的时候，短横线(kebab-case)和驼峰(camelCase)命名都可以，但是html只支持短横线格式-->
       <!--
         字符串模板：new Vue({template:`<div>message</div>`})
@@ -19,15 +14,10 @@
               props:['postTitle']
               <my-component post-title="postTitle"></my-component>
         事件名：事件名不存在任何自动化的大小写转换，触发的事件名需要完全匹配监听这个事件所用的名称,推荐始终使用kebab-case的事件名
+        总结：
+          prop 和 组件名：会有大小写转换的过程，所以在html模板中书写的时候最好使用kebab-case短横线格式
+          事件名：不会进行任何自动化的转换，但是推荐使用kebab-case短横线命名格式
       -->
-      <wd-table
-        style="margin-top: 20px;"
-        :data-source="dataSource"
-        :columns="columns"
-        :select-item.sync="selectItem"
-        bordered
-      >
-      </wd-table>
     </div>
     <div class="component-wrapper">
       <wdPagination :total="600" :current.sync="current"></wdPagination>
@@ -36,49 +26,13 @@
 </template>
 <script>
   import WdPagination from './pagination';
-  import WdCheckbox from './checkbox1';
-  import WdTable from './table';
 
   export default {
     name: 'App',
-    components: { WdPagination, WdTable, WdCheckbox },
+    components: { WdPagination },
     data () {
       return {
-        checkStatus: true,
-        checkStatus1: false,
         current: 2,
-        columns: [
-          {
-            key: 1,
-            title: '姓名',
-            dataKey: 'name'
-          },
-          {
-            key: 2,
-            title: '分数',
-            dataKey: 'score'
-          }
-        ],
-        // 排序规则：
-        //    1. 升序：ascend  2. 降序：descend
-        //    3. 没有传：不显示图标  4. false 默认排序
-        orderBy: {
-          name: 'ascend',
-          score: 'descend'
-        },
-        dataSource: [
-          { key: 1, name: '小熊猫', score: 83 },
-          { key: 2, name: '小袋鼠', score: 90 },
-          { key: 3, name: '小松鼠', score: 100 },
-          { key: 4, name: '青蛙', score: 19 },
-          { key: 5, name: '雷神', score: 80 },
-          // {key: 6, name: '钢铁侠', score: 40},
-          // {key: 7, name: '闪电侠', score: 10},
-          // {key: 8, name: '蜗牛', score: 10},
-          // {key: 9, name: '兔子', score: 92},
-          // {key: 10, name: '花生米', score: 11},
-        ],
-        selectItem: []
       };
     },
     mounted () {
