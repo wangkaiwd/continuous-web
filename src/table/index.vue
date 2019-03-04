@@ -68,10 +68,21 @@
     },
     computed: {
       isAllCheck () {
-        if (this.selectItem.length === this.dataSource.length) {
-          return true;
+        const { dataSource, selectItem } = this;
+        //  要选中项中的每一个元素都和dataSource中的元素相同才会全选
+        // dataSource和selectItem的长度首先要相同
+        // 1. 排序
+        // 2. 排序之后将id进行一一对比
+        let equal = false;
+        if (dataSource.length === selectItem.length) {
+          const allIds = dataSource.map(item => item.id).sort((a, b) => a - b);
+          const selectIds = selectItem.map(item => item.id).sort((a, b) => a - b);
+          for (let i = 0; i < allIds.length; i++) {
+            if (allIds[i] !== selectIds[i]) break;
+          }
+          equal = true;
         }
-        return false;
+        return equal;
       }
     },
     methods: {
