@@ -18,6 +18,13 @@
           prop 和 组件名：会有大小写转换的过程，所以在html模板中书写的时候最好使用kebab-case短横线格式
           事件名：不会进行任何自动化的转换，但是推荐使用kebab-case短横线命名格式
       -->
+      <wd-table
+        :columns="columns"
+        :data-source="dataSource"
+        bordered
+        striped
+      >
+      </wd-table>
     </div>
     <div class="component-wrapper">
       <wdPagination :total="600" :current.sync="current"></wdPagination>
@@ -25,14 +32,27 @@
   </div>
 </template>
 <script>
+  import WdTable from './table';
   import WdPagination from './pagination';
 
   export default {
     name: 'App',
-    components: { WdPagination },
+    components: { WdPagination, WdTable },
     data () {
       return {
         current: 2,
+        columns: [ // 表头，对应列
+          { id: 1, dataKey: 'name', title: '姓名' },
+          { id: 2, dataKey: 'position', title: '位置' },
+          { id: 3, dataKey: 'skill', title: '技能' },
+        ],
+        dataSource: [ // 数据源，对应行
+          { id: 1, name: '王昭君', position: '法师', skill: '4个' },
+          { id: 2, name: '狄仁杰', position: '射手', skill: '4个' },
+          { id: 3, name: '李元芳', position: '打野', skill: '4个' },
+          { id: 4, name: '姜子牙', position: '辅助', skill: '4个' },
+          { id: 5, name: '程咬金', position: '上单', skill: '4个' },
+        ]
       };
     },
     mounted () {
