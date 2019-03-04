@@ -4,7 +4,12 @@
       <thead>
       <tr>
         <th>
-          <input type="checkbox" @change="onAllItemChange" :checked="isAllCheck" ref="allChangeInput">
+          <input
+            type="checkbox"
+            @change="onAllItemChange"
+            :checked="isAllCheck"
+            ref="allChangeInput"
+          >
         </th>
         <th v-for="col in columns" :key="col.id">{{col.title}}</th>
       </tr>
