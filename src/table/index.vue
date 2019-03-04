@@ -4,14 +4,20 @@
       <thead>
       <tr>
         <th>
-          <input type="checkbox">
+          <input type="checkbox" @change="onAllItemChange" :checked="isAllCheck" ref="allChangeInput">
         </th>
         <th v-for="col in columns" :key="col.id">{{col.title}}</th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="data in dataSource" :key="data.id">
-        <td><input type="checkbox"></td>
+        <td>
+          <input
+            type="checkbox"
+            @change="onItemChange($event,data)"
+            :checked="selectItem.some(item => item.id === data.id)"
+          >
+        </td>
         <td v-for="col in columns" :key="col.id">
           {{data[col.dataKey]}}
         </td>
@@ -48,6 +54,45 @@
       striped: {
         type: Boolean,
         default: true
+      },
+      selectItem: {
+        type: Array,
+        default: () => []
+      }
+    },
+    watch: {
+      selectItem (newVal) {
+        const checked = newVal.length > 0 && newVal.length < this.dataSource.length;
+        this.$refs.allChangeInput.indeterminate = checked;
+      }
+    },
+    computed: {
+      isAllCheck () {
+        if (this.selectItem.length === this.dataSource.length) {
+          return true;
+        }
+        return false;
+      }
+    },
+    methods: {
+      onItemChange (e, item) {
+        const copyItem = JSON.parse(JSON.stringify(this.selectItem));
+        const { checked } = e.target;
+        if (checked) {
+          copyItem.push(item);
+        } else {
+          const index = copyItem.findIndex(one => one.id === item.id);
+          copyItem.splice(index, 1);
+        }
+        this.$emit('update:select-item', copyItem);
+      },
+      onAllItemChange (e) {
+        const { checked } = e.target;
+        if (checked) {
+          this.$emit('update:select-item', this.dataSource);
+        } else {
+          this.$emit('update:select-item', []);
+        }
       }
     }
   };

@@ -18,9 +18,11 @@
           prop 和 组件名：会有大小写转换的过程，所以在html模板中书写的时候最好使用kebab-case短横线格式
           事件名：不会进行任何自动化的转换，但是推荐使用kebab-case短横线命名格式
       -->
+      {{selectItem}}
       <wd-table
         :columns="columns"
         :data-source="dataSource"
+        :select-item.sync="selectItem"
         bordered
         striped
       >
@@ -41,6 +43,7 @@
     data () {
       return {
         current: 2,
+        selectItem: [],
         columns: [ // 表头，对应列
           { id: 1, dataKey: 'name', title: '姓名' },
           { id: 2, dataKey: 'position', title: '位置' },
