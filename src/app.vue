@@ -23,6 +23,7 @@
         :columns="columns"
         :data-source="dataSource"
         :select-item.sync="selectItem"
+        :order-by.sync="orderBy"
         bordered
         striped
       >
@@ -48,13 +49,19 @@
           { id: 1, dataKey: 'name', title: '姓名' },
           { id: 2, dataKey: 'position', title: '位置' },
           { id: 3, dataKey: 'skill', title: '技能' },
+          { id: 4, dataKey: 'score', title: '分数' },
+          { id: 5, dataKey: 'age', title: '年龄' },
         ],
+        orderBy: {
+          score: 'desc',
+          age: 'asc'
+        },
         dataSource: [ // 数据源，对应行
-          { id: 1, name: '王昭君', position: '法师', skill: '4个' },
-          { id: 2, name: '狄仁杰', position: '射手', skill: '4个' },
-          { id: 3, name: '李元芳', position: '打野', skill: '4个' },
-          { id: 4, name: '姜子牙', position: '辅助', skill: '4个' },
-          { id: 5, name: '程咬金', position: '上单', skill: '4个' },
+          { id: 1, name: '王昭君', position: '法师', skill: '4个', score: 70, age: 20 },
+          { id: 2, name: '狄仁杰', position: '射手', skill: '4个', score: 80, age: 12 },
+          { id: 3, name: '李元芳', position: '打野', skill: '4个', score: 40, age: 14 },
+          { id: 4, name: '姜子牙', position: '辅助', skill: '4个', score: 30, age: 82 },
+          { id: 5, name: '程咬金', position: '上单', skill: '4个', score: 90, age: 62 },
         ]
       };
     },

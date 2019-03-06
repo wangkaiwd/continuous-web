@@ -14,9 +14,13 @@
         <th v-for="col in columns" :key="col.id">
           <div class="wd-table-header">
             {{col.title}}
-            <span class="wd-table-sorter">
-              <g-icon name="ascend"></g-icon>
-              <g-icon name="descend"></g-icon>
+            <span
+              class="wd-table-sorter"
+              v-if="Object.keys(orderBy).includes(col.dataKey)"
+              @click="changeSort(col.dataKey)"
+            >
+              <g-icon name="ascend" :class="{active:orderBy[col.dataKey] === 'asc'}"></g-icon>
+              <g-icon name="descend" :class="{active: orderBy[col.dataKey] === 'desc'}"></g-icon>
             </span>
           </div>
         </th>
@@ -61,7 +65,7 @@
       },
       dataSource: {
         type: Array,
-        default: () => []
+        default: () => [],
       },
       bordered: {
         type: Boolean,
@@ -74,6 +78,9 @@
       selectItem: {
         type: Array,
         default: () => []
+      },
+      orderBy: {
+        type: Object
       }
     },
     watch: {
@@ -121,6 +128,17 @@
         } else {
           this.$emit('update:select-item', []);
         }
+      },
+      changeSort (dataKey) {
+        const copy = JSON.parse(JSON.stringify(this.orderBy));
+        if (copy[dataKey] === 'asc') {
+          copy[dataKey] = 'desc';
+        } else if (copy[dataKey] === 'desc') {
+          copy[dataKey] = false;
+        } else {
+          copy[dataKey] = 'asc';
+        }
+        this.$emit('update:orderBy', copy);
       }
     }
   };
@@ -165,10 +183,14 @@
       align-items: center;
       flex-direction: column;
       margin: 0 4px;
+      cursor: pointer;
       color: $border-color-light;
       svg {
         width: 8px;
         height: 8px;
+      }
+      .active {
+        color: #333333;
       }
     }
   }
