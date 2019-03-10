@@ -56,9 +56,10 @@
         <!--colspan: 规定单元格可以横跨的列数-->
         <!--rowspan: 规定单元格可以横跨的行数-->
         <!--这里的key如果继续设置为col.id的话，会导致和上边tr的key重复，所以这里可以加一个后缀-->
+        <!--<tr ref="wdTableExpand" :ref="`active${data.id}`" :key="`${data.id}-expand`" class="wd-table-expand">-->
+        <!--这里需要注意一下，一个节点只能绑定一个ref,并不能像class一样进行bind以及正常字符串class的分别绑定-->
         <tr :ref="`active${data.id}`" :key="`${data.id}-expand`" class="wd-table-expand">
-          <td class="placeholder"></td>
-          <td :colspan="columns.length+2">
+          <td :colspan="colSpan">
             {{data[expandKey]}}
           </td>
         </tr>
@@ -160,7 +161,15 @@
           equal = true;
         }
         return equal;
+      },
+      colSpan () {
+        let count = 1;
+        if (this.selectable) {count++;}
+        return this.columns.length + count;
       }
+    },
+    mounted () {
+      this.initExpand();
     },
     methods: {
       onItemChange (e, item) {
@@ -207,6 +216,21 @@
           icon.classList.add('wd-table-expand-rotate');
           item.classList.add('active');
         }
+      },
+      initExpand () {
+        if (this.expandable) {
+          const expandItems = Array.from(document.querySelectorAll('.wd-table-expand'));
+          expandItems.map(item => {
+            this.insertTd(item);
+            this.selectable && this.insertTd(item);
+          });
+        }
+      },
+      insertTd (item) {
+        const td = document.createElement('td');
+        const lastItems = item.children, len = lastItems.length, lastItem = lastItems[len - 1];
+        const dupTd = td.cloneNode(true);
+        item.insertBefore(dupTd, lastItem);
       }
     },
   };

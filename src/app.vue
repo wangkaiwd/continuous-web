@@ -26,7 +26,6 @@
         :order-by.sync="orderBy"
         @update:orderBy="onSort"
         expand-key="description"
-        :selectable="true"
         :expandable="true"
         :loading="loading"
         striped
