@@ -16,11 +16,12 @@
             {{col.title}}
             <span
               class="wd-table-sorter"
-              v-if="Object.keys(orderBy).includes(col.dataKey)"
+              v-if="col.dataKey in orderBy"
               @click="changeSort(col.dataKey)"
             >
+                            <!--v-if="Object.keys(orderBy).includes(col.dataKey)"-->
               <g-icon name="ascend" :class="{active:orderBy[col.dataKey] === 'asc'}"></g-icon>
-              <g-icon name="descend" :class="{active: orderBy[col.dataKey] === 'desc'}"></g-icon>
+              <g-icon name="descend" :class="{active:orderBy[col.dataKey] === 'desc'}"></g-icon>
             </span>
           </div>
         </th>
@@ -80,7 +81,17 @@
         default: () => []
       },
       orderBy: {
-        type: Object
+        type: Object,
+        default: () => ({}),
+        // validator无法获取this，无法根据
+        // validator: () => {
+        //   console.log('this', this);
+        //   return true;
+        // }
+      },
+      loading: {
+        type: Boolean,
+        default: false
       }
     },
     watch: {
@@ -131,12 +142,16 @@
       },
       changeSort (dataKey) {
         const copy = JSON.parse(JSON.stringify(this.orderBy));
-        if (copy[dataKey] === 'asc') {
-          copy[dataKey] = 'desc';
-        } else if (copy[dataKey] === 'desc') {
-          copy[dataKey] = false;
-        } else {
-          copy[dataKey] = 'asc';
+        switch (copy[dataKey]) {
+          case 'asc':
+            copy[dataKey] = 'desc';
+            break;
+          case 'desc':
+            copy[dataKey] = false;
+            break;
+          default:
+            copy[dataKey] = 'asc';
+            break;
         }
         this.$emit('update:orderBy', copy);
       }
@@ -182,12 +197,12 @@
       display: flex;
       align-items: center;
       flex-direction: column;
-      margin: 0 4px;
+      margin: 0 6px;
       cursor: pointer;
       color: $border-color-light;
       svg {
-        width: 8px;
-        height: 8px;
+        width: 10px;
+        height: 10px;
       }
       .active {
         color: #333333;

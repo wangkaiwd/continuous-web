@@ -24,6 +24,7 @@
         :data-source="dataSource"
         :select-item.sync="selectItem"
         :order-by.sync="orderBy"
+        @update:orderBy="onSort"
         bordered
         striped
       >
@@ -52,22 +53,31 @@
           { id: 4, dataKey: 'score', title: '分数' },
           { id: 5, dataKey: 'age', title: '年龄' },
         ],
+        // 排序规则： 升序：asc, 降序：desc, 默认序：false, 不能点击排序：不传入对应字段
         orderBy: {
           score: 'desc',
-          age: 'asc'
+          age: 'asc',
+          skill: false
         },
         dataSource: [ // 数据源，对应行
-          { id: 1, name: '王昭君', position: '法师', skill: '4个', score: 70, age: 20 },
-          { id: 2, name: '狄仁杰', position: '射手', skill: '4个', score: 80, age: 12 },
-          { id: 3, name: '李元芳', position: '打野', skill: '4个', score: 40, age: 14 },
-          { id: 4, name: '姜子牙', position: '辅助', skill: '4个', score: 30, age: 82 },
-          { id: 5, name: '程咬金', position: '上单', skill: '4个', score: 90, age: 62 },
+          { id: 1, name: '王昭君', position: '法师', skill: 4, score: 70, age: 20 },
+          { id: 2, name: '狄仁杰', position: '射手', skill: 4, score: 80, age: 12 },
+          { id: 3, name: '李元芳', position: '打野', skill: 1, score: 40, age: 14 },
+          { id: 4, name: '姜子牙', position: '辅助', skill: 2, score: 30, age: 82 },
+          { id: 5, name: '程咬金', position: '上单', skill: 6, score: 90, age: 62 },
         ]
       };
     },
     mounted () {
     },
-    methods: {}
+    methods: {
+      // 模拟排序
+      onSort () {
+        // 通过ajax请求最新的排序数据
+        // 模拟score字段排序
+        this.dataSource.sort((a, b) => a.score - b.score);
+      }
+    }
   };
 </script>
 <style lang="scss" scoped>
