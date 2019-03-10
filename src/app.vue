@@ -25,7 +25,9 @@
         :select-item.sync="selectItem"
         :order-by.sync="orderBy"
         @update:orderBy="onSort"
-        bordered
+        expand-key="description"
+        :selectable="true"
+        :expandable="true"
         :loading="loading"
         striped
       >
@@ -61,8 +63,8 @@
           skill: false
         },
         dataSource: [ // 数据源，对应行
-          { id: 1, name: '王昭君', position: '法师', skill: 4, score: 70, age: 20 },
-          { id: 2, name: '狄仁杰', position: '射手', skill: 4, score: 80, age: 12 },
+          { id: 1, name: '王昭君', position: '法师', skill: 4, score: 70, age: 20, description: '这是一个很漂亮的英雄，擅长使用冰雪法术' },
+          { id: 2, name: '狄仁杰', position: '射手', skill: 4, score: 80, age: 12, description: '这是一个很帅气的英雄,掌管六扇门' },
           { id: 3, name: '李元芳', position: '打野', skill: 1, score: 40, age: 14 },
           { id: 4, name: '姜子牙', position: '辅助', skill: 2, score: 30, age: 82 },
           { id: 5, name: '程咬金', position: '上单', skill: 6, score: 90, age: 62 },

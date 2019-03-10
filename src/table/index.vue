@@ -3,8 +3,8 @@
     <table :class="{striped,bordered}">
       <thead>
       <tr>
-        <th></th>
-        <th>
+        <th v-if="expandable"></th>
+        <th v-if="selectable" class="wd-table-center">
           <input
             type="checkbox"
             @change="onAllItemChange"
@@ -30,12 +30,19 @@
       </tr>
       </thead>
       <tbody>
-      <template v-for="data in dataSource">
+      <template v-for="(data,i) in dataSource">
         <tr :key="data.id">
-          <td>
-            <g-icon @click="onChangeExpand" name="s-right"></g-icon>
+          <td v-if="expandable" class="wd-table-center">
+            <g-icon
+              v-if="data[expandKey]"
+              :ref="`expandIcon${data.id}`"
+              class="wd-table-expand-icon"
+              @click="onChangeExpand(data.id)"
+              name="s-right"
+            >
+            </g-icon>
           </td>
-          <td>
+          <td v-if="selectable" class="wd-table-center">
             <input
               type="checkbox"
               @change="onItemChange($event,data)"
@@ -49,13 +56,13 @@
         <!--colspan: 规定单元格可以横跨的列数-->
         <!--rowspan: 规定单元格可以横跨的行数-->
         <!--这里的key如果继续设置为col.id的话，会导致和上边tr的key重复，所以这里可以加一个后缀-->
-        <tr :key="`${data.id}-expand`">
+        <tr :ref="`active${data.id}`" :key="`${data.id}-expand`" class="wd-table-expand">
+          <td class="placeholder"></td>
           <td :colspan="columns.length+2">
-            测试展开行
+            {{data[expandKey]}}
           </td>
         </tr>
       </template>
-
       </tbody>
     </table>
     <div v-if="loading" class="wd-table-loading-wrapper">
@@ -98,6 +105,17 @@
       selectItem: {
         type: Array,
         default: () => []
+      },
+      selectable: {
+        type: Boolean,
+        default: false
+      },
+      expandable: {
+        type: Boolean,
+        default: false
+      },
+      expandKey: {
+        type: String
       },
       orderBy: {
         type: Object,
@@ -179,8 +197,16 @@
         }
         this.$emit('update:orderBy', copy);
       },
-      onChangeExpand () {
-        console.log('expand');
+      onChangeExpand (id) {
+        const item = this.$refs[`active${id}`][0];
+        const icon = this.$refs[`expandIcon${id}`][0].$el;
+        if (item.classList.contains('active')) {
+          icon.classList.remove('wd-table-expand-rotate');
+          item.classList.remove('active');
+        } else {
+          icon.classList.add('wd-table-expand-rotate');
+          item.classList.add('active');
+        }
       }
     },
   };
@@ -251,6 +277,27 @@
     &-loading {
       @include loading;
       color: darken($gray, 40%);
+    }
+    &-expand {
+      display: none;
+      &.active {
+        display: table-row;
+        td {
+          border: none;
+        }
+      }
+      &-icon {
+        color: darken($gray, 40%);
+        transition: all .2s;
+        cursor: pointer;
+      }
+      /*g-icon wd-table-expand-icon wd-table-expand-rotate*/
+      &-rotate {
+        transform: rotate(90deg);
+      }
+    }
+    &-center {
+      text-align: center;
     }
   }
 </style>
