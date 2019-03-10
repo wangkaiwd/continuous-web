@@ -26,6 +26,7 @@
         :order-by.sync="orderBy"
         @update:orderBy="onSort"
         bordered
+        :loading="loading"
         striped
       >
       </wd-table>
@@ -65,7 +66,8 @@
           { id: 3, name: '李元芳', position: '打野', skill: 1, score: 40, age: 14 },
           { id: 4, name: '姜子牙', position: '辅助', skill: 2, score: 30, age: 82 },
           { id: 5, name: '程咬金', position: '上单', skill: 6, score: 90, age: 62 },
-        ]
+        ],
+        loading: false
       };
     },
     mounted () {
@@ -73,9 +75,13 @@
     methods: {
       // 模拟排序
       onSort () {
-        // 通过ajax请求最新的排序数据
-        // 模拟score字段排序
-        this.dataSource.sort((a, b) => a.score - b.score);
+        this.loading = true;
+        setTimeout(() => {
+          // 通过ajax请求最新的排序数据
+          // 模拟score字段排序
+          this.dataSource.sort((a, b) => a.score - b.score);
+          this.loading = false;
+        }, 3000);
       }
     }
   };

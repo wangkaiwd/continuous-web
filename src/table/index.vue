@@ -42,6 +42,9 @@
       </tr>
       </tbody>
     </table>
+    <div v-if="loading" class="wd-table-loading-wrapper">
+      <g-icon class="wd-table-loading" name="loading"></g-icon>
+    </div>
   </div>
 </template>
 
@@ -163,6 +166,7 @@
   @import "../var";
 
   .wd-table {
+    position: relative;
     table {
       width: 100%;
       /*border-collapse：用来决定表格的边框是分开的还是合并的*/
@@ -207,6 +211,22 @@
       .active {
         color: #333333;
       }
+    }
+    &-loading-wrapper {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, .8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+    &-loading {
+      @include loading;
+      color: darken($gray, 40%);
     }
   }
 </style>

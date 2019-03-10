@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import Icon from './icon'
+  import Icon from './icon';
 
   export default {
     name: 'GlobalButton',
@@ -34,17 +34,18 @@
         default: 'left',
         // 自定义验证函数，return true通过校验，return false不通过校验
         validator (value) {
-          return value === 'left' || value === 'right'
+          return value === 'left' || value === 'right';
         }
       }
     },
     components: {
       'g-icon': Icon,
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
+  @import "var";
   $font-size: 14px;
   $button-height: 32px;
   $button-bg: white;
@@ -54,14 +55,6 @@
   $border-color-hover: #666;
   $button-active-bg: #eee;
 
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
 
   .g-button {
     display: inline-flex;
@@ -91,7 +84,7 @@
       margin-right: 0.3em;
     }
     .icon-loading {
-      animation: spin 1s linear infinite;
+      @include loading;
     }
   }
 </style>
