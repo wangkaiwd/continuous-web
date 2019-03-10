@@ -229,6 +229,13 @@
       insertTd (item) {
         const td = document.createElement('td');
         const lastItems = item.children, len = lastItems.length, lastItem = lastItems[len - 1];
+        // insertBefore和appendChild使用注意点：
+        //   如果给定的子节点是对文档中现有内容的引用，insertBefore()会将其从当前位置移动到新位置
+        //   犯错点：自己在循环前通过document.createElement创建了一个td，然后在循环中进行插入。其实除了第一次外，其它操作都是在移动该元素
+        //   解决方法：每次循环时都重新创建一个td,进行插入
+
+        // node.cloneNode: 返回调用该方法的节点的一个副本
+        // 参数为一个布尔值，不传默认为false,表示是否克隆该节点的所有后代节点（该节点里的文字也算后代节点）
         const dupTd = td.cloneNode(true);
         item.insertBefore(dupTd, lastItem);
       }
