@@ -3,6 +3,7 @@
     <table :class="{striped,bordered}">
       <thead>
       <tr>
+        <th></th>
         <th>
           <input
             type="checkbox"
@@ -19,7 +20,8 @@
               v-if="col.dataKey in orderBy"
               @click="changeSort(col.dataKey)"
             >
-                            <!--v-if="Object.keys(orderBy).includes(col.dataKey)"-->
+              <!--可以使用in方法来替代下面这段代码-->
+              <!--v-if="Object.keys(orderBy).includes(col.dataKey)"-->
               <g-icon name="ascend" :class="{active:orderBy[col.dataKey] === 'asc'}"></g-icon>
               <g-icon name="descend" :class="{active:orderBy[col.dataKey] === 'desc'}"></g-icon>
             </span>
@@ -28,18 +30,32 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="data in dataSource" :key="data.id">
-        <td>
-          <input
-            type="checkbox"
-            @change="onItemChange($event,data)"
-            :checked="selectItem.some(item => item.id === data.id)"
-          >
-        </td>
-        <td v-for="col in columns" :key="col.id">
-          {{data[col.dataKey]}}
-        </td>
-      </tr>
+      <template v-for="data in dataSource">
+        <tr :key="data.id">
+          <td>
+            <g-icon @click="onChangeExpand" name="s-right"></g-icon>
+          </td>
+          <td>
+            <input
+              type="checkbox"
+              @change="onItemChange($event,data)"
+              :checked="selectItem.some(item => item.id === data.id)"
+            >
+          </td>
+          <td v-for="col in columns" :key="col.id">
+            {{data[col.dataKey]}}
+          </td>
+        </tr>
+        <!--colspan: 规定单元格可以横跨的列数-->
+        <!--rowspan: 规定单元格可以横跨的行数-->
+        <!--这里的key如果继续设置为col.id的话，会导致和上边tr的key重复，所以这里可以加一个后缀-->
+        <tr :key="`${data.id}-expand`">
+          <td :colspan="columns.length+2">
+            测试展开行
+          </td>
+        </tr>
+      </template>
+
       </tbody>
     </table>
     <div v-if="loading" class="wd-table-loading-wrapper">
@@ -96,6 +112,11 @@
         type: Boolean,
         default: false
       }
+    },
+    data () {
+      return {
+        // expanded: false
+      };
     },
     watch: {
       selectItem (newVal) {
@@ -157,8 +178,11 @@
             break;
         }
         this.$emit('update:orderBy', copy);
+      },
+      onChangeExpand () {
+        console.log('expand');
       }
-    }
+    },
   };
 </script>
 
@@ -218,7 +242,7 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(255, 255, 255, .8);
+      background-color: rgba(255, 255, 255, .6);
       display: flex;
       align-items: center;
       justify-content: center;
