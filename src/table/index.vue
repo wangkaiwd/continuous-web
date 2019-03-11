@@ -37,6 +37,7 @@
               v-if="data[expandKey]"
               :ref="`expandIcon${data.id}`"
               class="wd-table-expand-icon"
+              :class="{'wd-table-expand-rotate':isExpand(data.id)}"
               @click="onChangeExpand(data.id)"
               name="s-right"
             >
@@ -58,7 +59,13 @@
         <!--这里的key如果继续设置为col.id的话，会导致和上边tr的key重复，所以这里可以加一个后缀-->
         <!--<tr ref="wdTableExpand" :ref="`active${data.id}`" :key="`${data.id}-expand`" class="wd-table-expand">-->
         <!--这里需要注意一下，一个节点只能绑定一个ref,并不能像class一样进行bind以及正常字符串class的分别绑定-->
-        <tr :ref="`active${data.id}`" :key="`${data.id}-expand`" class="wd-table-expand">
+        <!--<tr :ref="`active${data.id}`" :key="`${data.id}-expand`" class="wd-table-expand">-->
+        <tr
+          v-if="isExpand(data.id)"
+          :key="`${data.id}-expand`"
+          class="wd-table-expand"
+          :class="`wd-table-expand-${data.id}`"
+        >
           <td :colspan="colSpan">
             {{data[expandKey]}}
           </td>
@@ -134,7 +141,7 @@
     },
     data () {
       return {
-        // expanded: false
+        expanded: []
       };
     },
     watch: {
@@ -169,7 +176,6 @@
       }
     },
     mounted () {
-      this.initExpand();
     },
     methods: {
       onItemChange (e, item) {
@@ -207,28 +213,32 @@
         this.$emit('update:orderBy', copy);
       },
       onChangeExpand (id) {
-        const item = this.$refs[`active${id}`][0];
-        const icon = this.$refs[`expandIcon${id}`][0].$el;
-        if (item.classList.contains('active')) {
-          icon.classList.remove('wd-table-expand-rotate');
-          item.classList.remove('active');
+        const index = this.expanded.indexOf(id);
+        if (index === -1) {
+          this.expanded.push(id);
+          this.$nextTick(() => {
+            this.toggleExpand(this.insertTd, id);
+          });
         } else {
-          icon.classList.add('wd-table-expand-rotate');
-          item.classList.add('active');
-        }
-      },
-      initExpand () {
-        if (this.expandable) {
-          const expandItems = Array.from(document.querySelectorAll('.wd-table-expand'));
-          expandItems.map(item => {
-            this.insertTd(item);
-            this.selectable && this.insertTd(item);
+          this.expanded.splice(index, 1);
+          this.$nextTick(() => {
+            this.toggleExpand(this.removeTd, id);
           });
         }
       },
-      insertTd (item) {
+      isExpand (id) {
+        return this.expanded.indexOf(id) > -1;
+      },
+      toggleExpand (callback, id) {
+        if (this.expandable) {
+          const expandItems = document.querySelector(`.wd-table-expand-${id}`);
+          callback(expandItems);
+          this.selectable && callback(expandItems);
+        }
+      },
+      insertTd (expandItems) {
         const td = document.createElement('td');
-        const lastItems = item.children, len = lastItems.length, lastItem = lastItems[len - 1];
+        const lastItems = expandItems.children, len = lastItems.length, lastItem = lastItems[len - 1];
         // insertBefore和appendChild使用注意点：
         //   如果给定的子节点是对文档中现有内容的引用，insertBefore()会将其从当前位置移动到新位置
         //   犯错点：自己在循环前通过document.createElement创建了一个td，然后在循环中进行插入。其实除了第一次外，其它操作都是在移动该元素
@@ -237,7 +247,12 @@
         // node.cloneNode: 返回调用该方法的节点的一个副本
         // 参数为一个布尔值，不传默认为false,表示是否克隆该节点的所有后代节点（该节点里的文字也算后代节点）
         const dupTd = td.cloneNode(true);
-        item.insertBefore(dupTd, lastItem);
+        expandItems.insertBefore(dupTd, lastItem);
+      },
+      removeTd (expandItems) {
+        if (expandItems) {
+          expandItems.children[0].remove();
+        }
       }
     },
   };
@@ -310,13 +325,13 @@
       color: darken($gray, 40%);
     }
     &-expand {
-      display: none;
-      &.active {
+      /*display: none;*/
+      /*&.active {
         display: table-row;
         td {
           border: none;
         }
-      }
+      }*/
       &-icon {
         color: darken($gray, 40%);
         transition: all .2s;
