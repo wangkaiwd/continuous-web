@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+<!--form表单的action不会受到同源限制-->
+<!--action: 一个处理这个form信息的程序所在url-->
+<!--enctype: 编码方式-->
+<!--enctype: 当method属性值为post时，enctype是将form内容提交给服务器的MIME类型。可能的取值有：
+             application/x-www-form-urlencoded:未指定属性时的默认值
+             multipart/form-data: 这个值用于一个type属性设置为file的input元素
+             text/plain(HTML5)
+-->
+<form id="form">
+  <input type="file" id="file" name="avatar"><br/>
+  <button type="submit">提交</button>
+</form>
+<!--<img src="http://localhost:9000/uploads" alt="">-->
+</body>
+<script>
+  const form = document.querySelector('#form');
+  form.addEventListener('submit', (e) => {
+    // 必须要在代码执行开始就阻止浏览器的默认事件，否则可能会因为中间代码的报错导致这行代码没有执行而发生表单提交引发的页面跳转
+    e.preventDefault();
+    const file = document.querySelector('#file');
+    const formData = new FormData(form);
+    formData.append('avatar', file.files[0]);
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://localhost:9000/profile');
+    xhr.send(formData);
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+        console.log(xhr.responseText);
+      }
+    };
+  });
+</script>
+</html>
