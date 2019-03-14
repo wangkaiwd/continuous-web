@@ -28,8 +28,9 @@
     // 必须要在代码执行开始就阻止浏览器的默认事件，否则可能会因为中间代码的报错导致这行代码没有执行而发生表单提交引发的页面跳转
     e.preventDefault();
     const file = document.querySelector('#file');
-    const formData = new FormData(form);
+    const formData = new FormData();
     formData.append('avatar', file.files[0]);
+    console.log('form', formData, file.files[0]);
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost:9000/profile');
     xhr.send(formData);
