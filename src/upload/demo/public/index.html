@@ -20,10 +20,11 @@
   <input type="file" id="file" name="avatar"><br/>
   <button type="submit">提交</button>
 </form>
-<!--<img src="http://localhost:9000/uploads" alt="">-->
+<img id="img" src="" alt="">
 </body>
 <script>
   const form = document.querySelector('#form');
+  const img = document.querySelector('#img');
   form.addEventListener('submit', (e) => {
     // 必须要在代码执行开始就阻止浏览器的默认事件，否则可能会因为中间代码的报错导致这行代码没有执行而发生表单提交引发的页面跳转
     e.preventDefault();
@@ -37,6 +38,9 @@
     xhr.onreadystatechange = () => {
       if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
         console.log(xhr.responseText);
+        const data = xhr.responseText;
+        console.log(data);
+        img.src = `http://localhost:9000/preview/${data}`;
       }
     };
   });
