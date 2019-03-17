@@ -68,6 +68,7 @@
     border-radius: $border-radius;
     color: $color;
     border: 1px solid $border-color;
+    cursor: pointer;
     &:focus {
       outline: none;
     }
