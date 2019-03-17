@@ -18,32 +18,25 @@
           prop 和 组件名：会有大小写转换的过程，所以在html模板中书写的时候最好使用kebab-case短横线格式
           事件名：不会进行任何自动化的转换，但是推荐使用kebab-case短横线命名格式
       -->
-      {{selectItem}}
-      <wd-table
-        :columns="columns"
-        :data-source="dataSource"
-        :select-item.sync="selectItem"
-        :order-by.sync="orderBy"
-        @update:orderBy="onSort"
-        expand-key="description"
-        :expandable="true"
-        :loading="loading"
-        striped
+      <div style="margin-bottom: 20px">
+        文件内容不能超过500M
+      </div>
+      <wd-uploader
+        name="file"
+        action="http:localhost:9000/upload"
       >
-      </wd-table>
-    </div>
-    <div class="component-wrapper">
-      <wdPagination :total="600" :current.sync="current"></wdPagination>
+        <g-button name="upload">点击上传</g-button>
+      </wd-uploader>
     </div>
   </div>
 </template>
 <script>
-  import WdTable from './table';
-  import WdPagination from './pagination';
+  import WdUploader from './upload';
+  import GButton from './button';
 
   export default {
     name: 'App',
-    components: { WdPagination, WdTable },
+    components: { WdUploader, GButton },
     data () {
       return {
         current: 2,
