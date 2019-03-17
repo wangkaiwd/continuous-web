@@ -23,9 +23,10 @@
       </div>
       <wd-uploader
         name="file"
+        method="post"
         action="http:localhost:9000/upload"
       >
-        <g-button name="upload">点击上传</g-button>
+        <g-button icon="upload">点击上传</g-button>
       </wd-uploader>
     </div>
   </div>

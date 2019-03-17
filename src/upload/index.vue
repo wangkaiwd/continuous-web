@@ -1,40 +1,82 @@
 <template>
   <div class="wd-uploader">
-    <div class="trigger" ref="trigger">
+    <div class="trigger" ref="trigger" @click="onClickTrigger">
       <slot></slot>
-      <input class="upload-input" type="file">
     </div>
+    <input ref="uploadInput" class="upload-input" type="file">
   </div>
 </template>
 
 <script>
   export default {
     name: 'WdUploader',
+    props: {
+      name: {
+        type: String,
+        default: 'file'
+      },
+      action: {
+        type: String,
+        required: true
+      },
+      method: {
+        type: String,
+        default: 'POST'
+      }
+    },
     data () {
       return {};
     },
     mounted () {
-      const { height, width } = this.$refs.trigger.getBoundingClientRect();
-      console.log('size', width, height);
+      this.$refs.uploadInput.addEventListener('change', this.listenToUpload);
     },
-    methods: {}
+    methods: {
+      onClickTrigger () {
+        // 触发input点击事件
+        // 1. 执行一个element的一个HTMLElement.click()方法
+        // this.$refs.uploadInput.click();
+
+        // 2. 通过定义事件，然后使用EventTarget.dispatchEvent()将其派发到一个指定的目标
+
+        // 手动触发onchange事件:https://stackoverflow.com/questions/2856513/how-can-i-trigger-an-onchange-event-manually
+        // 手动触发onclick事件：https://stackoverflow.com/questions/2381572/how-can-i-trigger-a-javascript-event-click
+        // 创建一个MouseEvent实例，然后通过实例的dispatchEvent方法来派发click事件
+        const clickEvent = new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+          view: window,
+        });
+        this.$refs.uploadInput.dispatchEvent(clickEvent);
+      },
+      listenToUpload (e) {
+        const file = e.target.files[0];
+        //  将文件信息上传到服务器
+        const formData = new FormData();
+        formData.append(this.name, file);
+        const xhr = new XMLHttpRequest();
+        xhr.open(this.method.toUpperCase(), this.action);
+        xhr.send(formData);
+        // 只要readyState属性发生变化，就会调用相应的处理函数
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            console.log(xhr.response);
+          }
+        };
+      }
+    },
+    beforeDestroy () {
+      this.$refs.uploadInput.removeEventListener('change', this.listenToUpload);
+    }
   };
 </script>
 
 <style lang="scss" scoped>
   .wd-uploader {
     .trigger {
-      position: relative;
-      display: inline-flex;
+      display: inline-block;
     }
     .upload-input {
-      position: absolute;
-      left: 0;
-      right: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      z-index: -1;
+      display: none;
     }
   }
 </style>
