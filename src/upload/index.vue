@@ -3,7 +3,10 @@
     <div class="trigger" ref="trigger" @click="onClickTrigger">
       <slot></slot>
     </div>
-    <input ref="uploadInput" class="upload-input" type="file">
+    <input ref="uploadInput" class="upload-input" type="file" :accept="accept">
+    <div class="file-list">
+      <img v-for="(file,i) in fileList" :src="file.url" :key="i" alt="">
+    </div>
   </div>
 </template>
 
@@ -19,9 +22,17 @@
         type: String,
         required: true
       },
+      accept: {
+        type: String,
+        required: false
+      },
       method: {
         type: String,
         default: 'POST'
+      },
+      fileList: {
+        type: Array,
+        default: () => []
       }
     },
     data () {
@@ -59,7 +70,8 @@
         // 只要readyState属性发生变化，就会调用相应的处理函数
         xhr.onreadystatechange = () => {
           if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            console.log(xhr.response);
+            const res = JSON.parse(xhr.response);
+            this.$emit('update:fileList', [...this.fileList, { url: res.url }]);
           }
         };
       }

@@ -24,7 +24,9 @@
       <wd-uploader
         name="file"
         method="post"
-        action="http:localhost:9000/upload"
+        action="http://localhost:9000/profile"
+        accept="image/*"
+        :file-list.sync="fileList"
       >
         <g-button icon="upload">点击上传</g-button>
       </wd-uploader>
@@ -62,7 +64,8 @@
           { id: 4, name: '姜子牙', position: '辅助', skill: 2, score: 30, age: 82 },
           { id: 5, name: '程咬金', position: '上单', skill: 6, score: 90, age: 62 },
         ],
-        loading: false
+        loading: false,
+        fileList: []
       };
     },
     mounted () {
