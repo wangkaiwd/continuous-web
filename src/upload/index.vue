@@ -11,6 +11,9 @@
 </template>
 
 <script>
+  /*
+  * fileList item描述
+  * */
   export default {
     name: 'WdUploader',
     props: {
