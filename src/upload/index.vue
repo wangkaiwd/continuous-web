@@ -9,7 +9,7 @@
         <div class="img-wrapper">
           <img :src="file.url" :key="i" alt=""><span class="img-name">{{file.name}}</span>
         </div>
-        <div class="delete-icon" onClick="onDeleteFile">
+        <div class="delete-icon" @click="onDeleteFile(i)">
           <g-icon name="delete"></g-icon>
         </div>
       </div>
@@ -89,8 +89,9 @@
           }
         };
       },
-      onDeleteFile () {
-        
+      onDeleteFile (i) {
+        const newFileList = this.fileList.filter((item, index) => index !== i);
+        this.$emit('update:fileList', newFileList);
       }
     },
     beforeDestroy () {
