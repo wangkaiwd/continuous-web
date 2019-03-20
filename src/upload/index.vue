@@ -5,7 +5,14 @@
     </div>
     <input ref="uploadInput" class="upload-input" type="file" :accept="accept">
     <div class="file-list">
-      <img v-for="(file,i) in fileList" :src="file.url" :key="i" alt="">
+      <div class="file-list-wrapper" v-for="(file,i) in fileList">
+        <div class="img-wrapper">
+          <img :src="file.url" :key="i" alt=""><span class="img-name">{{file.name}}</span>
+        </div>
+        <div class="delete-icon" onClick="onDeleteFile">
+          <g-icon name="delete"></g-icon>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -14,8 +21,11 @@
   /*
   * fileList item描述
   * */
+  import GIcon from '../icon';
+
   export default {
     name: 'WdUploader',
+    components: { GIcon },
     props: {
       name: {
         type: String,
@@ -67,6 +77,7 @@
         //  将文件信息上传到服务器
         const formData = new FormData();
         formData.append(this.name, file);
+        console.log(file);
         const xhr = new XMLHttpRequest();
         xhr.open(this.method.toUpperCase(), this.action);
         xhr.send(formData);
@@ -74,9 +85,12 @@
         xhr.onreadystatechange = () => {
           if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             const res = JSON.parse(xhr.response);
-            this.$emit('update:fileList', [...this.fileList, { url: res.url }]);
+            this.$emit('update:fileList', [...this.fileList, { url: res.url, name: file.name }]);
           }
         };
+      },
+      onDeleteFile () {
+        
       }
     },
     beforeDestroy () {
@@ -92,6 +106,30 @@
     }
     .upload-input {
       display: none;
+    }
+    .file-list-wrapper {
+      border: 2px solid red;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      /*&:not(:first-child) {
+      }*/
+      .img-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .img-name {
+        margin-left: 4px;
+      }
+      img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+    .delete-icon {
+      cursor: pointer;
     }
   }
 </style>
