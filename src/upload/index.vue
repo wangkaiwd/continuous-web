@@ -77,8 +77,11 @@
       listenToUpload (e) {
         const file = e.target.files[0];
         const { type, name, size } = file;
+        // 参考文档：https://developer.mozilla.org/zh-CN/docs/Web/API/File/Using_files_from_web_applications
+        // const objectURL = window.URL.createObjectURL(file);
         // 上传完成后将文件信息清空，否则相同文件无法重复上传
-        console.log(e.target.value);
+        // value: 表示选择文件的路径。清空之后，相当于没有选择文件
+        // 文档参考： https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input/file
         e.target.value = '';
         //  将文件信息上传到服务器
         const formData = new FormData();
