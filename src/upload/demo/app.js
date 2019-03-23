@@ -12,7 +12,6 @@ app.get('/', (req, res) => {
   res.send('hello express!');
 });
 app.post('/profile', upload.single('file'), (req, res) => {
-  console.log(req.file);
   res.send({
     url: `${baseUrl}/${req.file.filename}`
   });

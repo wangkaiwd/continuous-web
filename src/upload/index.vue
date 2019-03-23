@@ -168,6 +168,7 @@
     .file-list-wrapper {
       border: 2px solid black;
       display: flex;
+      width: 200px;
       justify-content: space-between;
       align-items: center;
       margin-top: 8px;
@@ -179,6 +180,11 @@
         justify-content: center;
       }
       .img-name {
+        display: inline-block;
+        max-width: 120px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
         margin-left: 4px;
       }
       .img-loading {
@@ -192,6 +198,7 @@
       }
     }
     .delete-icon {
+      margin-right: 4px;
       cursor: pointer;
     }
   }
