@@ -5,7 +5,8 @@
     </div>
     <input ref="uploadInput" multiple class="upload-input" type="file" :accept="accept">
     <div class="file-list">
-      <div class="file-list-wrapper" v-for="file in fileList">
+      <div class="file-list-wrapper" :title="fileListWrapperTitle(file)" :class="fileListWrapperClass(file)"
+           v-for="file in fileList">
         <div class="img-wrapper">
           <g-icon v-if="file.status==='uploading'" class="img-loading" name="loading"></g-icon>
           <img :src="file.url" :key="file.uid" alt="">
@@ -24,6 +25,7 @@
   * fileList item描述
   * */
   import GIcon from '../icon';
+  import defaultImg from './default.jpg';
 
   export default {
     name: 'WdUploader',
@@ -53,6 +55,7 @@
     data () {
       return {};
     },
+    computed: {},
     mounted () {
       this.$refs.uploadInput.addEventListener('change', this.listenToUpload);
     },
@@ -81,7 +84,14 @@
       beforeUpload (file) {
         const { type, name, size } = file;
         const uid = this.generateId();
-        this.$emit('update:fileList', [...this.fileList, { name, type, size, uid, status: 'uploading' }]);
+        this.$emit('update:fileList', [...this.fileList, {
+          name,
+          type,
+          size,
+          uid,
+          status: 'uploading',
+          url: defaultImg
+        }]);
         return uid;
       },
       // 监听onchange事件出现问题：https://stackoverflow.com/questions/19643265/second-use-of-input-file-doesnt-trigger-onchange-anymore
@@ -104,8 +114,9 @@
         // 只要readyState属性发生变化，就会调用相应的处理函数
         xhr.onreadystatechange = () => {
           if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            this.uploadSuccess(JSON.parse(xhr.response), uid);
+            return this.uploadSuccess(JSON.parse(xhr.response), uid);
           }
+          this.uploadFailed(uid);
         };
       },
       uploadSuccess (response, uid) {
@@ -115,9 +126,28 @@
         target.url = response.url;
         this.$emit('update:fileList', copyFileList);
       },
+      uploadFailed (uid) {
+        const copyFileList = [...this.fileList];
+        const target = copyFileList.find(item => item.uid === uid);
+        target.status = 'error';
+        this.$emit('update:fileList', copyFileList);
+      },
       onDeleteFile (uid) {
         const newFileList = this.fileList.filter(item => item.uid !== uid);
         this.$emit('update:fileList', newFileList);
+      },
+      fileListWrapperClass (file) {
+        return {
+          success: file.status === 'success',
+          error: file.status === 'error'
+        };
+      },
+      fileListWrapperTitle (file) {
+        const RESULT_CFG = {
+          'error': '上传失败',
+          'success': '上传成功'
+        };
+        return RESULT_CFG[file.status];
       }
     },
     beforeDestroy () {
@@ -136,13 +166,13 @@
       display: none;
     }
     .file-list-wrapper {
-      border: 2px solid red;
+      border: 2px solid black;
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-top: 8px;
-      /*&:not(:first-child) {
-      }*/
+      &.success {border: 2px solid green;}
+      &.error {border: 2px solid red;}
       .img-wrapper {
         display: flex;
         align-items: center;
