@@ -7,7 +7,9 @@
     <div class="file-list">
       <div class="file-list-wrapper" v-for="file in fileList">
         <div class="img-wrapper">
-          <img :src="file.url" :key="file.uid" alt=""><span class="img-name">{{file.name}}</span>
+          <g-icon v-if="file.status==='uploading'" class="img-loading" name="loading"></g-icon>
+          <img :src="file.url" :key="file.uid" alt="">
+          <span class="img-name">{{file.name}}</span>
         </div>
         <div class="delete-icon" @click="onDeleteFile(file.uid)">
           <g-icon name="delete"></g-icon>
@@ -72,17 +74,27 @@
         });
         this.$refs.uploadInput.dispatchEvent(clickEvent);
       },
+      generateId () {
+        const last = this.fileList.slice(-1)[0];
+        return last ? last.uid + 1 : 0;
+      },
+      beforeUpload (file) {
+        const { type, name, size } = file;
+        const uid = this.generateId();
+        this.$emit('update:fileList', [...this.fileList, { name, type, size, uid, status: 'uploading' }]);
+        return uid;
+      },
       // 监听onchange事件出现问题：https://stackoverflow.com/questions/19643265/second-use-of-input-file-doesnt-trigger-onchange-anymore
       //   相同文件名的图片第二次上传不会触发change事件
       listenToUpload (e) {
         const file = e.target.files[0];
-        const { type, name, size } = file;
         // 参考文档：https://developer.mozilla.org/zh-CN/docs/Web/API/File/Using_files_from_web_applications
         // const objectURL = window.URL.createObjectURL(file);
         // 上传完成后将文件信息清空，否则相同文件无法重复上传
         // value: 表示选择文件的路径。清空之后，相当于没有选择文件
         // 文档参考： https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input/file
         e.target.value = '';
+        const uid = this.beforeUpload(file);
         //  将文件信息上传到服务器
         const formData = new FormData();
         formData.append(this.name, file);
@@ -92,13 +104,16 @@
         // 只要readyState属性发生变化，就会调用相应的处理函数
         xhr.onreadystatechange = () => {
           if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            const res = JSON.parse(xhr.response);
-            // 这里要给fileList一个唯一的uid
-            const last = this.fileList.slice(-1)[0];
-            const uid = last ? last.uid + 1 : 0;
-            this.$emit('update:fileList', [...this.fileList, { url: res.url, type, name, size, uid }]);
+            this.uploadSuccess(JSON.parse(xhr.response), uid);
           }
         };
+      },
+      uploadSuccess (response, uid) {
+        const copyFileList = [...this.fileList];
+        const target = copyFileList.find(item => item.uid === uid);
+        target.status = 'success';
+        target.url = response.url;
+        this.$emit('update:fileList', copyFileList);
       },
       onDeleteFile (uid) {
         const newFileList = this.fileList.filter(item => item.uid !== uid);
@@ -112,6 +127,7 @@
 </script>
 
 <style lang="scss" scoped>
+  @import '../var';
   .wd-uploader {
     .trigger {
       display: inline-block;
@@ -134,6 +150,11 @@
       }
       .img-name {
         margin-left: 4px;
+      }
+      .img-loading {
+        padding: 0 2px;
+        font-size: 24px;
+        @include loading;
       }
       img {
         width: 40px;
