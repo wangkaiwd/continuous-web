@@ -72,9 +72,14 @@
         });
         this.$refs.uploadInput.dispatchEvent(clickEvent);
       },
+      // 监听onchange事件出现问题：https://stackoverflow.com/questions/19643265/second-use-of-input-file-doesnt-trigger-onchange-anymore
+      //   相同文件名的图片第二次上传不会触发change事件
       listenToUpload (e) {
         const file = e.target.files[0];
         const { type, name, size } = file;
+        // 上传完成后将文件信息清空，否则相同文件无法重复上传
+        console.log(e.target.value);
+        e.target.value = '';
         //  将文件信息上传到服务器
         const formData = new FormData();
         formData.append(this.name, file);
