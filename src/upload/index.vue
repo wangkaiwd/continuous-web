@@ -31,25 +31,14 @@
     name: 'WdUploader',
     components: { GIcon },
     props: {
-      name: {
-        type: String,
-        default: 'file'
-      },
-      action: {
-        type: String,
-        required: true
-      },
-      accept: {
-        type: String,
-        required: false
-      },
-      method: {
-        type: String,
-        default: 'POST'
-      },
-      fileList: {
-        type: Array,
-        default: () => []
+      name: { type: String, default: 'file' },
+      action: { type: String, required: true },
+      accept: { type: String, required: false },
+      method: { type: String, default: 'POST' },
+      fileList: { type: Array, default: () => [] },
+      beforeUpload: {
+        type: Function,
+        default: () => true
       }
     },
     data () {
@@ -81,9 +70,8 @@
         const last = this.fileList.slice(-1)[0];
         return last ? last.uid + 1 : 0;
       },
-      beforeUpload (file) {
+      doBeforeUpload (file, uid) {
         const { type, name, size } = file;
-        const uid = this.generateId();
         this.$emit('update:fileList', [...this.fileList, {
           name,
           type,
@@ -92,7 +80,14 @@
           status: 'uploading',
           url: defaultImg
         }]);
-        return uid;
+        // ui 渲染是异步的
+        // let result;
+        // this.$nextTick(() => {
+        //   result = this.beforeUpload(file, this.fileList);
+        // });
+        // console.log(result);
+        // return result;
+        return true;
       },
       // 监听onchange事件出现问题：https://stackoverflow.com/questions/19643265/second-use-of-input-file-doesnt-trigger-onchange-anymore
       //   相同文件名的图片第二次上传不会触发change事件
@@ -104,7 +99,10 @@
         // value: 表示选择文件的路径。清空之后，相当于没有选择文件
         // 文档参考： https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input/file
         e.target.value = '';
-        const uid = this.beforeUpload(file);
+        const uid = this.generateId();
+        const bool = this.doBeforeUpload(file, uid);
+        // 如果doeforeUpload返回false,则阻止上传
+        if (!bool) return;
         //  将文件信息上传到服务器
         const formData = new FormData();
         formData.append(this.name, file);
@@ -135,12 +133,6 @@
       onDeleteFile (uid) {
         const newFileList = this.fileList.filter(item => item.uid !== uid);
         this.$emit('update:fileList', newFileList);
-      },
-      fileListWrapperClass (file) {
-        return {
-          success: file.status === 'success',
-          error: file.status === 'error'
-        };
       },
       fileListWrapperTitle (file) {
         const RESULT_CFG = {
