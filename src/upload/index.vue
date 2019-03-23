@@ -3,13 +3,13 @@
     <div class="trigger" ref="trigger" @click="onClickTrigger">
       <slot></slot>
     </div>
-    <input ref="uploadInput" class="upload-input" type="file" :accept="accept">
+    <input ref="uploadInput" multiple class="upload-input" type="file" :accept="accept">
     <div class="file-list">
-      <div class="file-list-wrapper" v-for="(file,i) in fileList">
+      <div class="file-list-wrapper" v-for="file in fileList">
         <div class="img-wrapper">
-          <img :src="file.url" :key="i" alt=""><span class="img-name">{{file.name}}</span>
+          <img :src="file.url" :key="file.uid" alt=""><span class="img-name">{{file.name}}</span>
         </div>
-        <div class="delete-icon" @click="onDeleteFile(i)">
+        <div class="delete-icon" @click="onDeleteFile(file.uid)">
           <g-icon name="delete"></g-icon>
         </div>
       </div>
@@ -74,10 +74,10 @@
       },
       listenToUpload (e) {
         const file = e.target.files[0];
+        const { type, name, size } = file;
         //  将文件信息上传到服务器
         const formData = new FormData();
         formData.append(this.name, file);
-        console.log(file);
         const xhr = new XMLHttpRequest();
         xhr.open(this.method.toUpperCase(), this.action);
         xhr.send(formData);
@@ -85,12 +85,15 @@
         xhr.onreadystatechange = () => {
           if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             const res = JSON.parse(xhr.response);
-            this.$emit('update:fileList', [...this.fileList, { url: res.url, name: file.name }]);
+            // 这里要给fileList一个唯一的uid
+            const last = this.fileList.slice(-1)[0];
+            const uid = last ? last.uid + 1 : 0;
+            this.$emit('update:fileList', [...this.fileList, { url: res.url, type, name, size, uid }]);
           }
         };
       },
-      onDeleteFile (i) {
-        const newFileList = this.fileList.filter((item, index) => index !== i);
+      onDeleteFile (uid) {
+        const newFileList = this.fileList.filter(item => item.uid !== uid);
         this.$emit('update:fileList', newFileList);
       }
     },
