@@ -5,7 +5,7 @@
     </div>
     <input ref="uploadInput" multiple class="upload-input" type="file" :accept="accept">
     <div class="file-list">
-      <div class="file-list-wrapper" :title="fileListWrapperTitle(file)" :class="fileListWrapperClass(file)"
+      <div class="file-list-wrapper" :title="fileListWrapperTitle(file)" :class="{[file.status]:file.status}"
            v-for="file in fileList">
         <div class="img-wrapper">
           <g-icon v-if="file.status==='uploading'" class="img-loading" name="loading"></g-icon>
@@ -172,8 +172,14 @@
       justify-content: space-between;
       align-items: center;
       margin-top: 8px;
-      &.success {border: 2px solid green;}
-      &.error {border: 2px solid red;}
+      &.success {
+        border: 2px solid green;
+        .img-name {color: green;}
+      }
+      &.error {
+        border: 2px solid red;
+        .img-name {color: red;}
+      }
       .img-wrapper {
         display: flex;
         align-items: center;
