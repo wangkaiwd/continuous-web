@@ -91,6 +91,16 @@
           status: 'uploading',
           url: defaultImg
         }]);
+        // 遇到的问题： 连续更新父组件传来的props时，只有最后一次更新会生效
+        // 页面渲染是异步的
+        // 解决方法：将需要连续更新的操作先统一处理，处理完成后再进行更新
+        // const tempArray = [];
+        // for (let i = 0; i < files.length; i++) {
+        //   const file = files[i], uid = uids[i];
+        //   const { type, size, name } = file;
+        //   tempArray.push({ type, size, name, uid, status: 'uploading' });
+        // }
+        // this.$emit('update:fileList', [...this.fileList, ...tempArray]);
         return true;
       },
       // 监听onchange事件出现问题：https://stackoverflow.com/questions/19643265/second-use-of-input-file-doesnt-trigger-onchange-anymore
@@ -105,7 +115,7 @@
         e.target.value = '';
         const uid = this.generateId();
         const bool = this.doBeforeUpload(file, uid);
-        // 如果doeforeUpload返回false,则阻止上传
+        // 如果doBeforeUpload返回false,则阻止上传
         if (!bool) return;
         //  将文件信息上传到服务器
         const formData = new FormData();
@@ -120,6 +130,37 @@
           }
           this.uploadFailed(uid);
         };
+        // const files = [...e.target.files];
+        // e.target.value = '';
+        // const uids = [];
+        // const bool = this.doBeforeUpload(files, uid);
+        // // 如果doBeforeUpload返回false,则阻止上传
+        // if (!bool) return;
+        // for (let i = 0; i < files.length; i++) {
+        //   const uid = this.generateId();
+        //   uids.push(uid[i]);
+        // }
+        // console.log('uids', uids);
+        // this.doBeforeUpload(files, uids);
+        // for (let i = 0; i < files.length; i++) {
+        //   const file = files[i];
+        //   //  将文件信息上传到服务器
+        //   const uid = this.generateId();
+        //   this.doBeforeUpload(file, uid);
+        //   const formData = new FormData();
+        //   formData.append(this.name, file);
+        //   const xhr = new XMLHttpRequest();
+        //   xhr.open(this.method.toUpperCase(), this.action);
+        //   xhr.send(formData);
+        //   // 只要readyState属性发生变化，就会调用相应的处理函数
+        //   xhr.onreadystatechange = () => {
+        //     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+        //       return this.uploadSuccess(JSON.parse(xhr.response), uid);
+        //     }
+        //     this.uploadFailed(uid);
+        //   };
+        // }
+
       },
       uploadSuccess (response, uid) {
         const copyFileList = [...this.fileList];

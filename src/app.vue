@@ -26,7 +26,6 @@
         method="post"
         action="http://localhost:9000/profile"
         accept="image/*"
-        :multiple="true"
         :file-list.sync="fileList"
       >
         <g-button icon="upload">点击上传</g-button>
