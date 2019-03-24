@@ -107,7 +107,7 @@
       //   相同文件名的图片第二次上传不会触发change事件
       listenToUpload (e) {
         const file = e.target.files[0];
-        // 参考文档：https://developer.mozilla.org/zh-CN/docs/Web/API/File/Using_files_from_web_applications
+        // // 参考文档：https://developer.mozilla.org/zh-CN/docs/Web/API/File/Using_files_from_web_applications
         // const objectURL = window.URL.createObjectURL(file);
         // 上传完成后将文件信息清空，否则相同文件无法重复上传
         // value: 表示选择文件的路径。清空之后，相当于没有选择文件
@@ -132,16 +132,7 @@
         };
         // const files = [...e.target.files];
         // e.target.value = '';
-        // const uids = [];
-        // const bool = this.doBeforeUpload(files, uid);
         // // 如果doBeforeUpload返回false,则阻止上传
-        // if (!bool) return;
-        // for (let i = 0; i < files.length; i++) {
-        //   const uid = this.generateId();
-        //   uids.push(uid[i]);
-        // }
-        // console.log('uids', uids);
-        // this.doBeforeUpload(files, uids);
         // for (let i = 0; i < files.length; i++) {
         //   const file = files[i];
         //   //  将文件信息上传到服务器
@@ -160,7 +151,6 @@
         //     this.uploadFailed(uid);
         //   };
         // }
-
       },
       uploadSuccess (response, uid) {
         const copyFileList = [...this.fileList];

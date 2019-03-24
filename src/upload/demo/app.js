@@ -21,7 +21,7 @@ app.get('/preview/:img', (req, res) => {
   // 通过设置绝对路径，来将对应的文件信息返回，并通过回调函数处理错误
   res.sendFile(`./test/${req.params.img}`, {
     root: __dirname,
-    headers: { 'Content-Type': 'image/jpeg,image/png' }
+    // headers: { 'Content-Type': 'image/jpeg' } // 不设置的话会根据后缀自动设置
   }, err => {
     if (err) res.status(404).send('Not Found');
   });
