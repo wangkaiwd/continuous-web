@@ -3,7 +3,7 @@
     <div class="trigger" ref="trigger" @click="onClickTrigger">
       <slot></slot>
     </div>
-    <input ref="uploadInput" multiple class="upload-input" type="file" :accept="accept">
+    <input ref="uploadInput" :multiple="multiple" class="upload-input" type="file" :accept="accept">
     <div class="file-list">
       <div class="file-list-wrapper" :title="fileListWrapperTitle(file)" :class="{[file.status]:file.status}"
            v-for="file in fileList">
@@ -23,6 +23,16 @@
 <script>
   /*
   * fileList item描述
+  *   {
+  *     uid,
+  *     name,
+  *     type,
+  *     url
+  *   }
+  *
+  *  ui异步渲染遇到的问题：
+  *   https://codesandbox.io/embed/50njxo10np
+  *   对比react的this.setState()通关传入函数进行更新的情况
   * */
   import GIcon from '../icon';
   import defaultImg from './default.jpg';
@@ -35,6 +45,7 @@
       action: { type: String, required: true },
       accept: { type: String, required: false },
       method: { type: String, default: 'POST' },
+      multiple: { type: Boolean, default: false },
       fileList: { type: Array, default: () => [] },
       beforeUpload: {
         type: Function,
@@ -80,13 +91,6 @@
           status: 'uploading',
           url: defaultImg
         }]);
-        // ui 渲染是异步的
-        // let result;
-        // this.$nextTick(() => {
-        //   result = this.beforeUpload(file, this.fileList);
-        // });
-        // console.log(result);
-        // return result;
         return true;
       },
       // 监听onchange事件出现问题：https://stackoverflow.com/questions/19643265/second-use-of-input-file-doesnt-trigger-onchange-anymore
