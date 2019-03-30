@@ -3,21 +3,27 @@
 
 ## 基础用法
 <ClientOnly>
-  <easy-button></easy-button>
-</ClientOnly>
+<template>
+  <ComponentShow>
+    <easy-button></easy-button>
+<template #code>
 
-示例demo:
-```html
+```vue
 <g-button icon="setting">按钮</g-button>
 <g-button :loading="true">按钮</g-button>
 <g-button icon="thumbs-up">按钮</g-button>
 <g-button icon="success" icon-position="right">按钮</g-button>
-
 <g-button-group>
   <g-button icon="left">前进</g-button>
   <g-button icon="right" icon-position="right">后退</g-button>
 </g-button-group>
 ```
+
+</template>
+  </ComponentShow>
+</template>
+</ClientOnly>
+
 
 ## API
 按钮的属性说明：
