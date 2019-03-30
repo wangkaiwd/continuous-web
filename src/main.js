@@ -43,6 +43,10 @@ import CollapseItem from './collapse/collapseItem';
 
 import Cascader from './cascader/cascader';
 
+import Sticky from './directives/sticky';
+
+Vue.directive('sticky', Sticky);
+
 Vue.use(Plugin);
 
 Vue.component('g-button', Button);

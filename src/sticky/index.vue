@@ -33,7 +33,8 @@
         const { stickPlaceholder, stickyWrapper } = this.$refs;
         this.stickPlaceholder = stickPlaceholder;
         this.stickyWrapper = stickyWrapper;
-        this.scrollTop = stickyWrapper.getBoundingClientRect().top;
+        // 要注意一个问题，用户可能实在滚动后刷新页面，而刷新页面后的top值会重新变化，而top+window.scrollY是不变的，表示元素到浏览器文档顶部的距离
+        this.scrollTop = stickyWrapper.getBoundingClientRect().top + window.scrollY;
       },
       setPosition () {
         const { stickPlaceholder, stickyWrapper } = this;
@@ -50,10 +51,8 @@
         const scrollY = window.scrollY;
         // scrollTop: 定位元素在页面中的原始高度，scrollY: 屏幕滚动的高度
         // scrollTop - scrollY : 物体距离屏幕顶部的高度
-        if (this.topSpace > this.scrollTop) {
-          console.warn('设置的高度大于元素距离顶部的距离，定位无法生效');
-          return;
-        }
+        // 这里为什么不能直接获取top?
+        // 在setPosition直接设置了top为topSpace,所以在top<this.topSpace之后，top就会永远变为topSpace,不会变化，那么top<=this.topSpace永远成立
         if (this.scrollTop - scrollY <= this.topSpace) {
           this.setPosition();
         } else {
