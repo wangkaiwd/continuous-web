@@ -42,6 +42,8 @@
         stickyWrapper.style.width = stickPlaceholder.offsetWidth + 'px';
         stickyWrapper.style.left = left + 'px';
         stickyWrapper.style.top = this.topSpace + 'px';
+        // 这里要考虑一个问题：如果sticky组件包裹的内容的高度是不确定的，如一个异步加载的图片
+        // 这里并没有从根本上解决这个问题，只是说考虑到在用户滚动的时候，图片应该是加载出来的，其实从根本上来将还是可能会有小问题
         stickPlaceholder.style.height = stickyWrapper.offsetHeight + 'px';
       },
       onScroll () {
