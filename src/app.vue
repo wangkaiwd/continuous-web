@@ -1,16 +1,22 @@
 <template>
   <div>
     <div class="component-wrapper">
-      
+      <self-menu>
+        <self-menu-item>首页</self-menu-item>
+        <self-menu-item>关于</self-menu-item>
+        <self-menu-item>联系方式</self-menu-item>
+      </self-menu>
     </div>
   </div>
 </template>
 <script>
-  import GSticky from './sticky';
+  import SelfMenu from 'menu/menu';
+  import SelfSubMenu from 'menu/subMenu';
+  import SelfMenuItem from 'menu/menuItem';
 
   export default {
     name: 'App',
-    components: { GSticky },
+    components: { SelfMenu, SelfMenuItem, SelfSubMenu },
     data () {
       return {};
     },
@@ -22,9 +28,7 @@
 <style lang="scss" scoped>
   .component-wrapper {
     margin: 40px;
-    /*max-height: calc(100vh - 80px);*/
     display: flex;
-    /*align-items: center;*/
     justify-content: center;
     overflow: auto;
     .box {
