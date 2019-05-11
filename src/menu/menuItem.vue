@@ -1,17 +1,37 @@
 <template>
-  <div class="menu-item">
+  <div class="menu-item" :class="{selected}" @click="onClick">
     <slot></slot>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'SelfMenuItem'
+    name: 'SelfMenuItem',
+    inject: ['rootMenu'],
+    props: {
+      name: {
+        type: String,
+        required: true
+      }
+    },
+    computed: {
+      selected () {
+        return this.rootMenu.selected === this.name;
+      }
+    },
+    methods: {
+      onClick () {
+        this.rootMenu.updateSelected(this);
+      }
+    }
   };
 </script>
 
 <style lang="scss" scoped>
   .menu-item {
-
+    padding: 1em 2em;
+    &.selected {
+      background-color: red;
+    }
   }
 </style>
