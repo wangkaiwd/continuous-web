@@ -17,7 +17,7 @@
       -->
       <self-menu :selected.sync="select">
         <self-menu-item name="home">首页</self-menu-item>
-        <self-sub-menu>
+        <self-sub-menu name="about">
           <template #title>
             关于
           </template>
@@ -27,6 +27,7 @@
         </self-sub-menu>
         <self-menu-item name="contact">联系方式</self-menu-item>
       </self-menu>
+      {{select}}
     </div>
   </div>
 </template>
@@ -40,7 +41,7 @@
     components: { SelfMenu, SelfMenuItem, SelfSubMenu },
     data () {
       return {
-        select: 'home'
+        select: 'about1'
       };
     },
     mounted () {
