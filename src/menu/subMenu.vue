@@ -1,9 +1,9 @@
 <template>
   <div class="self-sub-menu">
-    <div class="self-sub-menu-title">
+    <div class="self-sub-menu-title" @click="onClick">
       <slot name="title"></slot>
     </div>
-    <div class="self-sub-menu-item">
+    <div class="self-sub-menu-item" v-if="open">
       <slot></slot>
     </div>
   </div>
@@ -11,7 +11,17 @@
 
 <script>
   export default {
-    name: 'SelfSubMenu'
+    name: 'SelfSubMenu',
+    data () {
+      return {
+        open: false
+      };
+    },
+    methods: {
+      onClick () {
+        this.open = !this.open;
+      }
+    }
   };
 </script>
 
