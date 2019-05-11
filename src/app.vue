@@ -17,7 +17,10 @@
       -->
       <self-menu :selected.sync="select">
         <self-menu-item name="home">首页</self-menu-item>
-        <self-sub-menu title="关于">
+        <self-sub-menu>
+          <template #title>
+            关于
+          </template>
           <self-menu-item name="about1">关于1</self-menu-item>
           <self-menu-item name="about2">关于2</self-menu-item>
           <self-menu-item name="about3">关于3</self-menu-item>
