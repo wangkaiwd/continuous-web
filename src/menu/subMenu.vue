@@ -1,19 +1,25 @@
 <template>
   <div class="self-sub-menu">
-    <div class="self-sub-menu-title" @click="onClick">
+    <div class="self-sub-menu-title">
       <slot name="title"></slot>
     </div>
     <!--  这里碰到一个问题：如果使用v-if的话，并没有办法设置初始选中项，
           虽然我们已经设置了，但是由于页面中并没有该元素，所以我们根本获取不到dom
           这里我们使用v-show来解决这个问题
       -->
-    <div class="self-sub-menu-popover" v-show="selected">
+    <div class="self-sub-menu-popover">
       <slot></slot>
     </div>
   </div>
 </template>
 
 <script>
+  /**
+   * 这个组件的难点：
+   *  1. 递归组件之间如何通信
+   *  2. 递归组件的css如何书写
+   *  3. 如何可以优雅的将水平和竖直方向的情况通过一个组件来处理好
+   */
   export default {
     name: 'SelfSubMenu',
     inject: ['rootMenu'],
@@ -25,42 +31,35 @@
     },
     data () {
       return {
-        selected: false
+        open: false
       };
     },
-    watch: {
-      'rootMenu.selected': {
-        handler () {
-          this.selected = this.getSelect();
-        }
-      }
-    },
     mounted () {
-      this.selected = this.getSelect();
     },
     methods: {
       onClick () {
-        this.rootMenu.updateSelected(this, this.getSelect());
       },
-      getSelect () {
-        const { selected } = this.rootMenu;
-        const isSelectChild = this.$children
-          .filter(vm => vm.$options.name === 'SelfMenuItem')
-          .some(vm => vm.name === selected);
-        const isSelectCurrent = selected === this.name;
-        return isSelectCurrent || isSelectChild;
-      }
     },
   };
 </script>
 
 <style lang="scss" scoped>
+  @import "../var";
   .self-sub-menu {
     position: relative;
+    &:hover {
+      color: $blue;
+      .self-sub-menu-popover {
+        display: inline-block;
+        vertical-align: top;
+      }
+    }
     &-title {
       padding: 1em 2em;
+      cursor: pointer;
     }
     &-popover {
+      display: none;
       border: 1px solid blue;
       position: absolute;
       top: 100%;

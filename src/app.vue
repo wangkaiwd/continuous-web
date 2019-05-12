@@ -2,7 +2,7 @@
   <div>
     <div class="component-wrapper">
       <!--
-          defaultSelected: []
+          defaultSelected: []（可以同时展开多个subMenu,所以要用数组来表示，而menuItem只能同时选中一个）
           1. 首先完成最简单的1级菜单
           2. 然后完成对应的二级菜单
           3. 最后完成层级的递归

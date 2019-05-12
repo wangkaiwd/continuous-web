@@ -28,8 +28,13 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "../var";
   .menu-item {
     padding: 1em 2em;
+    cursor: pointer;
+    &:hover {
+      color: $blue;
+    }
     &.selected {
       background-color: red;
     }
