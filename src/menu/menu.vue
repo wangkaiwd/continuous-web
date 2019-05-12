@@ -1,5 +1,5 @@
 <template>
-  <div class="self-menu">
+  <div class="self-menu" :class="{vertical}">
     <slot></slot>
   </div>
 </template>
@@ -13,10 +13,15 @@
    * provide: 选项应该是一个对象或返回一个对象的函数。该对象包含可注入其子孙的属性。
    * inject: 1. 字符串数组 2. 对象，可以通过default来设置默认值
    */
+  /**
+   * 组件一般要提供的api
+   *
+   */
   export default {
     name: 'SelfMenu',
     props: {
-      selected: { type: String }
+      selected: { type: String },
+      vertical: { type: Boolean, default: false }
     },
     provide () {
       return {
@@ -30,9 +35,11 @@
     },
     methods: {
       updateSelected (vm) {
-        this.$children
-          .filter(item => item.$options.name === 'SelfSubMenu')
-          .forEach(item => item.open = false);
+        if (!this.vertical) {
+          this.$children
+            .filter(item => item.$options.name === 'SelfSubMenu')
+            .forEach(item => item.open = false);
+        }
         this.$emit('update:selected', vm.name);
       }
     }
@@ -43,5 +50,10 @@
   .self-menu {
     display: flex;
     border: 1px solid red;
+    user-select: none;
+    &.vertical {
+      display: inline-flex;
+      flex-direction: column;
+    }
   }
 </style>

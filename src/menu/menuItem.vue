@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-item" :class="{selected}" @click="onClick">
+  <div class="self-menu-item" :class="{selected}" @click="onClick">
     <slot></slot>
   </div>
 </template>
@@ -32,7 +32,8 @@
 
 <style lang="scss" scoped>
   @import "../var";
-  .menu-item {
+  .self-menu-item {
+    display: inline-block;
     padding: 1em 2em;
     cursor: pointer;
     &:hover {
