@@ -44,7 +44,8 @@
     data () {
       return {
         open: false,
-        items: []
+        items: [],
+        timerId: null
       };
     },
     mounted () {
@@ -57,10 +58,14 @@
         this.items.push(item);
       },
       onMouseEnter () {
+        if (this.timerId) {clearTimeout(this.timerId);}
         this.open = true;
       },
       onMouseLeave () {
-        this.open = false;
+        clearTimeout(this.timerId);
+        this.timerId = setTimeout(() => {
+          this.open = false;
+        }, 200);
       }
     },
   };
@@ -81,6 +86,7 @@
       }
     }
     &-popover {
+      margin-top: 4px;
       border: 1px solid blue;
       position: absolute;
       top: 100%;
@@ -91,6 +97,7 @@
     /*多级菜单的样式*/
     .self-sub-menu {
       .self-sub-menu-popover {
+        margin-left: 4px;
         top: 0;
         left: 100%;
       }
