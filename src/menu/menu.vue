@@ -20,11 +20,19 @@
     },
     provide () {
       return {
-        rootMenu: this
+        rootMenu: this,
+      };
+    },
+    data () {
+      return {
+        namePath: [this.selected]
       };
     },
     methods: {
       updateSelected (vm) {
+        this.$children
+          .filter(item => item.$options.name === 'SelfSubMenu')
+          .forEach(item => item.open = false);
         this.$emit('update:selected', vm.name);
       }
     }

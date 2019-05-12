@@ -1,13 +1,20 @@
 <template>
-  <div class="self-sub-menu">
-    <div class="self-sub-menu-title">
+  <div
+    class="self-sub-menu"
+    @mouseenter="onMouseEnter"
+    @mouseleave="onMouseLeave"
+  >
+    <div
+      class="self-sub-menu-title"
+      :class="{selected}"
+    >
       <slot name="title"></slot>
     </div>
     <!--  这里碰到一个问题：如果使用v-if的话，并没有办法设置初始选中项，
           虽然我们已经设置了，但是由于页面中并没有该元素，所以我们根本获取不到dom
           这里我们使用v-show来解决这个问题
       -->
-    <div class="self-sub-menu-popover">
+    <div class="self-sub-menu-popover" v-show="open">
       <slot></slot>
     </div>
   </div>
@@ -29,9 +36,15 @@
         required: true
       }
     },
+    computed: {
+      selected () {
+        return this.items.some(item => item.selected);
+      }
+    },
     data () {
       return {
-        open: false
+        open: false,
+        items: []
       };
     },
     mounted () {
@@ -39,6 +52,16 @@
     methods: {
       onClick () {
       },
+      // 获取到所有的子组件，只要有子组件被选中，那么对应的subMenu也应该被选中
+      addItem (item) {
+        this.items.push(item);
+      },
+      onMouseEnter () {
+        this.open = true;
+      },
+      onMouseLeave () {
+        this.open = false;
+      }
     },
   };
 </script>
@@ -47,25 +70,30 @@
   @import "../var";
   .self-sub-menu {
     position: relative;
-    &:hover {
-      color: $blue;
-      .self-sub-menu-popover {
-        display: inline-block;
-        vertical-align: top;
-      }
-    }
     &-title {
       padding: 1em 2em;
       cursor: pointer;
+      &.selected {
+        background-color: red;
+      }
+      &:hover {
+        color: $blue;
+      }
     }
     &-popover {
-      display: none;
       border: 1px solid blue;
       position: absolute;
       top: 100%;
       left: 0;
       white-space: nowrap;
       word-break: break-all;
+    }
+    /*多级菜单的样式*/
+    .self-sub-menu {
+      .self-sub-menu-popover {
+        top: 0;
+        left: 100%;
+      }
     }
   }
 </style>

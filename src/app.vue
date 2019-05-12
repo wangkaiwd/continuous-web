@@ -24,6 +24,12 @@
           <self-menu-item name="about1">关于1</self-menu-item>
           <self-menu-item name="about2">关于2</self-menu-item>
           <self-menu-item name="about3">关于3</self-menu-item>
+          <self-sub-menu name="personal">
+            <template #title>个人</template>
+            <self-menu-item name="personal1">个人1</self-menu-item>
+            <self-menu-item name="personal2">个人2</self-menu-item>
+            <self-menu-item name="personal3">个人3</self-menu-item>
+          </self-sub-menu>
         </self-sub-menu>
         <self-menu-item name="contact">联系方式</self-menu-item>
       </self-menu>

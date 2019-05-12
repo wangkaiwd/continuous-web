@@ -19,6 +19,9 @@
         return this.rootMenu.selected === this.name;
       }
     },
+    mounted () {
+      this.$parent.addItem && this.$parent.addItem(this);
+    },
     methods: {
       onClick () {
         this.rootMenu.updateSelected(this);
