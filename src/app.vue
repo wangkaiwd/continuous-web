@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="component-wrapper">
-      <self-cascader>
+      <self-cascader :options="options">
         <self-button>Click</self-button>
       </self-cascader>
     </div>
@@ -16,8 +16,40 @@
     components: { SelfCascader, SelfButton },
     data () {
       return {
-        select: 'about1',
-        select1: 'contact'
+        options: [
+          {
+            label: '浙江',
+            value: 'zhejiang',
+            children: [
+              {
+                label: '杭州',
+                value: 'hangzhou',
+                children: [
+                  {
+                    label: '西湖',
+                    value: 'xihu'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            label: '内蒙古',
+            value: 'neimenggu',
+            children: [
+              {
+                label: '呼和浩特',
+                value: 'huhehaote',
+                children: [
+                  {
+                    label: '呼伦贝尔',
+                    value: 'hulunbeier'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       };
     },
     mounted () {
