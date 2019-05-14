@@ -1,44 +1,30 @@
 <template>
-  <div class="cascader">
-    <div class="trigger" @click="visible=!visible">
-      <!--<slot></slot>-->
-      click
+  <!--
+    ui分析：通过点击一个元素，然后在元素下边弹出选择框
+    要将2个元素放到一个父元素里，方便位置的控制以及插槽的使用
+   -->
+  <div class="self-cascader">
+    <div class="self-cascader-trigger">
+      <slot></slot>
     </div>
-    <div class="popover">
-      <cascader-child :optionsItem="options" v-if="visible"></cascader-child>
-    </div>
+    <div class="self-cascader-popover"></div>
   </div>
 </template>
 <script>
-  import CascaderChild from './cascaderChild'
 
   export default {
-    name: 'GlobalCascader',
-    components: {
-      CascaderChild
-    },
-    props: {
-      options: {
-        type: Array
-      }
-    },
+    name: 'SelfCascader',
+    components: {},
     data () {
-      return {
-        visible: false,
-      }
+      return {};
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
   @import '../var';
 
-  .cascader {
+  .self-cascader {
     position: relative;
-    .trigger {
-      width: 100px;
-      height: $button-height;
-      border: 1px solid red;
-    }
   }
 </style>
