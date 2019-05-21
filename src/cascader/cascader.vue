@@ -3,6 +3,10 @@
     ui分析：通过点击一个元素，然后在元素下边弹出选择框
     要将2个元素放到一个父元素里，方便位置的控制以及插槽的使用
    -->
+  <!--
+    可以先通过写死的几层数据来进行数据的初步展示，之后再总结为递归
+    接下来实现的效果：点击上一层出现下一层。
+   -->
   <div class="self-cascader">
     <div class="self-cascader-trigger" @click="onClickTrigger">
       <slot></slot>
