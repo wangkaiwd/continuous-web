@@ -8,11 +8,7 @@
       <slot></slot>
     </div>
     <div class="self-cascader-popover" v-if="visible">
-      <!--<ul class="self-cascader-item-wrapper">
-        <li class="self-cascader-item" v-for="option in options" :key="option.value">
-          {{option.label}}
-        </li>
-      </ul>-->
+      <!--   这里需要留意：vue的属性不能以data-开头   -->
       <self-cascader-item :options="options"></self-cascader-item>
     </div>
   </div>
@@ -52,11 +48,5 @@
       top: 100%;
       left: 0;
     }
-    /*&-item-wrapper {*/
-    /*  background-color: pink;*/
-    /*}*/
-    /*&-item {*/
-    /*  padding: 8px 12px;*/
-    /*}*/
   }
 </style>
