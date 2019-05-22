@@ -18,18 +18,24 @@
         <div
           class="self-cascader-item"
           v-for="item in options"
+          @click="onClickLevel1(item)"
           :key="item.value"
         >
           {{item.label}}
         </div>
       </div>
       <div class="level2">
-        <div class="self-cascader-item" v-for="item in options[0].children" :key="item.value">
+        <div
+          class="self-cascader-item"
+          v-for="item in level2Item"
+          :key="item.value"
+          @click="onClickLevel2(item)"
+        >
           {{item.label}}
         </div>
       </div>
       <div class="level3">
-        <div class="self-cascader-item" v-for="item in options[0].children[0].children" :key="item.value">
+        <div class="self-cascader-item" v-for="item in level3Item" :key="item.value">
           {{item.label}}
         </div>
       </div>
@@ -50,12 +56,31 @@
     },
     data () {
       return {
-        visible: false
+        visible: false,
+        level2Item: [],
+        level3Item: []
       };
     },
     methods: {
       onClickTrigger () {
         this.visible = !this.visible;
+      },
+      onClickLevel1 (item) {
+        const level1Item = this.options.find(option => option.value === item.value);
+        if (level1Item.children) {
+          this.level2Item = level1Item.children;
+        } else {
+          this.level2Item = [];
+        }
+        this.level3Item = [];
+      },
+      onClickLevel2 (item) {
+        const level2Item = this.level2Item.find(option => option.value === item.value);
+        if (level2Item.children) {
+          this.level3Item = level2Item.children;
+        } else {
+          this.level3Item = [];
+        }
       }
     }
   };
