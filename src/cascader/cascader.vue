@@ -13,7 +13,26 @@
     </div>
     <div class="self-cascader-popover" v-if="visible">
       <!--   这里需要留意：vue的属性不能以data-开头   -->
-      <self-cascader-item :options="options"></self-cascader-item>
+      <!--      <self-cascader-item :options="options"></self-cascader-item>-->
+      <div class="level1">
+        <div
+          class="self-cascader-item"
+          v-for="item in options"
+          :key="item.value"
+        >
+          {{item.label}}
+        </div>
+      </div>
+      <div class="level2">
+        <div class="self-cascader-item" v-for="item in options[0].children" :key="item.value">
+          {{item.label}}
+        </div>
+      </div>
+      <div class="level3">
+        <div class="self-cascader-item" v-for="item in options[0].children[0].children" :key="item.value">
+          {{item.label}}
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -48,9 +67,12 @@
   .self-cascader {
     position: relative;
     &-popover {
+      display: flex;
       position: absolute;
       top: 100%;
       left: 0;
+      border: 1px solid red;
+      height: 200px;
     }
   }
 </style>

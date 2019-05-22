@@ -5,6 +5,7 @@
       <div
         v-for="option in options"
         class="self-cascader-item-list"
+        @click="onClickLeft(option)"
         :key="option.value"
       >
         {{option.label}}
@@ -14,14 +15,11 @@
 
     <div class="self-cascader-item-right">
       <!--  这样做的一个好处  -->
-      <template v-for="option in options">
-        <self-cascader-item
-          :options="option.children"
-          v-if="option.children"
-          :key="option.value"
-        >
-        </self-cascader-item>
-      </template>
+      <self-cascader-item
+        :options="childItem.children"
+        v-if="childItem.children"
+      >
+      </self-cascader-item>
     </div>
   </div>
 </template>
@@ -34,6 +32,19 @@
         type: Array,
         default: () => []
       }
+    },
+    data () {
+      return {
+        childItem: []
+      };
+    },
+    computed: {},
+    methods: {
+      onClickLeft (option) {
+        const childItem = this.options
+          .find(item => item.value === option.value);
+        this.childItem = childItem || [];
+      }
     }
   };
 </script>
@@ -43,6 +54,10 @@
     display: flex;
     &-left {
       width: 100px;
+      background-color: pink;
+      border: 1px solid blue;
+      height: 200px;
+      margin-left: 10px;
     }
     &-list {
       padding: 8px 12px;
