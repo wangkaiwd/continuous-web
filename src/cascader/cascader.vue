@@ -13,32 +13,32 @@
     </div>
     <div class="self-cascader-popover" v-if="visible">
       <!--   这里需要留意：vue的属性不能以data-开头   -->
-      <!--      <self-cascader-item :options="options"></self-cascader-item>-->
-      <div class="level1">
-        <div
-          class="self-cascader-item"
-          v-for="item in options"
-          @click="onClickLevel1(item)"
-          :key="item.value"
-        >
-          {{item.label}}
-        </div>
-      </div>
-      <div class="level2">
-        <div
-          class="self-cascader-item"
-          v-for="item in level2Item"
-          :key="item.value"
-          @click="onClickLevel2(item)"
-        >
-          {{item.label}}
-        </div>
-      </div>
-      <div class="level3">
-        <div class="self-cascader-item" v-for="item in level3Item" :key="item.value">
-          {{item.label}}
-        </div>
-      </div>
+      <self-cascader-item :options="options"></self-cascader-item>
+      <!--      <div class="level1">-->
+      <!--        <div-->
+      <!--          class="self-cascader-item"-->
+      <!--          v-for="item in options"-->
+      <!--          @click="onClickLevel1(item)"-->
+      <!--          :key="item.value"-->
+      <!--        >-->
+      <!--          {{item.label}}-->
+      <!--        </div>-->
+      <!--      </div>-->
+      <!--      <div class="level2">-->
+      <!--        <div-->
+      <!--          class="self-cascader-item"-->
+      <!--          v-for="item in level2Item"-->
+      <!--          :key="item.value"-->
+      <!--          @click="onClickLevel2(item)"-->
+      <!--        >-->
+      <!--          {{item.label}}-->
+      <!--        </div>-->
+      <!--      </div>-->
+      <!--      <div class="level3">-->
+      <!--        <div class="self-cascader-item" v-for="item in level3Item" :key="item.value">-->
+      <!--          {{item.label}}-->
+      <!--        </div>-->
+      <!--      </div>-->
     </div>
   </div>
 </template>
@@ -92,7 +92,6 @@
   .self-cascader {
     position: relative;
     &-popover {
-      display: flex;
       position: absolute;
       top: 100%;
       left: 0;

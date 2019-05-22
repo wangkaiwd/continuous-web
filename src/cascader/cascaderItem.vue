@@ -16,8 +16,8 @@
     <div class="self-cascader-item-right">
       <!--  这样做的一个好处  -->
       <self-cascader-item
-        :options="childItem.children"
-        v-if="childItem.children"
+        :options="childItem"
+        v-if="childItem.length > 0"
       >
       </self-cascader-item>
     </div>
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+
   export default {
     name: 'SelfCascaderItem',
     props: {
@@ -43,7 +44,11 @@
       onClickLeft (option) {
         const childItem = this.options
           .find(item => item.value === option.value);
-        this.childItem = childItem || [];
+        if (childItem.children) {
+          this.childItem = childItem.children;
+        } else {
+          this.childItem = [];
+        }
       }
     }
   };
@@ -53,11 +58,7 @@
   .self-cascader-item {
     display: flex;
     &-left {
-      width: 100px;
-      background-color: pink;
-      border: 1px solid blue;
-      height: 200px;
-      margin-left: 10px;
+      border: 1px solid black;
     }
     &-list {
       padding: 8px 12px;
