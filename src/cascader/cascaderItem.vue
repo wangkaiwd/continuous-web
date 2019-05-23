@@ -9,7 +9,7 @@
         :key="option.value"
       >
         {{option.label}}
-        <g-icon name="s-right"></g-icon>
+        <g-icon v-if="option.children" name="s-right"></g-icon>
       </div>
       <!--  将所有的子集放到这里  -->
     </div>
@@ -68,6 +68,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 8px 12px;
+      cursor: pointer;
     }
     &-right {
       border-left: 1px solid blue;
