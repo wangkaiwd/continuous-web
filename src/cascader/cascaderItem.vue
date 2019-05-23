@@ -9,15 +9,15 @@
         :key="option.value"
       >
         {{option.label}}
+        <g-icon name="s-right"></g-icon>
       </div>
       <!--  将所有的子集放到这里  -->
     </div>
 
-    <div class="self-cascader-item-right">
+    <div class="self-cascader-item-right" v-if="childItem.length > 0">
       <!--  这样做的一个好处  -->
       <self-cascader-item
         :options="childItem"
-        v-if="childItem.length > 0"
       >
       </self-cascader-item>
     </div>
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+  import GIcon from '../icon';
 
   export default {
     name: 'SelfCascaderItem',
@@ -39,6 +40,7 @@
         childItem: []
       };
     },
+    components: { GIcon },
     computed: {},
     methods: {
       onClickLeft (option) {
@@ -57,11 +59,18 @@
 <style scoped lang="scss">
   .self-cascader-item {
     display: flex;
+    height: 100%;
     &-left {
-      border: 1px solid black;
+      height: 100%;
     }
     &-list {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       padding: 8px 12px;
+    }
+    &-right {
+      border-left: 1px solid blue;
     }
   }
 </style>
