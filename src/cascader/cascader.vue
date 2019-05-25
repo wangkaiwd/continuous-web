@@ -8,8 +8,6 @@
     接下来实现的效果：点击上一层出现下一层。
    -->
   <div class="self-cascader">
-    {{selected}}<br>
-    {{level}}
     <div class="self-cascader-trigger" @click="onClickTrigger">
       <slot></slot>
     </div>

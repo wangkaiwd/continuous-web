@@ -80,6 +80,9 @@
       onClickLeft (option) {
         const selectedCopy = JSON.parse(JSON.stringify(this.selected));
         selectedCopy[this.level] = option;
+        if (selectedCopy[this.level + 1]) {
+          selectedCopy.splice(this.level + 1);
+        }
         this.$emit('update:selected', selectedCopy);
       }
     }
