@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="component-wrapper">
+      {{options}}
       <self-cascader
         :options="options"
         :selected.sync="selected"
@@ -43,15 +44,27 @@
       result = citiesCopy.map(item => ({ value: item.value, label: item.label }));
     } else {
       const iterate = (array, id) => {
-        return array.filter(item => {
+        let result = {};
+        for (let i = 0; i < array.length; i++) {
+          const item = array[i];
           if (item.value === id) {
-            return true;
+            result = item;
+            if (result.children) {
+              result.children.map(item => {
+                delete item.children;
+              });
+            }
+            break;
           } else {
             if (item.children) {
-              item.children = iterate(item.children, id);
+              result = iterate(item.children, id);
+              if (result) {
+                break;
+              }
             }
           }
-        })[0];
+        }
+        return result;
       };
       result = iterate(citiesCopy, id);
     }
@@ -75,10 +88,23 @@
     },
     methods: {
       onUpdateSelected (select) {
-        ajax(select[0].value).then(
+        const finalValue = select[select.length - 1].value;
+        ajax(finalValue).then(
           res => {
-            // this.options[0].children = res.children;
-            this.$set(this.options[0], 'children', res.children);
+            const updateOptions = (options, res) => {
+              return options.map(option => {
+                if (option.value === res.value) {
+                  res.children && (option.children = res.children);
+                } else {
+                  if (option.children) {
+                    updateOptions(option.children, res);
+                  }
+                }
+                return option;
+              });
+            };
+            const newOptions = updateOptions(this.options, res);
+            this.options = newOptions;
           }
         );
       },
