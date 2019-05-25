@@ -9,46 +9,28 @@
 <script>
   import SelfCascader from './cascader/cascader';
   import SelfButton from './button';
+  import chinaCities from './cascader/db';
 
+  const chinaCitiesCopy = JSON.parse(JSON.stringify(chinaCities));
+  const prettyCities = (chinaCitiesCopy) => {
+    return chinaCitiesCopy.map(city => {
+      if (city.child) {
+        city.child = prettyCities(city.child);
+      }
+      const tempObject = {
+        value: city.zipcode || city.id,
+        label: city.name,
+      };
+      city.child && (tempObject.children = city.child);
+      return tempObject;
+    });
+  };
   export default {
     name: 'App',
     components: { SelfCascader, SelfButton },
     data () {
       return {
-        options: [
-          {
-            label: '浙江',
-            value: 'zhejiang',
-            children: [
-              {
-                label: '杭州',
-                value: 'hangzhou',
-                children: [
-                  {
-                    label: '西湖',
-                    value: 'xihu'
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            label: '内蒙古',
-            value: 'neimenggu',
-            children: [
-              {
-                label: '呼和浩特',
-                value: 'huhehaote',
-                children: [
-                  {
-                    label: '呼伦贝尔',
-                    value: 'hulunbeier'
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+        options: prettyCities(chinaCitiesCopy)
       };
     },
     mounted () {

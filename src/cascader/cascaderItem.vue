@@ -95,6 +95,7 @@
     height: 100%;
     &-left {
       height: 100%;
+      overflow: auto;
     }
     &-list {
       display: flex;
