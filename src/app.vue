@@ -15,6 +15,12 @@
   import SelfButton from './button';
   import chinaCities from './cascader/db';
 
+  /*
+  * 目前注意点：
+  *   1. 如何递归处理数据，实现数据动态一层一层的加载
+  *   2. 当涉及到动态数据的时候，要为数据添加一个新的属性:isLeaf
+  * */
+
   const prettyCities = (chinaCitiesCopy) => {
     return chinaCitiesCopy.map(city => {
       if (city.child) {
@@ -45,7 +51,7 @@
               item.children = iterate(item.children, id);
             }
           }
-        });
+        })[0];
       };
       result = iterate(citiesCopy, id);
     }
@@ -70,7 +76,10 @@
     methods: {
       onUpdateSelected (select) {
         ajax(select[0].value).then(
-          res => console.log('res', res)
+          res => {
+            // this.options[0].children = res.children;
+            this.$set(this.options[0], 'children', res.children);
+          }
         );
       },
       getFirstLevel () {
