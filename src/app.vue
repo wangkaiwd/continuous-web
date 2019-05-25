@@ -15,7 +15,6 @@
   import SelfButton from './button';
   import chinaCities from './cascader/db';
 
-  const chinaCitiesCopy = JSON.parse(JSON.stringify(chinaCities));
   const prettyCities = (chinaCitiesCopy) => {
     return chinaCitiesCopy.map(city => {
       if (city.child) {
@@ -30,26 +29,25 @@
     });
   };
   const ajax = (id) => {
+    const chinaCitiesCopy = JSON.parse(JSON.stringify(chinaCities));
     const cities = prettyCities(chinaCitiesCopy);
+    const citiesCopy = JSON.parse(JSON.stringify(cities));
     let result = null;
     if (typeof id === 'undefined') {
-      result = cities.map(item => ({ value: item.value, label: item.label }));
+      result = citiesCopy.map(item => ({ value: item.value, label: item.label }));
     } else {
       const iterate = (array, id) => {
         return array.filter(item => {
-          if (item.id === id) {
+          if (item.value === id) {
             return true;
           } else {
             if (item.children) {
-              return item.children = iterate(item.children, id);
-            } else {
-              return false;
+              item.children = iterate(item.children, id);
             }
           }
         });
       };
-      result = iterate(cities, id);
-      console.log('log', result);
+      result = iterate(citiesCopy, id);
     }
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -72,7 +70,7 @@
     methods: {
       onUpdateSelected (select) {
         ajax(select[0].value).then(
-          res => console.log(res)
+          res => console.log('res', res)
         );
       },
       getFirstLevel () {
