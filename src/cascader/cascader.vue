@@ -19,8 +19,9 @@
       <!--   这里需要留意：vue的属性不能以data-开头   -->
       <self-cascader-item
         :options="options"
-        :selected.sync="selected"
+        :selected="selected"
         :level.sync="level"
+        @update:selected="$emit('update:selected',$event)"
       >
       </self-cascader-item>
     </div>
@@ -36,12 +37,15 @@
       options: {
         type: Array,
         default: () => []
+      },
+      selected: {
+        type: Array,
+        required: true
       }
     },
     data () {
       return {
         visible: false,
-        selected: [],
         level: 0
       };
     },
