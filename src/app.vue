@@ -2,7 +2,6 @@
   <div>
     <div class="component-wrapper">
       <self-cascader :options="options">
-        <self-button>Click</self-button>
       </self-cascader>
     </div>
   </div>

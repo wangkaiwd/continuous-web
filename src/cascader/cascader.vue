@@ -8,8 +8,12 @@
     接下来实现的效果：点击上一层出现下一层。
    -->
   <div class="self-cascader">
-    <div class="self-cascader-trigger" @click="onClickTrigger">
-      <slot></slot>
+    <div class="self-cascader-trigger-wrapper" @click="onClickTrigger">
+      <slot>
+        <div class="self-cascader-trigger">
+          {{selectedLabels}}
+        </div>
+      </slot>
     </div>
     <div class="self-cascader-popover" v-if="visible">
       <!--   这里需要留意：vue的属性不能以data-开头   -->
@@ -41,6 +45,12 @@
         level: 0
       };
     },
+    computed: {
+      selectedLabels () {
+        const { selected } = this;
+        return selected.map(item => item.label).join('/');
+      }
+    },
     methods: {
       onClickTrigger () {
         this.visible = !this.visible;
@@ -54,7 +64,16 @@
 
   .self-cascader {
     position: relative;
+    &-trigger {
+      display: inline-flex;
+      align-items: center;
+      padding: .3em .5em;
+      min-width: 10em;
+      height: 32px;
+      border: 1px solid black;
+    }
     &-popover {
+      margin-top: 8px;
       position: absolute;
       top: 100%;
       left: 0;
