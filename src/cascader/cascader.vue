@@ -22,6 +22,7 @@
         :selected="selected"
         :level.sync="level"
         :load-data="loadData"
+        :loading-item="loadingItem"
         @update:selected="updateSelected"
       >
       </self-cascader-item>
@@ -48,7 +49,8 @@
     data () {
       return {
         visible: false,
-        level: 0
+        level: 0,
+        loadingItem: {}
       };
     },
     computed: {
@@ -67,21 +69,24 @@
         }
       },
       listenToDocument (e) {
-        console.log('click');
         const { triggerWrapper, popover } = this.$refs;
         const isContainTrigger = triggerWrapper.contains(e.target);
         const isContainPopover = popover.contains(e.target);
-        if (isContainTrigger || isContainPopover) {
-          return;
-        }
+        if (isContainTrigger || isContainPopover) {return;}
         this.visible = false;
         document.removeEventListener('click', this.listenToDocument);
       },
       updateSelected (newSelected) {
         this.$emit('update:selected', newSelected);
-        this.loadData && this.loadData(this.updateOptions);
+        const finalSelected = newSelected[newSelected.length - 1];
+        if (finalSelected.isLeaf) {return;}
+        if (this.loadData) {
+          this.loadingItem = finalSelected;
+          this.loadData(this.updateOptions);
+        }
       },
       updateOptions (result) {
+        this.loadingItem = {};
         const optionsCopy = JSON.parse(JSON.stringify(this.options));
         const iterate = (options, result) => {
           return options.map(option => {

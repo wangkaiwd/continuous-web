@@ -183,7 +183,7 @@ export default [{
     }, {
       'id': 418,
       'name': '桥东区',
-      'zipcode': '050011'
+      'zipcode': '050012'
     }, {
       'id': 419,
       'name': '桥西区',
@@ -191,7 +191,7 @@ export default [{
     }, {
       'id': 420,
       'name': '新华区',
-      'zipcode': '050051'
+      'zipcode': '050052'
     }, {
       'id': 421,
       'name': '井陉矿区',

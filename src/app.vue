@@ -4,6 +4,7 @@
       <self-cascader
         :options.sync="options"
         :selected.sync="selected"
+        :load-data="loadData"
       >
       </self-cascader>
     </div>
@@ -87,45 +88,12 @@
     components: { SelfCascader, SelfButton },
     data () {
       return {
-        options: [
-          {
-            value: 'zhejiang',
-            label: 'Zhejiang',
-            children: [
-              {
-                value: 'hangzhou',
-                label: 'Hangzhou',
-                children: [
-                  {
-                    value: 'xihu',
-                    label: 'West Lake',
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            value: 'jiangsu',
-            label: 'Jiangsu',
-            children: [
-              {
-                value: 'nanjing',
-                label: 'Nanjing',
-                children: [
-                  {
-                    value: 'zhonghuamen',
-                    label: 'Zhong Hua Men',
-                  },
-                ],
-              },
-            ],
-          }
-        ],
+        options: [],
         selected: []
       };
     },
     mounted () {
-      // this.getFirstLevel();
+      this.getFirstLevel();
     },
     methods: {
       // 帮用户处理通过id更新options的操作

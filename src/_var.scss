@@ -23,6 +23,6 @@ $button-active-bg: #eee;
   }
 }
 
-@mixin loading {
-  animation: spin 1.5s linear infinite;
+@mixin loading($time:1.5) {
+  animation: spin #{$time}s linear infinite;
 }

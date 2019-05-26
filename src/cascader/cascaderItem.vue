@@ -9,7 +9,12 @@
         :key="option.value"
       >
         {{option.label}}
-        <g-icon v-if="hasChildren(option)" name="s-right"></g-icon>
+        <template v-if="loadingItem.value === option.value">
+          <g-icon class="next-loading" name="loading"></g-icon>
+        </template>
+        <template v-else>
+          <g-icon v-if="hasChildren(option)" class="next" name="s-right"></g-icon>
+        </template>
       </div>
       <!--  将所有的子集放到这里  -->
     </div>
@@ -26,6 +31,7 @@
         :level="level+1"
         :selected="selected"
         :load-data="loadData"
+        :loading-item="loadingItem"
         @update:selected="$emit('update:selected',$event)"
       >
       </self-cascader-item>
@@ -45,6 +51,10 @@
    *    递归组件每一个都维护一个自己的childItem很难进行一个总体的管理，
    *    这时我们可以通过父组件传入一个数据，每次都更改这一个数据来进行操作的简化
    *    而在上层数据更新之后，对应得下层组件也会随着数据的更新而更新对应的视图
+   *
+   * todo:
+   *  1. 同时请求多个子项数据该怎么办？
+   *  2. 如何进行数据缓存？（已经请求过的数据不再重新请求）
    */
   import GIcon from '../icon';
 
@@ -63,7 +73,11 @@
         type: Number,
         default: 0
       },
-      loadData: { type: Function }
+      loadData: { type: Function },
+      loadingItem: {
+        type: Object,
+        default: () => {}
+      }
     },
     data () {
       return {};
@@ -97,10 +111,10 @@
 </script>
 <!--这里的递归样式比较难写-->
 <style scoped lang="scss">
+  @import "../var";
   .self-cascader-item {
     display: flex;
     height: 100%;
-    word-break: break-all;
     &-left {
       height: 100%;
       overflow: auto;
@@ -115,6 +129,13 @@
     }
     &-right {
       border-left: 1px solid blue;
+    }
+    .next-loading {
+      @include loading(0.8);
+    }
+    .next, .next-loading {
+      font-size: 12px;
+      margin-left: 8px;
     }
   }
 </style>
