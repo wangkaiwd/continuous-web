@@ -1,11 +1,10 @@
 <template>
   <div>
     <div class="component-wrapper">
-      {{options}}
       <self-cascader
-        :options="options"
+        :options.sync="options"
         :selected.sync="selected"
-        @update:selected="onUpdateSelected"
+        :load-data="loadData"
       >
       </self-cascader>
     </div>
@@ -41,7 +40,11 @@
     const citiesCopy = JSON.parse(JSON.stringify(cities));
     let result = null;
     if (typeof id === 'undefined') {
-      result = citiesCopy.map(item => ({ value: item.value, label: item.label }));
+      result = citiesCopy.map(item => {
+        const tempObj = { value: item.value, label: item.label, isLeaf: true };
+        item.children && (tempObj.isLeaf = false);
+        return tempObj;
+      });
     } else {
       const iterate = (array, id) => {
         let result = {};
@@ -49,9 +52,15 @@
           const item = array[i];
           if (item.value === id) {
             result = item;
+            result.isLeaf = true;
             if (result.children) {
+              result.isLeaf = false;
               result.children.map(item => {
-                delete item.children;
+                item.isLeaf = true;
+                if (item.children) {
+                  item.isLeaf = false;
+                  delete item.children;
+                }
               });
             }
             break;
@@ -87,24 +96,12 @@
       this.getFirstLevel();
     },
     methods: {
-      onUpdateSelected (select) {
-        const finalValue = select[select.length - 1].value;
+      // 帮用户处理通过id更新options的操作
+      loadData (updateOptions) {
+        const { selected } = this;
+        const finalValue = selected[selected.length - 1].value;
         ajax(finalValue).then(
-          res => {
-            const updateOptions = (options, res) => {
-              return options.map(option => {
-                if (option.value === res.value) {
-                  res.children && this.$set(option, 'children', res.children);
-                } else {
-                  if (option.children) {
-                    updateOptions(option.children, res);
-                  }
-                }
-                return option;
-              });
-            };
-            updateOptions(this.options, res);
-          }
+          res => {updateOptions(res);}
         );
       },
       getFirstLevel () {

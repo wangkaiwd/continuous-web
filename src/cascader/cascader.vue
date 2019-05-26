@@ -21,7 +21,8 @@
         :options="options"
         :selected="selected"
         :level.sync="level"
-        @update:selected="$emit('update:selected',$event)"
+        :load-data="loadData"
+        @update:selected="updateSelected"
       >
       </self-cascader-item>
     </div>
@@ -41,7 +42,8 @@
       selected: {
         type: Array,
         required: true
-      }
+      },
+      loadData: { type: Function }
     },
     data () {
       return {
@@ -59,6 +61,27 @@
       onClickTrigger () {
         this.visible = !this.visible;
       },
+      updateSelected (newSelected) {
+        this.$emit('update:selected', newSelected);
+        this.loadData(this.updateOptions);
+      },
+      updateOptions (result) {
+        const optionsCopy = JSON.parse(JSON.stringify(this.options));
+        const iterate = (options, result) => {
+          return options.map(option => {
+            if (option.value === result.value) {
+              result.children && (option.children = result.children);
+            } else {
+              if (option.children) {
+                iterate(option.children, result);
+              }
+            }
+            return option;
+          });
+        };
+        iterate(optionsCopy, result);
+        this.$emit('update:options', optionsCopy);
+      }
     }
   };
 </script>

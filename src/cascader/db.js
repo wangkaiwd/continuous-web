@@ -1487,11 +1487,11 @@ export default [{
     }, {
       'id': 725,
       'name': '新城区',
-      'zipcode': '010030'
+      'zipcode': '010031'
     }, {
       'id': 726,
       'name': '赛罕区',
-      'zipcode': '010020'
+      'zipcode': '010021'
     }, {
       'id': 727,
       'name': '土默特左旗',

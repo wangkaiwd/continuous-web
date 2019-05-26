@@ -9,7 +9,8 @@
         :key="option.value"
       >
         {{option.label}}
-        <g-icon v-if="option.children" name="s-right"></g-icon>
+        <!--        <g-icon v-if="option.children" name="s-right"></g-icon>-->
+        <g-icon v-if="!option.isLeaf" name="s-right"></g-icon>
       </div>
       <!--  将所有的子集放到这里  -->
     </div>
@@ -25,6 +26,7 @@
         :options="rightItem"
         :level="level+1"
         :selected="selected"
+        :load-data="loadData"
         @update:selected="$emit('update:selected',$event)"
       >
       </self-cascader-item>
@@ -61,7 +63,8 @@
       level: {
         type: Number,
         default: 0
-      }
+      },
+      loadData: { type: Function }
     },
     data () {
       return {};
