@@ -9,8 +9,7 @@
         :key="option.value"
       >
         {{option.label}}
-        <!--        <g-icon v-if="option.children" name="s-right"></g-icon>-->
-        <g-icon v-if="!option.isLeaf" name="s-right"></g-icon>
+        <g-icon v-if="hasChildren(option)" name="s-right"></g-icon>
       </div>
       <!--  将所有的子集放到这里  -->
     </div>
@@ -89,6 +88,9 @@
           selectedCopy.splice(this.level + 1);
         }
         this.$emit('update:selected', selectedCopy);
+      },
+      hasChildren (option) {
+        return this.loadData ? !option.isLeaf : option.children;
       }
     }
   };

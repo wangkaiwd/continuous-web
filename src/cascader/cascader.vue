@@ -63,7 +63,7 @@
       },
       updateSelected (newSelected) {
         this.$emit('update:selected', newSelected);
-        this.loadData(this.updateOptions);
+        this.loadData && this.loadData(this.updateOptions);
       },
       updateOptions (result) {
         const optionsCopy = JSON.parse(JSON.stringify(this.options));
