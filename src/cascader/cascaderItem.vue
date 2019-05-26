@@ -101,7 +101,6 @@
     display: flex;
     height: 100%;
     word-break: break-all;
-    border: 2px solid #000;
     &-left {
       height: 100%;
       overflow: auto;
@@ -109,6 +108,7 @@
     &-list {
       display: flex;
       align-items: center;
+      white-space: nowrap;
       justify-content: space-between;
       padding: 8px 12px;
       cursor: pointer;
