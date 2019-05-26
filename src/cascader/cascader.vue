@@ -8,14 +8,14 @@
     接下来实现的效果：点击上一层出现下一层。
    -->
   <div class="self-cascader">
-    <div class="self-cascader-trigger-wrapper" @click="onClickTrigger">
+    <div class="self-cascader-trigger-wrapper" ref="triggerWrapper" @click="onClickTrigger">
       <slot>
         <div class="self-cascader-trigger">
           {{selectedLabels}}
         </div>
       </slot>
     </div>
-    <div class="self-cascader-popover" v-if="visible">
+    <div class="self-cascader-popover" ref="popover" v-if="visible">
       <!--   这里需要留意：vue的属性不能以data-开头   -->
       <self-cascader-item
         :options="options"
@@ -60,6 +60,22 @@
     methods: {
       onClickTrigger () {
         this.visible = !this.visible;
+        if (this.visible) {
+          setTimeout(() => {
+            document.addEventListener('click', this.listenToDocument);
+          }, 20);
+        }
+      },
+      listenToDocument (e) {
+        console.log('click');
+        const { triggerWrapper, popover } = this.$refs;
+        const isContainTrigger = triggerWrapper.contains(e.target);
+        const isContainPopover = popover.contains(e.target);
+        if (isContainTrigger || isContainPopover) {
+          return;
+        }
+        this.visible = false;
+        document.removeEventListener('click', this.listenToDocument);
       },
       updateSelected (newSelected) {
         this.$emit('update:selected', newSelected);
@@ -91,6 +107,8 @@
 
   .self-cascader {
     position: relative;
+    display: inline-block;
+    vertical-align: top;
     &-trigger {
       display: inline-flex;
       align-items: center;

@@ -100,6 +100,8 @@
   .self-cascader-item {
     display: flex;
     height: 100%;
+    word-break: break-all;
+    border: 2px solid #000;
     &-left {
       height: 100%;
       overflow: auto;
