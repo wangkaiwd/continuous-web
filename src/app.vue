@@ -58,7 +58,7 @@
           } else {
             if (item.children) {
               result = iterate(item.children, id);
-              if (result) {
+              if (Object.keys(result).length > 0) {
                 break;
               }
             }
@@ -94,7 +94,7 @@
             const updateOptions = (options, res) => {
               return options.map(option => {
                 if (option.value === res.value) {
-                  res.children && (option.children = res.children);
+                  res.children && this.$set(option, 'children', res.children);
                 } else {
                   if (option.children) {
                     updateOptions(option.children, res);
@@ -103,8 +103,7 @@
                 return option;
               });
             };
-            const newOptions = updateOptions(this.options, res);
-            this.options = newOptions;
+            updateOptions(this.options, res);
           }
         );
       },

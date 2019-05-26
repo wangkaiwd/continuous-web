@@ -70,8 +70,10 @@
     computed: {
       rightItem () {
         const { selected, level } = this;
-        if (selected[level] && selected[level].children) {
-          return selected[level].children;
+        const value = selected[level] ? selected[level].value : '';
+        const target = this.options.find(option => option.value === value);
+        if (target && target.children) {
+          return target.children;
         }
         return null;
       }
