@@ -1,12 +1,39 @@
 <template>
   <div>
     <div class="component-wrapper">
-      <self-cascader
+      <!--<self-cascader
         :options.sync="options"
         :selected.sync="selected"
         :load-data="loadData"
       >
-      </self-cascader>
+      </self-cascader>-->
+      <self-menu :selected.sync="selected" vertical>
+        <sub-menu name="1">
+          <template #title>
+            子菜单
+          </template>
+          <menu-item name="1-1">
+            子菜单1
+          </menu-item>
+          <menu-item name="1-2">
+            子菜单2
+          </menu-item>
+          <sub-menu name="about">
+            <template #title>
+              关于
+            </template>
+            <menu-item name="about-1">
+              关于-1
+            </menu-item>
+          </sub-menu>
+        </sub-menu>
+        <menu-item name="2">
+          菜单1
+        </menu-item>
+        <menu-item name="3">
+          菜单2
+        </menu-item>
+      </self-menu>
     </div>
   </div>
 </template>
@@ -14,6 +41,9 @@
   import SelfCascader from './cascader/cascader';
   import SelfButton from './button';
   import chinaCities from './cascader/db';
+  import SelfMenu from './menu/menu';
+  import SubMenu from './menu/subMenu';
+  import MenuItem from './menu/menuItem';
 
   /*
   * 目前注意点：
@@ -85,11 +115,11 @@
   };
   export default {
     name: 'App',
-    components: { SelfCascader, SelfButton },
+    components: { SelfCascader, SelfButton, SelfMenu, SubMenu, MenuItem },
     data () {
       return {
         options: [],
-        selected: []
+        selected: ''
       };
     },
     mounted () {
