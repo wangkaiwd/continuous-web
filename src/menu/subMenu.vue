@@ -61,6 +61,8 @@
       };
     },
     mounted () {
+      // 当被选中的组件为subMenu组件时，对应的所有父subMenu组件也应该被选中
+      this.$parent.addItem && this.$parent.addItem(this);
       this.getPaddingLeft();
     },
     methods: {
@@ -85,6 +87,7 @@
         }, 200);
       },
       getPaddingLeft () {
+        if (!this.rootMenu.vertical) return;
         let parent = this.$parent;
         while (parent && parent.$options.name === 'SelfSubMenu') {
           parent = parent.$parent;
@@ -116,6 +119,7 @@
       position: absolute;
       top: 100%;
       left: 0;
+      border: 1px solid blue;
       white-space: nowrap;
       word-break: break-all;
       z-index: 1;
@@ -125,10 +129,14 @@
       .self-menu-item {
         display: block;
       }
+      .self-sub-menu-popover {
+        margin-top: 0;
+      }
     }
     &.vertical &-popover {
       position: static;
       margin-top: 0;
+      border: none;
       z-index: auto;
       .self-sub-menu {
         display: block;

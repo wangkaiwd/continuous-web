@@ -38,6 +38,7 @@
         this.rootMenu.updateSelected(this);
       },
       getPaddingLeft () {
+        if (!this.rootMenu.vertical) return;
         let parent = this.$parent;
         while (parent && parent.$options.name === 'SelfSubMenu') {
           parent = parent.$parent;

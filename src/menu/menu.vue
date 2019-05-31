@@ -29,9 +29,7 @@
       };
     },
     data () {
-      return {
-        namePath: [this.selected]
-      };
+      return {};
     },
     methods: {
       updateSelected (vm) {
