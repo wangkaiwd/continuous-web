@@ -9,6 +9,7 @@
       class="self-sub-menu-title"
       :class="{selected}"
       @click="onClick"
+      :style="{paddingLeft:`${paddingLeft}px`}"
     >
       <slot name="title"></slot>
       <span>{{open?'-':'+'}}</span>
@@ -55,10 +56,12 @@
       return {
         open: false,
         items: [],
-        timerId: null
+        timerId: null,
+        paddingLeft: 20
       };
     },
     mounted () {
+      this.getPaddingLeft();
     },
     methods: {
       onClick () {
@@ -80,6 +83,13 @@
         this.timerId = setTimeout(() => {
           this.open = false;
         }, 200);
+      },
+      getPaddingLeft () {
+        let parent = this.$parent;
+        while (parent && parent.$options.name === 'SelfSubMenu') {
+          parent = parent.$parent;
+          this.paddingLeft = this.paddingLeft + 20;
+        }
       }
     },
   };
@@ -91,7 +101,7 @@
     display: inline-block;
     position: relative;
     &-title {
-      padding: 1em 2em;
+      padding: 1em 20px 1em 0;
       cursor: pointer;
       &.selected {
         background-color: red;
@@ -103,7 +113,6 @@
     &-popover {
       background-color: #fff;
       margin-top: 4px;
-      border: 1px solid blue;
       position: absolute;
       top: 100%;
       left: 0;

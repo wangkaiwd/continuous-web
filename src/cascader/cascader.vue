@@ -57,7 +57,7 @@
       selectedLabels () {
         const { selected } = this;
         return selected.map(item => item.label).join('/');
-      }
+      },
     },
     methods: {
       onClickTrigger () {
