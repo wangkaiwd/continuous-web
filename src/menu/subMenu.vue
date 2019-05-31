@@ -18,9 +18,11 @@
           虽然我们已经设置了，但是由于页面中并没有该元素，所以我们根本获取不到dom
           这里我们使用v-show来解决这个问题
       -->
-    <div class="self-sub-menu-popover" v-show="open">
-      <slot></slot>
-    </div>
+    <transition>
+      <div class="self-sub-menu-popover" v-show="open">
+        <slot></slot>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -30,6 +32,10 @@
    *  1. 递归组件之间如何通信
    *  2. 递归组件的css如何书写
    *  3. 如何可以优雅的将水平和竖直方向的情况通过一个组件来处理好
+   *
+   * 目前遇到的问题：
+   *  1. 如何实现侧边栏展开时的动画，由于在之后的菜单中可能继续有subMenu，在其展开后，subMenu的popover的高度又会发生变化，这时该如何处理
+   *  2. 当菜单为横向时，如何在点击一项后将所有的subMenu都设置为闭合状态，并让其对应的父元素选中
    */
 
   export default {
@@ -57,7 +63,8 @@
         open: false,
         items: [],
         timerId: null,
-        paddingLeft: 20
+        paddingLeft: 20,
+        popoverHeight: 0
       };
     },
     mounted () {
@@ -93,7 +100,28 @@
           parent = parent.$parent;
           this.paddingLeft = this.paddingLeft + 20;
         }
-      }
+      },
+      // beforeEnter (el) {
+      //
+      // },
+      // 当与 CSS 结合使用时
+      // 回调函数 done 是可选的
+      // enter (el, done) {
+      //   console.log('enter');
+      //   const oldHeight = el.offsetHeight;
+      //   el.style.height = 0;
+      //   el.offsetHeight;
+      //   el.style.transition = `height 1s`;
+      //   el.style.height = `${oldHeight}px`;
+      //   done();
+      // },
+      // afterEnter (el) {
+      //   // el.style = '';
+      // },
+      // leave (el, done) {
+      //   el.style.height = 0;
+      //   done();
+      // },
     },
   };
 </script>
@@ -142,10 +170,8 @@
         display: block;
       }
       .self-sub-menu-title {
-        /*padding-left: 4px;*/
       }
       .self-menu-item {
-        /*padding-left: 4px;*/
         display: block;
       }
     }

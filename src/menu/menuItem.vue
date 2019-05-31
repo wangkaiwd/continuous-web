@@ -52,7 +52,7 @@
 <style lang="scss" scoped>
   @import "../var";
   .self-menu-item {
-    display: inline-block;
+    /*display: inline-block;*/
     padding: 1em 20px 1em 0;
     cursor: pointer;
     &:hover {
