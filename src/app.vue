@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="component-wrapper">
+      App
     </div>
   </div>
 </template>
