@@ -6,6 +6,8 @@
       :type="type"
       :disabled="disabled"
       :readonly="readonly"
+      v-bind="$attrs"
+      v-on="$listeners"
       @input="$emit('input',$event.target.value)"
       @change="$emit('change',$event)"
       :placeholder="placeholder"
@@ -24,10 +26,12 @@
    *  1. value绑定传来的value(value:input的初始值)
    *  2. input事件 value = $event.target.value
    */
-  import GlobalIcon from './icon'
+  import GlobalIcon from './icon';
 
   export default {
     name: 'GlobalInput',
+    inheritAttrs: false,
+    computed: {},
     props: {
       value: {
         type: String,
@@ -56,7 +60,7 @@
     components: {
       GlobalIcon,
     }
-  }
+  };
 </script>
 <style lang="scss" scoped>
   $height: 32px;
