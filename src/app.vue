@@ -1,16 +1,18 @@
 <template>
   <div>
     <div class="component-wrapper">
-      App
+      <date-picker></date-picker>
     </div>
   </div>
 </template>
 <script>
 
 
+  import DatePicker from '@/datePicker/DatePicker';
+
   export default {
     name: 'App',
-    components: {},
+    components: { DatePicker },
     data () {
       return {};
     },
