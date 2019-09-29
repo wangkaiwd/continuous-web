@@ -27,6 +27,10 @@
 </template>
 
 <script>
+  /**
+   * 日历组件比较复杂的地方：
+   *    1. 每个月对应的天数
+   */
   import GInput from '../input';
 
   export default {
@@ -50,6 +54,7 @@
       listenToDocument (e) {
         const target = e.target;
         const { datePicker } = this.$refs;
+        // node.contains(othersNode): 如果otherNode是node的后代节点或node节点本身，则返回true,否则返回false
         if (!datePicker.contains(target)) {
           this.visible = false;
           document.removeEventListener('click', this.listenToDocument);
