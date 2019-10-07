@@ -41,6 +41,17 @@
   /**
    * 日历组件比较复杂的地方：
    *    1. 每个月对应的天数
+   *
+   *  api学习：
+   *    Date.prototype.setDate(): 根据本地时间来指定一个日期对象的天数
+   *    语法： dateObj.setDate(dayValue)
+   *    dayValue: 一个整数，表示该月的第几天
+   *
+   *    如果dayValue超出了月份的合理范围，setDate将会相应的更新Date对象
+   *    例：dayValue=0,日期会被设置为上个月的最后一天。如果dayValue被设置为负数，日期会设置为
+   *    上个月最后一天往前数这个负数绝对值天数后的日期。0为上个月的最后一天，-1为上个月的最后一天的前一天，以此类推
+   *
+   *    Date.prototype.setMonth(): 根据本地时间，为一个设置年份的日期对象设置月份。超出合理范围后的情况与setDate类似
    */
   import GInput from '../input';
 
@@ -85,7 +96,7 @@
         const startDate = new Date(today.setDate(1));
         const previousStartDay = new Date(today.setDate(0)).getDate();
         const startDay = startDate.getDate();
-        const startWeek = startDate.getDay();
+        const startWeek = startDate.getDay() === 0 ? 7 : startDate.getDate();
         const month = today.getMonth() + 1;
         const endDay = new Date(new Date(today.setMonth(month + 1)).setDate(0)).getDate();
         const days1 = [];
@@ -106,12 +117,12 @@
       composeDateList () {
         const days = this.generateDateList();
         const results = [];
-        let temp = [];
+        let tempArray = [];
         days.map((day, i) => {
-          temp.push(day);
+          tempArray.push(day);
           if ((i + 1) % 7 === 0) {
-            results.push(temp);
-            temp = [];
+            results.push(tempArray);
+            tempArray = [];
           }
         });
         return results;
@@ -137,6 +148,17 @@
     }
     &-content-days-row {
       display: flex;
+    }
+    &-content-weeks-item, &-content-days-col {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 3px;
+    }
+    &-content-days-col {
+      cursor: pointer;
     }
   }
 </style>
