@@ -15,8 +15,19 @@
         <div v-else-if="mode === 'months'" :class="cls('content-item','content-months')">
           月
         </div>
-        <div v-else :class="cls('content-item','content-days')">
-          日
+        <div v-else :class="cls('content-items','content-days')">
+          <div :class="cls('content-weeks-items')">
+            <div :class="cls('content-weeks-item')" v-for="week in weeks" :key="week">
+              {{week}}
+            </div>
+          </div>
+          <div :class="cls('content-days-items')">
+            <div :class="cls('content-days-item','content-days-row')" v-for="(row,i) in days" :key="i">
+              <div :class="cls('content-days-col')" v-for="col in row" :key="`${i}-${col}`">
+                {{col}}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div :class="cls('tools')">
@@ -33,16 +44,21 @@
    */
   import GInput from '../input';
 
+  const WEEKS = ['一', '二', '三', '四', '五', '六', '日'];
+  const ALL_DAYS = 42;
   export default {
     name: 'SelfDatePicker',
     components: { GInput },
     data () {
       return {
         visible: false,
-        mode: 'days'
+        mode: 'days',
+        weeks: WEEKS,
+        days: []
       };
     },
     mounted () {
+      this.days = this.composeDateList();
     },
     beforeDestroy () {
       document.removeEventListener('click', this.listenToDocument);
@@ -64,6 +80,42 @@
         this.visible = true;
         document.addEventListener('click', this.listenToDocument);
       },
+      generateDateList () {
+        const today = new Date();
+        const startDate = new Date(today.setDate(1));
+        const previousStartDay = new Date(today.setDate(0)).getDate();
+        const startDay = startDate.getDate();
+        const startWeek = startDate.getDay();
+        const month = today.getMonth() + 1;
+        const endDay = new Date(new Date(today.setMonth(month + 1)).setDate(0)).getDate();
+        const days1 = [];
+        for (let i = startDay; i <= endDay; i++) {
+          days1.push(i);
+        }
+        const days2 = [];
+        for (let i = 0; i < startWeek; i++) {
+          days2.push(previousStartDay - i);
+        }
+        const days3 = [];
+        const restDays = ALL_DAYS - endDay - startWeek + 1;
+        for (let i = 1; i <= restDays; i++) {
+          days3.push(i);
+        }
+        return [...days2.reverse(), ...days1, ...days3];
+      },
+      composeDateList () {
+        const days = this.generateDateList();
+        const results = [];
+        let temp = [];
+        days.map((day, i) => {
+          temp.push(day);
+          if ((i + 1) % 7 === 0) {
+            results.push(temp);
+            temp = [];
+          }
+        });
+        return results;
+      }
     }
   };
 </script>
@@ -77,9 +129,14 @@
       position: absolute;
       top: 100%;
       left: 0;
-      min-width: 16em;
       background-color: pink;
       border: 1px solid $border-color;
+    }
+    &-content-weeks-items {
+      display: flex;
+    }
+    &-content-days-row {
+      display: flex;
     }
   }
 </style>
