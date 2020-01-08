@@ -23,7 +23,12 @@
           </div>
           <div :class="cls('content-days-items')">
             <div :class="cls('content-days-item','content-days-row')" v-for="(row,i) in days" :key="i">
-              <div :class="cls('content-days-col')" v-for="col in row" :key="`${i}-${col}`">
+              <div
+                :class="cls('content-days-col')"
+                v-for="col in row"
+                @click="onClickCol"
+                :key="`${i}-${col}`"
+              >
                 {{col}}
               </div>
             </div>
@@ -65,7 +70,7 @@
         visible: false,
         mode: 'days',
         weeks: WEEKS,
-        days: []
+        days: [],
       };
     },
     mounted () {
@@ -91,6 +96,7 @@
         this.visible = true;
         document.addEventListener('click', this.listenToDocument);
       },
+      // todo:这里要获取的是可以得到Date对象的数组，否则在添加点击事件时无法得到事件对象，从而拿到各种内容
       generateDateList () {
         const today = new Date();
         const startDate = new Date(today.setDate(1));
@@ -116,6 +122,7 @@
       },
       composeDateList () {
         const days = this.generateDateList();
+        console.log('days', days);
         const results = [];
         let tempArray = [];
         days.map((day, i) => {
@@ -126,8 +133,11 @@
           }
         });
         return results;
-      }
-    }
+      },
+      onClickCol () {
+        console.log('click');
+      },
+    },
   };
 </script>
 
