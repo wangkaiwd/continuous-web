@@ -45,7 +45,7 @@
 
 数据结构 + 数据流转
 
-* 利用[`vnode`](https://github.com/vuejs/vue/blob/dev/src/core/vdom/vnode.js)数据格式来每表示每一个节点的信息，并在保存时传递给服务端
+* 利用[`vnode`](https://github.com/vuejs/vue/blob/dev/src/core/vdom/vnode.js) 数据格式来每表示每一个节点的信息，并在保存时传递给服务端
 
 ### 技术方案文档
 
@@ -62,3 +62,5 @@
 * 安全
 * 监控和报警
 * 服务扩展性：流量大
+
+职责：整理业务需求，梳理业务逻辑
