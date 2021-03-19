@@ -13,9 +13,6 @@
   "files": [
     "lib"
   ],
-  "publishConfig": {
-    "registry": "https://registry.npm.taobao.org/"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wangkaiwd/continuous-web.git"
@@ -25,5 +22,8 @@
   },
   "bugs": {
     "url": "https://github.com/wangkaiwd/continuous-web/issues"
+  },
+  "dependencies": {
+    "@ppk-cli-dev/util": "^1.0.1"
   }
 }
