@@ -25,5 +25,6 @@
   },
   "dependencies": {
     "@ppk-cli-dev/util": "^1.0.1"
-  }
+  },
+  "gitHead": "bf54894baf437b804828dd51153a59361b8521fe"
 }

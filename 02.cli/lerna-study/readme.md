@@ -5,6 +5,14 @@
 * [publishing scoped public packages](https://docs.npmjs.com/creating-and-publishing-scoped-public-packages#publishing-scoped-public-packages)
 * [publishConfig](https://docs.npmjs.com/cli/v7/configuring-npm/package-json#publishconfig)
 
+[publishConfig.access](https://github.com/lerna/lerna/tree/main/commands/publish#publishconfigaccess)
+
+```json
+"publishConfig": {
+"access": "public"
+}
+```
+
 使用步骤：
 
 1. lerna init
