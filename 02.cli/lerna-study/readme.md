@@ -29,3 +29,14 @@
   ![](https://raw.githubusercontent.com/wangkaiwd/drawing-bed/master/20210319184412.png)
 
 这个过程在`package`较多时会变的比较繁琐
+
+### lerna debug
+
+install dependencies:
+
+```shell
+# 安装项目依赖
+npm i
+# 安装项目中所有package的依赖
+lerna bootstrap
+```
