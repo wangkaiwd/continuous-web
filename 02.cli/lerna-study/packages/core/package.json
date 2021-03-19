@@ -1,6 +1,6 @@
 {
   "name": "@ppk-cli-dev/core",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "ppk cli dev core",
   "author": "wangkaiwd <1162486176@qq.com>",
   "homepage": "https://github.com/wangkaiwd/continuous-web#readme",
@@ -24,7 +24,7 @@
     "url": "https://github.com/wangkaiwd/continuous-web/issues"
   },
   "dependencies": {
-    "@ppk-cli-dev/util": "^1.0.1"
+    "@ppk-cli-dev/util": "^1.0.2"
   },
   "gitHead": "bf54894baf437b804828dd51153a59361b8521fe"
 }
