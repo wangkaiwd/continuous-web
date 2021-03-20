@@ -40,3 +40,10 @@ npm i
 # 安装项目中所有package的依赖
 lerna bootstrap
 ```
+
+### import-local
+
+重要方法：
+
+* Module._nodeModulePaths
+* Module._resolveFilename

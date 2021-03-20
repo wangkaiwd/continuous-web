@@ -1,5 +1,12 @@
 ## 脚手架
 
+思路：
+
+* lerna也是一个脚手架，学习它的用法和原理来为我们之后实现自己的脚手架起到借鉴的目的
+* 深入阅读`import-local`源码，从源码中学习知识
+
+记录：
+
 * /usr/bin/env
 * ls -l: [long output format](https://www.mkssoftware.com/docs/man1/ls.1.asp#Long_Output_Format)
 
