@@ -13,3 +13,14 @@
 * user-home
 * minimist
 * dotenv
+
+### npm API
+
+可以利用`npm API`来获取一些`package`的信息
+
+### `Node.js`支持`ES Module`
+
+* webpack
+  * target
+  * babel-loader
+* .mjs extensions
