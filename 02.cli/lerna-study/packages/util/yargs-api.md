@@ -1,0 +1,11 @@
+* options
+* group
+* usage
+* demandCommand
+* recommendCommands
+* strict
+* fail
+* alias
+* wrap
+  * terminalWidth
+  * epilogue

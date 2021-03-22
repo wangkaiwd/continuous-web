@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/wangkaiwd/continuous-web/issues"
   },
-  "gitHead": "4faa786facfb7aa0f65194a6685f2e0a00fa1957"
+  "gitHead": "4faa786facfb7aa0f65194a6685f2e0a00fa1957",
+  "dependencies": {
+    "yargs": "^16.2.0"
+  }
 }

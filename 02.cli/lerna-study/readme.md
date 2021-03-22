@@ -32,14 +32,25 @@
 
 ### lerna debug
 
-install dependencies:
+1. install dependencies:
+    ```shell
+    # 安装项目依赖
+    npm i
+    # 安装项目中所有package的依赖
+    lerna bootstrap
+    ```
+2. 在`Node.js`调试器中添加相应的配置：
+   ![](https://raw.githubusercontent.com/wangkaiwd/drawing-bed/master/20210322215756.png)
 
-```shell
-# 安装项目依赖
-npm i
-# 安装项目中所有package的依赖
-lerna bootstrap
-```
+一点点研究其中不懂的用法，也可以尝试自己去创建一些`demo`去调试
+
+#### 执行流程
+
+* importLocal
+* main
+  * cli
+    * globalOptions
+    * lernaCLI
 
 ### import-local
 
