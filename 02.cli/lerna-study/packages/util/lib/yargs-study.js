@@ -42,7 +42,9 @@ const opts = {
 
 const globalKeys = Object.keys(opts).concat(['help', 'version']);
 
-cli.options(opts).group(globalKeys, 'Global Options:').option('ci', {
+const xx = cli.options(opts).group(globalKeys, 'Global Options:').option('ci', {
   hidden: true,
   type: 'boolean',
 });
+
+console.log(xx);
