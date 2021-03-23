@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const yargs = require('yargs/yargs');
 const cli = yargs(process.argv.slice(2));
 
@@ -42,9 +43,13 @@ const opts = {
 
 const globalKeys = Object.keys(opts).concat(['help', 'version']);
 
-const xx = cli.options(opts).group(globalKeys, 'Global Options:').option('ci', {
+const chain = cli.options(opts).group(globalKeys, 'Global Options:').option('ci', {
   hidden: true,
   type: 'boolean',
 });
-
-console.log(xx);
+// $0: script name or node command
+chain.usage('Usage: $0 <command> [options]')
+  // .demandCommand(1, 'A command is required')
+  .recommendCommands();
+// 执行之后才能在命令行打印出对应的命令？
+chain.argv;
