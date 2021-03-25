@@ -1,0 +1,19 @@
+{
+  "name": "cli-demo",
+  "version": "1.0.0",
+  "description": "cli dev demo",
+  "main": "lib/index.js",
+  "bin": {
+    "ppk-cli": "./bin/www"
+  },
+  "scripts": {
+    "test": "some script"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "import-local": "^3.0.2",
+    "npmlog": "^4.1.2"
+  }
+}
