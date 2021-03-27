@@ -7,11 +7,14 @@ const log = require('../util/log');
 const { LOWEST_NODE_VERSION } = require('../const');
 const colors = require('colors/safe');
 const rootCheck = require('root-check');
+const fs = require('fs');
+const homedir = require('os').homedir();
 const core = argv => {
   try {
     checkPkgVersion();
     checkNodeVersion();
     checkRootAccount();
+    checkHomedir();
   } catch (e) { // 通过try catch来自己处理错误，防止程序终止以及打印堆栈信息
     log.error('cli', colors.red(e.message));
   }
@@ -35,5 +38,10 @@ const checkRootAccount = () => {
   rootCheck();
   console.log(process.geteuid());
 };
-
+// 实现缓存等功能时要用到主目录
+const checkHomedir = () => {
+  if (!homedir || fs.existsSync(homedir)) {
+    throw Error(colors.red(`User home directory is not exists!`));
+  }
+};
 module.exports = core;
