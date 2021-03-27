@@ -5,5 +5,5 @@ if (importLocal(__filename)) {
   npmlog.info('ppk-cli', 'Using local version of ppk-cli');
 } else {
   // npmlog.info('ppk-cli', 'global command');
-  require('../lib/core');
+  require('../lib/core')(process.argv.slice(2));
 }
