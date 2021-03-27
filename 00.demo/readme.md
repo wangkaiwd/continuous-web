@@ -11,8 +11,16 @@
 * npmlog
 * node-semver
 * colors.js
+* root-check
 
 ### knowledge
 
 * require支持的文件后缀: `.js`,`.json`,`.node`，其它后缀的文件都会按照`js`文件进行解析
 * 使用`try{}catch(e){}`来捕获错误，自己对错误进行处理
+* process.geteuid: 0为root用户
+
+### feature
+
+* check package version
+* check lowest node version
+* check root account
