@@ -22,8 +22,8 @@ program
 
 // addCommand： 注册子命令，可以对命令进行分组
 // console.log('debug', program.opts());
+// example: https://github.com/tj/commander.js/blob/327a3ddd552f90d1dbd37f55fa7a88b9553468ae/examples/nestedCommands.js#L33-L47
 const service = new Command('service');
-
 service
   .command('start [port]')
   .description('start a http static server')
