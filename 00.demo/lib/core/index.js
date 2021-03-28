@@ -101,7 +101,7 @@ const checkLatestVersion = () => {
     }
     const lastVersion = versions[0];
     if (semver.gt(lastVersion, version)) {
-      log.warn('cli', colors.yellow(`please update ${name} manually, current version: ${version}, last version: ${lastVersion}. update command: npm i -g ${name}`));
+      log.warn('update', colors.yellow(`please update ${name} manually, current version: ${version}, last version: ${lastVersion}. update command: npm i -g ${name}`));
     }
   });
 };

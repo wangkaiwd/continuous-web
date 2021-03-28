@@ -31,6 +31,7 @@
   },
   "gitHead": "4faa786facfb7aa0f65194a6685f2e0a00fa1957",
   "dependencies": {
+    "commander": "^7.2.0",
     "yargs": "^16.2.0"
   }
 }
