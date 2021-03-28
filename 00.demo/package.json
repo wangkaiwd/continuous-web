@@ -1,10 +1,10 @@
 {
   "name": "ppk-cli",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "cli of develop",
   "main": "lib/index.js",
   "bin": {
-    "ppk-cli": "./bin/www"
+    "ppk-cli": "bin/www"
   },
   "scripts": {
     "test": "some script"

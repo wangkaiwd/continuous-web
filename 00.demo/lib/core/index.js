@@ -11,6 +11,7 @@ const fs = require('fs');
 const homedir = require('os').homedir();
 const minimist = require('minimist');
 const path = require('path');
+const { getSemverVersions } = require('../util/npm-info');
 const { getNpmInfo } = require('../util/npm-info');
 let args = {};
 const core = argv => {
@@ -72,7 +73,7 @@ const checkEnv = () => {
     dotenv.config({ path: envPath });
   }
   createDefaultConfig();
-  log.info('env', process.env.CLI_HOME_PATH);
+  // log.info('env', process.env.CLI_HOME_PATH);
 };
 const createDefaultConfig = () => {
   const cliConfig = {
@@ -94,9 +95,12 @@ const createDefaultConfig = () => {
 // 5. 找出最新的一个版本
 const checkLatestVersion = () => {
   const { name, version } = pkg;
-  getNpmInfo(name).then((res) => {
-    const versions = Object.keys(res.data.versions);
-    console.log('version', versions);
+  getSemverVersions('1.0.0', name).then((versions) => {
+    if (versions.length === 0) {
+      return log.info('cli', `ppk-cli is latest version`);
+    }
+    const latestVersion = versions[0];
+    log.info('cli', `latest version is ${colors.green(latestVersion)}, available version are ${colors.green(versions.join(', '))}`);
   });
 };
 module.exports = core;
