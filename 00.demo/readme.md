@@ -12,6 +12,8 @@
 * node-semver
 * colors.js
 * root-check
+* minimist
+* dotenv
 
 ### knowledge
 
