@@ -4,7 +4,7 @@
 const pkg = require('../../package.json');
 const semver = require('semver');
 const log = require('../util/log');
-const { LOWEST_NODE_VERSION } = require('../const');
+const { LOWEST_NODE_VERSION, DEFAULT_CLI_HOME } = require('../const');
 const colors = require('colors/safe');
 const rootCheck = require('root-check');
 const fs = require('fs');
@@ -68,8 +68,19 @@ const checkEnv = () => {
   const envPath = path.resolve(homedir, '.env');
   if (fs.existsSync(envPath)) {
     dotenv.config({ path: envPath });
-    log.info('env', process.env.CLI_HOME);
   }
+  createDefaultConfig();
+  log.info('env', process.env.CLI_HOME_PATH);
 };
-
+const createDefaultConfig = () => {
+  const cliConfig = {
+    home: homedir
+  };
+  if (process.env.CLI_HOME) {
+    cliConfig.cliHome = path.resolve(homedir, process.env.CLI_HOME);
+  } else {
+    cliConfig.cliHome = path.resolve(homedir, DEFAULT_CLI_HOME);
+  }
+  process.env.CLI_HOME_PATH = cliConfig.cliHome;
+};
 module.exports = core;

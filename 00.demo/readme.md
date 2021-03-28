@@ -26,3 +26,6 @@
 * check package version
 * check lowest node version
 * check root account
+* check homedir whether exist
+* check debug mode from command line arguments
+* set default environment variable if `.ppk-cli` file not exists
