@@ -11,6 +11,7 @@ const fs = require('fs');
 const homedir = require('os').homedir();
 const minimist = require('minimist');
 const path = require('path');
+const { getNpmInfo } = require('../util/npm-info');
 let args = {};
 const core = argv => {
   try {
@@ -20,6 +21,7 @@ const core = argv => {
     checkHomedir();
     checkInputArgs();
     checkEnv();
+    checkLatestVersion();
     log.verbose('cli', 'test debug mode');
   } catch (e) { // 通过try catch来自己处理错误，防止程序终止以及打印堆栈信息
     log.error('cli', colors.red(e.message));
@@ -82,5 +84,19 @@ const createDefaultConfig = () => {
     cliConfig.cliHome = path.resolve(homedir, DEFAULT_CLI_HOME);
   }
   process.env.CLI_HOME_PATH = cliConfig.cliHome;
+};
+
+// 检查当前版本是否是最新版本，并提示更新
+// 1. 从package.json中拿到name和version
+// 2. 通过name发起ajax请求，获取npm information
+// 3. 通过请求的数据，利用semver对版本号进行比对
+// 4. 找出比当前版本号大的版本列表
+// 5. 找出最新的一个版本
+const checkLatestVersion = () => {
+  const { name, version } = pkg;
+  getNpmInfo(name).then((res) => {
+    const versions = Object.keys(res.data.versions);
+    console.log('version', versions);
+  });
 };
 module.exports = core;

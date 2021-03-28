@@ -20,6 +20,7 @@
 * require支持的文件后缀: `.js`,`.json`,`.node`，其它后缀的文件都会按照`js`文件进行解析
 * 使用`try{}catch(e){}`来捕获错误，自己对错误进行处理
 * process.geteuid: 0为root用户
+* [npm registry api](https://github.com/npm/registry/blob/master/docs/REGISTRY-API.md#public-registry-api)
 
 ### feature
 

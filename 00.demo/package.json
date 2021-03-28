@@ -1,7 +1,7 @@
 {
-  "name": "cli-demo",
+  "name": "ppk-cli",
   "version": "1.0.0",
-  "description": "cli dev demo",
+  "description": "cli of develop",
   "main": "lib/index.js",
   "bin": {
     "ppk-cli": "./bin/www"
@@ -13,12 +13,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
     "colors": "^1.4.0",
     "dotenv": "^8.2.0",
     "import-local": "^3.0.2",
     "minimist": "^1.2.5",
     "npmlog": "^4.1.2",
     "root-check": "^1.0.0",
-    "semver": "^7.3.5"
+    "semver": "^7.3.5",
+    "url-join": "^4.0.1"
   }
 }
