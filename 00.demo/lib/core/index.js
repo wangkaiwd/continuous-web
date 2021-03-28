@@ -95,12 +95,14 @@ const createDefaultConfig = () => {
 // 5. 找出最新的一个版本
 const checkLatestVersion = () => {
   const { name, version } = pkg;
-  getSemverVersions('1.0.0', name).then((versions) => {
+  getSemverVersions(version, name).then((versions) => {
     if (versions.length === 0) {
       return log.info('cli', `ppk-cli is latest version`);
     }
-    const latestVersion = versions[0];
-    log.info('cli', `latest version is ${colors.green(latestVersion)}, available version are ${colors.green(versions.join(', '))}`);
+    const lastVersion = versions[0];
+    if (semver.gt(lastVersion, version)) {
+      log.warn('cli', colors.yellow(`please update ${name} manually, current version: ${version}, last version: ${lastVersion}. update command: npm i -g ${name}`));
+    }
   });
 };
 module.exports = core;

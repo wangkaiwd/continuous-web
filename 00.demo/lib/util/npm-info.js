@@ -20,7 +20,6 @@ const getNpmVersions = (pkgName, registry) => {
 
 const getSemverVersions = (baseVersion, pkgName, registry) => {
   return getNpmVersions(pkgName, registry).then((versions) => {
-      console.log(versions);
       return versions
         .filter((v) => semver.satisfies(v, `^${baseVersion}`))
         .sort((a, b) => semver.gt(a, b));
