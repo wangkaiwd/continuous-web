@@ -12,7 +12,8 @@ program
 // 注册命令：
 // command , 会返回一个新的Command 对象
 program
-  .command('clone <source>')
+  // Specifying isDefault:true will run the subcommand if no other subcommand is specified
+  .command('clone <source>', { isDefault: true })
   .description('clone a repository into a newly created directory')
   .option('-f, --force', 'force clone file')
   .action((source, cmdObj) => {
@@ -36,7 +37,10 @@ program.addCommand(service);
 program
   // command中传入第二个参数作为command的描述，这里会执行commander-study-install，与单独调用description()方法不同
   // https://github.com/tj/commander.js/#commands
-  .command('install [name]', 'install package')
+  // 第三个参数中可以配置executableFile(如执行其他的脚手架命令): https://github.com/tj/commander.js/#stand-alone-executable-subcommands
+  .command('install [name]', 'install package', {
+    executableFile: 'ppk-cli'
+  })
   .action((...args) => {
     console.log(args);
   });

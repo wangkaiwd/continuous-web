@@ -22,6 +22,7 @@
 * process.geteuid: 0为root用户
 * [npm registry api](https://github.com/npm/registry/blob/master/docs/REGISTRY-API.md#public-registry-api)
 * [description is second parameter to `.command`](https://github.com/tj/commander.js/#commands)
+* [stand-alone-executable-subcommands](https://github.com/tj/commander.js/#stand-alone-executable-subcommands)
 
 ### feature
 
