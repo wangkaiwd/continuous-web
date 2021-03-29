@@ -21,6 +21,7 @@
 * 使用`try{}catch(e){}`来捕获错误，自己对错误进行处理
 * process.geteuid: 0为root用户
 * [npm registry api](https://github.com/npm/registry/blob/master/docs/REGISTRY-API.md#public-registry-api)
+* [description is second parameter to `.command`](https://github.com/tj/commander.js/#commands)
 
 ### feature
 

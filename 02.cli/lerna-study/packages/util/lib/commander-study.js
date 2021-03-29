@@ -33,4 +33,23 @@ service
   });
 program.addCommand(service);
 
+program
+  // command中传入第二个参数作为command的描述，这里会执行commander-study-install，与单独调用description()方法不同
+  // https://github.com/tj/commander.js/#commands
+  .command('install [name]', 'install package')
+  .action((...args) => {
+    console.log(args);
+  });
+
+program
+  .arguments('<username> [password]')
+  .description('test command', {
+    username: 'command',
+    password: 'password'
+  }) // description中的第二个参数可以在help中描述参数
+  .action(function () {
+    // cmd, options, cmdObj
+    console.log('arguments', arguments);
+  });
+
 program.parse(process.argv);
