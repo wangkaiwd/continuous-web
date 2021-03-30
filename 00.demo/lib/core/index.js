@@ -12,7 +12,9 @@ const homedir = require('os').homedir();
 const minimist = require('minimist');
 const path = require('path');
 const { getSemverVersions } = require('../util/npm-info');
-const { getNpmInfo } = require('../util/npm-info');
+const commander = require('commander');
+const program = new commander.Command();
+
 let args = {};
 const core = argv => {
   try {
@@ -20,14 +22,42 @@ const core = argv => {
     checkNodeVersion();
     checkRootAccount();
     checkHomedir();
-    checkInputArgs();
+    // checkInputArgs();
     checkEnv();
     checkLatestVersion();
-    log.verbose('cli', 'test debug mode');
+    registerCommand();
   } catch (e) { // 通过try catch来自己处理错误，防止程序终止以及打印堆栈信息
     log.error('cli', colors.red(e.message));
   }
 };
+
+// 注册命令
+const registerCommand = () => {
+  const name = Object.keys(pkg.bin)[0];
+  program
+    .version(pkg.version)
+    .name(name)
+    .usage('<command> [options]')
+    .option('-d, --debug', 'enable debug mode', false);
+
+  // 启动debug模式
+  program.on('option:debug', function () {
+    process.env.LOG_LEVEL = 'verbose';
+    log.level = process.env.LOG_LEVEL;
+    log.verbose('cli', 'test');
+  });
+
+  program.on('command:*', function (operands) {
+    log.error('cli', colors.red(`Unknown command: ${operands[0]}`));
+    const availableCommands = program.commands.map(cmd => cmd.name());
+    if (availableCommands.length > 0) {
+      log.error('cli', colors.red(`Available commands: ${availableCommands.join(', ')}`));
+    }
+  });
+
+  program.parse(process.argv);
+};
+
 const checkPkgVersion = () => {
   log.info('cli', pkg.version);
 };
