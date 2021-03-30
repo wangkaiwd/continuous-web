@@ -13,6 +13,7 @@ const minimist = require('minimist');
 const path = require('path');
 const { getSemverVersions } = require('../util/npm-info');
 const commander = require('commander');
+const create = require('../command/create');
 const program = new commander.Command();
 
 let args = {};
@@ -39,6 +40,12 @@ const registerCommand = () => {
     .name(name)
     .usage('<command> [options]')
     .option('-d, --debug', 'enable debug mode', false);
+
+  program
+    .command('create [projectName]')
+    .description('create project that project directory name is projectName')
+    .option('-f, --force', 'force create project')
+    .action(create);
 
   // 启动debug模式
   program.on('option:debug', function () {
