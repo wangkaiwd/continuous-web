@@ -1,5 +1,5 @@
 class Package {
-  constructor () {
+  constructor (options = {}) {
     console.log('construct package');
   }
 }
