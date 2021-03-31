@@ -14,22 +14,26 @@ const path = require('path');
 const { getSemverVersions } = require('../util/npm-info');
 const commander = require('commander');
 const create = require('../command/create');
+const exec = require('./exec');
 const program = new commander.Command();
 
 let args = {};
 const core = argv => {
   try {
-    checkPkgVersion();
-    checkNodeVersion();
-    checkRootAccount();
-    checkHomedir();
-    // checkInputArgs();
-    checkEnv();
-    checkLatestVersion();
+    prepare();
     registerCommand();
   } catch (e) { // 通过try catch来自己处理错误，防止程序终止以及打印堆栈信息
     log.error('cli', colors.red(e.message));
   }
+};
+
+const prepare = () => {
+  checkPkgVersion();
+  checkNodeVersion();
+  checkRootAccount();
+  checkHomedir();
+  checkEnv();
+  checkLatestVersion();
 };
 
 // 注册命令
@@ -46,7 +50,7 @@ const registerCommand = () => {
     .command('create <projectName>')
     .description('create project that project directory name is projectName')
     .option('-f, --force', 'force create project')
-    .action(create);
+    .action(exec);
 
   // 启动debug模式
   program.on('option:debug', function () {
@@ -103,7 +107,6 @@ const checkEnv = () => {
     dotenv.config({ path: envPath });
   }
   createDefaultConfig();
-  // log.info('env', process.env.CLI_HOME_PATH);
 };
 const createDefaultConfig = () => {
   const cliConfig = {

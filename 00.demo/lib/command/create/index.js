@@ -1,4 +1,3 @@
-const util = require('util');
 const create = (projectName, options, cmd) => {
   // 全局的选项处理：
   //  1. 通过cmd的parent属性来获取全局的options(命令嵌套，可能parent会拿不到值)
