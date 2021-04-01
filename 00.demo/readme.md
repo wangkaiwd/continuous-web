@@ -14,6 +14,8 @@
 * root-check
 * minimist
 * dotenv
+* pkg-dir
+* npminstall
 
 ### knowledge
 
