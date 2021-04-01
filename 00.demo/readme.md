@@ -1,4 +1,4 @@
-## 拆分策略
+## strategy of separate package
 
 * 核心模块: core
 * 命令模块：command
@@ -32,3 +32,7 @@
 * check homedir whether exist
 * check debug mode from command line arguments
 * set default environment variable if `.ppk-cli` file not exists
+
+### environment variable
+
+* write environment variable for develop avoid forget

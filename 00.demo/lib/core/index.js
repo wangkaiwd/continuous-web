@@ -14,22 +14,26 @@ const path = require('path');
 const { getSemverVersions } = require('../util/npm-info');
 const commander = require('commander');
 const create = require('../command/create');
+const exec = require('./exec');
 const program = new commander.Command();
 
 let args = {};
 const core = argv => {
   try {
-    checkPkgVersion();
-    checkNodeVersion();
-    checkRootAccount();
-    checkHomedir();
-    // checkInputArgs();
-    checkEnv();
-    checkLatestVersion();
+    prepare();
     registerCommand();
   } catch (e) { // 通过try catch来自己处理错误，防止程序终止以及打印堆栈信息
     log.error('cli', colors.red(e.message));
   }
+};
+
+const prepare = () => {
+  checkPkgVersion();
+  checkNodeVersion();
+  checkRootAccount();
+  checkHomedir();
+  checkEnv();
+  checkLatestVersion();
 };
 
 // 注册命令
@@ -39,19 +43,25 @@ const registerCommand = () => {
     .version(pkg.version)
     .name(name)
     .usage('<command> [options]')
-    .option('-d, --debug', 'enable debug mode', false);
+    .option('-d, --debug', 'enable debug mode', false)
+    .option('-tp, --target-path <targetPath>', 'specify location of local debug file', '');
 
   program
-    .command('create [projectName]')
+    .command('create <projectName>')
     .description('create project that project directory name is projectName')
     .option('-f, --force', 'force create project')
-    .action(create);
+    .action(exec);
 
   // 启动debug模式
   program.on('option:debug', function () {
     process.env.LOG_LEVEL = 'verbose';
     log.level = process.env.LOG_LEVEL;
     log.verbose('cli', 'test');
+  });
+
+  // 先执行
+  program.on('option:target-path', (targetPath) => {
+    process.env.TARGET_PATH = targetPath;
   });
 
   program.on('command:*', function (operands) {
@@ -90,19 +100,6 @@ const checkHomedir = () => {
     throw Error(colors.red(`User home directory is not exists!`));
   }
 };
-const checkArgs = () => {
-  if (args.debug) {
-    process.env.LOG_LEVEL = 'debug';
-  } else {
-    process.env.LOG_LEVEL = 'info';
-  }
-  log.level = process.env.LOG_LEVEL;
-};
-const checkInputArgs = () => {
-  args = minimist(process.argv.slice(2));
-  checkArgs();
-};
-
 const checkEnv = () => {
   const dotenv = require('dotenv');
   const envPath = path.resolve(homedir, '.env');
@@ -110,7 +107,6 @@ const checkEnv = () => {
     dotenv.config({ path: envPath });
   }
   createDefaultConfig();
-  // log.info('env', process.env.CLI_HOME_PATH);
 };
 const createDefaultConfig = () => {
   const cliConfig = {
