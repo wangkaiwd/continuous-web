@@ -22,7 +22,7 @@ const getSemverVersions = (baseVersion, pkgName, registry) => {
   return getNpmVersions(pkgName, registry).then((versions) => {
       return versions
         .filter((v) => semver.satisfies(v, `^${baseVersion}`))
-        .sort((a, b) => semver.gt(a, b));
+        .sort((a, b) => semver.gt(a, b)); // 相当于 a > b return true, Number(true) = 1 > 0, a和b进行位置交换，正序
     }
   );
 };
