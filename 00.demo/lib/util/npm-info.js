@@ -4,14 +4,25 @@ const semver = require('semver');
 const getNpmInfo = (pkgName, registry) => {
   registry = registry || getDefaultRegistry();
   const apiUrl = urlJoin(registry, pkgName);
-  return axios(apiUrl);
+  return axios(apiUrl).catch((e) => {
+    console.log('err', e);
+    return Promise.reject(e);
+  });
 };
 
 const getNpmVersions = (pkgName, registry) => {
   return getNpmInfo(pkgName, registry).then((res) => {
     const { data } = res;
     if (data?.versions) {
-      return Object.keys(data.versions);
+      return Object.keys(data.versions).sort((a, b) => {
+        if (semver.lt(a, b)) {
+          return 1;
+        } else if (semver.gt(a, b)) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
     } else {
       return [];
     }
@@ -21,10 +32,16 @@ const getNpmVersions = (pkgName, registry) => {
 const getSemverVersions = (baseVersion, pkgName, registry) => {
   return getNpmVersions(pkgName, registry).then((versions) => {
       return versions
-        .filter((v) => semver.satisfies(v, `^${baseVersion}`))
-        .sort((a, b) => semver.gt(a, b)); // 相当于 a > b return true, Number(true) = 1 > 0, a和b进行位置交换，正序
+        .filter((v) => semver.satisfies(v, `^${baseVersion}`));
     }
   );
+};
+
+const getNpmLatestVersion = (pkgName, registry) => {
+  return getNpmVersions(pkgName, registry)
+    .then((versions) => {
+      return versions[0];
+    });
 };
 
 const getDefaultRegistry = (origin = false) => {
@@ -33,5 +50,7 @@ const getDefaultRegistry = (origin = false) => {
 
 module.exports = {
   getNpmInfo,
-  getSemverVersions
+  getSemverVersions,
+  getDefaultRegistry,
+  getNpmLatestVersion
 };

@@ -9,31 +9,30 @@ const colors = require('colors/safe');
 const rootCheck = require('root-check');
 const fs = require('fs');
 const homedir = require('os').homedir();
-const minimist = require('minimist');
 const path = require('path');
 const { getSemverVersions } = require('../util/npm-info');
 const commander = require('commander');
 const create = require('../command/create');
 const exec = require('./exec');
+const { getNpmLatestVersion } = require('../util/npm-info');
 const program = new commander.Command();
 
-let args = {};
-const core = argv => {
+const core = async argv => {
   try {
-    prepare();
+    await prepare();
     registerCommand();
   } catch (e) { // 通过try catch来自己处理错误，防止程序终止以及打印堆栈信息
     log.error('cli', colors.red(e.message));
   }
 };
 
-const prepare = () => {
+const prepare = async () => {
   checkPkgVersion();
   checkNodeVersion();
   checkRootAccount();
   checkHomedir();
   checkEnv();
-  checkLatestVersion();
+  await checkLatestVersion();
 };
 
 // 注册命令
@@ -128,14 +127,11 @@ const createDefaultConfig = () => {
 // 5. 找出最新的一个版本
 const checkLatestVersion = () => {
   const { name, version } = pkg;
-  getSemverVersions(version, name).then((versions) => {
-    if (versions.length === 0) {
-      return log.info('cli', `ppk-cli is latest version`);
-    }
-    const lastVersion = versions[0];
-    if (semver.gt(lastVersion, version)) {
-      log.warn('update', colors.yellow(`please update ${name} manually, current version: ${version}, last version: ${lastVersion}. update command: npm i -g ${name}`));
-    }
-  });
+  return getNpmLatestVersion(name)
+    .then((lastVersion) => {
+      if (semver.gt(lastVersion, version)) {
+        log.warn('update', colors.yellow(`please update ${name} manually, current version: ${version}, last version: ${lastVersion}. update command: npm i -g ${name}`));
+      }
+    });
 };
 module.exports = core;
