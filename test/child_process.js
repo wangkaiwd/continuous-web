@@ -44,9 +44,12 @@ const { exec, execFile, spawn, fork } = require('child_process');
 // 由于spawn用到了stream来一点一点读取输出的内容，所以适合开销比较大的耗时任务(流的优点)(如:npm install)
 // exec/execFile适合开销比价小的任务
 
-const child = fork(path.resolve(__dirname, 'sort.js'));
+// 创建一个新的Node进程
+const child = fork(path.resolve(__dirname, 'child_fork_demo.js'));
 
-child.on('error', (err) => {
-  console.log(err);
+// callback is invoked after the message is sent but before the child may have received it.
+child.send('hello child process', () => {
+  child.disconnect();
 });
 
+console.log('main pid:', process.pid);
