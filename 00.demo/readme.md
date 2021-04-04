@@ -25,6 +25,9 @@
 * [npm registry api](https://github.com/npm/registry/blob/master/docs/REGISTRY-API.md#public-registry-api)
 * [description is second parameter to `.command`](https://github.com/tj/commander.js/#commands)
 * [stand-alone-executable-subcommands](https://github.com/tj/commander.js/#stand-alone-executable-subcommands)
+* npm init egg do what?
+* [symbolic link](https://en.wikipedia.org/wiki/Symbolic_link)
+  * etc -> private/etc
 
 ### feature
 
