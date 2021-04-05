@@ -41,3 +41,11 @@
 ### environment variable
 
 * write environment variable for develop avoid forget
+
+### implement command line interactive list
+
+requirement:
+
+* readline
+* ansi-escapes
+* rxjs
