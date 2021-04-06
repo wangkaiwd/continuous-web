@@ -1,3 +1,4 @@
+
 ## strategy of separate package
 
 * 核心模块: core
