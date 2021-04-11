@@ -50,3 +50,7 @@ requirement:
 * readline
 * ansi-escapes
 * rxjs
+
+### custom template
+* ejs
+* glob

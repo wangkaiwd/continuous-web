@@ -10,10 +10,9 @@ const rootCheck = require('root-check');
 const fs = require('fs');
 const homedir = require('os').homedir();
 const path = require('path');
-const { getSemverVersions } = require('../util/npm-info');
 const commander = require('commander');
-const create = require('../command/create');
 const exec = require('./exec');
+const Creator = require('../command/create/Creator');
 const { getNpmLatestVersion } = require('../util/npm-info');
 const program = new commander.Command();
 
@@ -42,14 +41,16 @@ const registerCommand = () => {
     .version(pkg.version)
     .name(name)
     .usage('<command> [options]')
-    .option('-d, --debug', 'enable debug mode', false)
-    .option('-tp, --target-path <targetPath>', 'specify location of local debug file', '');
+    .option('-d, --debug', 'enable debug mode', false);
+  // .option('-tp, --target-path <targetPath>', 'specify location of local debug file', '');
 
   program
     .command('create <projectName>')
     .description('create project that project directory name is projectName')
     .option('-f, --force', 'force create project')
-    .action(exec);
+    .action((...args) => {
+      new Creator(...args).create();
+    });
 
   // 启动debug模式
   program.on('option:debug', function () {
