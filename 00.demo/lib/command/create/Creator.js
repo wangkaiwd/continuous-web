@@ -3,7 +3,7 @@ const fsExtra = require('fs-extra');
 const inquirer = require('inquirer');
 const pfs = require('fs/promises');
 const npmlog = require('../../util/log');
-const fs = require('fs');
+const colors = require('colors');
 
 class Creator {
   constructor (projectName, options, cmd) {
@@ -28,7 +28,7 @@ class Creator {
     const projectDir = path.resolve(cwd, this.projectName);
     const { force } = this.options;
     if (fsExtra.pathExistsSync(projectDir)) {
-      const empty = this.isCwdEmpty(projectDir);
+      const empty = await this.isCwdEmpty(projectDir);
       if (!empty) {
         if (force) {
           const { clear } = await inquirer.prompt({
@@ -51,9 +51,9 @@ class Creator {
               npmlog.notice('cli', 'delete all content successfully');
             }
           }
-        } else {
-          console.error('Directory not empty!');
         }
+      } else {
+        npmlog.warn('cli', colors.yellow('Directory not empty!'));
       }
     } else {
       console.log('path not exist');
@@ -65,7 +65,7 @@ class Creator {
 
   isCwdEmpty = async (dir) => {
     const dirs = await pfs.readdir(dir);
-    return dirs.length > 0;
+    return dirs.length === 0;
   };
 }
 

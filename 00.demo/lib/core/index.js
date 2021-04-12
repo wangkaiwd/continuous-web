@@ -45,7 +45,7 @@ const registerCommand = () => {
   // .option('-tp, --target-path <targetPath>', 'specify location of local debug file', '');
 
   program
-    .command('create <projectName>')
+    .command('create [projectName]')
     .description('create project that project directory name is projectName')
     .option('-f, --force', 'force create project')
     .action((...args) => {
