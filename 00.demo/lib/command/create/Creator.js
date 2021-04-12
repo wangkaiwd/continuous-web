@@ -3,6 +3,7 @@ const fsExtra = require('fs-extra');
 const inquirer = require('inquirer');
 const pfs = require('fs/promises');
 const npmlog = require('../../util/log');
+const fs = require('fs');
 
 class Creator {
   constructor (projectName, options, cmd) {
@@ -22,22 +23,23 @@ class Creator {
   };
   prepare = async () => {
     const cwd = process.cwd();
+    // another way of get cli execute location: https://devdocs.io/node~14_lts/path#path_path_resolve_paths
+    // console.log(path.resolve(),path.resolve('.'));
     const projectDir = path.resolve(cwd, this.projectName);
     const { force } = this.options;
     if (fsExtra.pathExistsSync(projectDir)) {
-      if (!fsExtra.emptyDirSync(projectDir)) {
+      const empty = this.isCwdEmpty(projectDir);
+      if (!empty) {
         if (force) {
           const { clear } = await inquirer.prompt({
             type: 'confirm',
             name: 'clear',
             default: false,
-            message: 'Force clean all files ?'
+            message: 'Current directory is not empty, is force clean all files to continue create project?'
           });
           if (clear) {
-            const dirs = await pfs.readdir(projectDir);
-            for (const dir of dirs) {
-              await fsExtra.remove(path.resolve(projectDir, dir));
-            }
+            // emptyDir： Delete directory contents if the directory is not empty. If directory does not exist, it is created. The directory itself is not deleted.  
+            await fsExtra.emptyDir(projectDir);
             npmlog.notice('cli', 'delete all content successfully');
           }
         } else {
@@ -45,11 +47,16 @@ class Creator {
         }
       }
     } else {
-      console.log('不存在文件');
+      console.log('path not exist');
     }
     // 通过try catch来捕获异常，如果报错文件不存在，需要先创建对应的文件
     // 如果对应的文件存在，并且里边有文件，需要将所有文件进行递归删除
     // 不存在，手动创建对应的目录   
+  };
+
+  isCwdEmpty = async (dir) => {
+    const dirs = await pfs.readdir(dir);
+    return dirs.length > 0;
   };
 }
 
