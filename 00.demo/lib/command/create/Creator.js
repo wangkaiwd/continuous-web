@@ -38,9 +38,18 @@ class Creator {
             message: 'Current directory is not empty, is force clean all files to continue create project?'
           });
           if (clear) {
-            // emptyDir： Delete directory contents if the directory is not empty. If directory does not exist, it is created. The directory itself is not deleted.  
-            await fsExtra.emptyDir(projectDir);
-            npmlog.notice('cli', 'delete all content successfully');
+            // delete operate is too dangerous, so need to execute twice confirm
+            const { confirmDelete } = await inquirer.prompt({
+              type: 'confirm',
+              name: 'confirmDelete',
+              default: false,
+              message: `Confirm delete all contents under directory ${projectDir}?`
+            });
+            if (confirmDelete) {
+              // emptyDir： Delete directory contents if the directory is not empty. If directory does not exist, it is created. The directory itself is not deleted.  
+              await fsExtra.emptyDir(projectDir);
+              npmlog.notice('cli', 'delete all content successfully');
+            }
           }
         } else {
           console.error('Directory not empty!');
