@@ -17,8 +17,10 @@ class Creator {
 
   create = async () => {
     // 1. 准备阶段
-    await this.prepare();
+    const ifContinue = await this.prepare();
+    if(!ifContinue) {return}
     // 2. 下载模板
+    
 
   };
   prepare = async () => {
@@ -51,16 +53,34 @@ class Creator {
               npmlog.notice('cli', 'delete all content successfully');
             }
           }
+        } else {
+          return false;
         }
       } else {
         npmlog.warn('cli', colors.yellow('Directory not empty!'));
+        return false;
       }
     } else {
       console.log('path not exist');
     }
+    return this.getProjectInfo();
     // 通过try catch来捕获异常，如果报错文件不存在，需要先创建对应的文件
     // 如果对应的文件存在，并且里边有文件，需要将所有文件进行递归删除
     // 不存在，手动创建对应的目录   
+  };
+  getProjectInfo = async () => {
+    return await inquirer.prompt([
+      {
+        type: 'input',
+        name: 'projectName',
+        message: 'Please input name of your project'
+      },
+      {
+        type: 'input',
+        name: 'version',
+        message: 'Please input version of your project'
+      }
+    ]);
   };
 
   isCwdEmpty = async (dir) => {
