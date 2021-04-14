@@ -4,6 +4,7 @@ const inquirer = require('inquirer');
 const pfs = require('fs/promises');
 const npmlog = require('../../util/log');
 const colors = require('colors');
+const semver = require('semver');
 
 class Creator {
   constructor (projectName, options, cmd) {
@@ -18,9 +19,8 @@ class Creator {
   create = async () => {
     // 1. 准备阶段
     const ifContinue = await this.prepare();
-    if(!ifContinue) {return}
+    if (!ifContinue) {return;}
     // 2. 下载模板
-    
 
   };
   prepare = async () => {
@@ -73,12 +73,22 @@ class Creator {
       {
         type: 'input',
         name: 'projectName',
-        message: 'Please input name of your project'
+        message: 'Please input name of your project',
+        validate (val) {
+          // 1. 首字符必须为英文字符
+          // 2. 尾字符必须是英文或数字，不能是字符
+          // 3. 字符仅允许"-_"
+          const reg = /^[a-zA-Z]*[\w-]*[a-zA-Z0-9]$/;
+          return reg.test(val);
+        }
       },
       {
         type: 'input',
         name: 'version',
-        message: 'Please input version of your project'
+        message: 'Please input version of your project',
+        validate (val) {
+          return semver.valid(val);
+        }
       }
     ]);
   };
