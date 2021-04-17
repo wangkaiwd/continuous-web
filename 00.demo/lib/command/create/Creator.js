@@ -63,10 +63,9 @@ class Creator {
     } else {
       console.log('path not exist');
     }
-    return this.getProjectInfo();
-    // 通过try catch来捕获异常，如果报错文件不存在，需要先创建对应的文件
-    // 如果对应的文件存在，并且里边有文件，需要将所有文件进行递归删除
-    // 不存在，手动创建对应的目录   
+    const info = await this.getProjectInfo();
+    console.log('info', info);
+    return info;
   };
   getProjectInfo = async () => {
     return await inquirer.prompt([
@@ -74,20 +73,36 @@ class Creator {
         type: 'input',
         name: 'projectName',
         message: 'Please input name of your project',
-        validate (val) {
+        validate (input) {
           // 1. 首字符必须为英文字符
           // 2. 尾字符必须是英文或数字，不能是字符
           // 3. 字符仅允许"-_"
           const reg = /^[a-zA-Z]*[\w-]*[a-zA-Z0-9]$/;
-          return reg.test(val);
+          if (reg.test(input)) {
+            return true;
+          } else {
+            return 'project name is illegal!';
+          }
         }
       },
       {
         type: 'input',
         name: 'version',
         message: 'Please input version of your project',
-        validate (val) {
-          return semver.valid(val);
+        validate (input) {
+          if (semver.valid(input)) {
+            return true;
+          } else {
+            return 'version format incorrect!';
+          }
+        },
+        filter (input) {
+          const v = semver.valid(input);
+          if (!v) {
+            return input;
+          } else {
+            return v;
+          }
         }
       }
     ]);

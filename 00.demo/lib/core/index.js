@@ -51,14 +51,7 @@ const registerCommand = () => {
     .action((...args) => {
       new Creator(...args).create();
     });
-
-  // 启动debug模式
-  program.on('option:debug', function () {
-    process.env.LOG_LEVEL = 'verbose';
-    log.level = process.env.LOG_LEVEL;
-    log.verbose('cli', 'test');
-  });
-
+  handleDebug();
   // 先执行
   program.on('option:target-path', (targetPath) => {
     process.env.TARGET_PATH = targetPath;
@@ -74,7 +67,14 @@ const registerCommand = () => {
 
   program.parse(process.argv);
 };
-
+const handleDebug = () => {
+  // 启动debug模式
+  program.on('option:debug', function () {
+    process.env.LOG_LEVEL = 'verbose';
+    log.level = process.env.LOG_LEVEL;
+    log.verbose('cli', 'test');
+  });
+};
 const checkPkgVersion = () => {
   log.info('cli', pkg.version);
 };
