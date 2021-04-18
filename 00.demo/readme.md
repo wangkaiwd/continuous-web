@@ -27,6 +27,7 @@
 * [description is second parameter to `.command`](https://github.com/tj/commander.js/#commands)
 * [stand-alone-executable-subcommands](https://github.com/tj/commander.js/#stand-alone-executable-subcommands)
 * npm init egg do what?
+  * [npm init](https://docs.npmjs.com/cli/v7/commands/npm-init#description)
 * [symbolic link](https://en.wikipedia.org/wiki/Symbolic_link)
   * etc -> private/etc
 * [inquirer validate input message and display error message](https://github.com/SBoudrias/Inquirer.js/#question)

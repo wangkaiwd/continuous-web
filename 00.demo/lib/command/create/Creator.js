@@ -18,11 +18,20 @@ class Creator {
 
   create = async () => {
     // 1. 准备阶段
-    const ifContinue = await this.prepare();
-    if (!ifContinue) {return;}
-    // 2. 下载模板
-
+    const projectInfo = await this.prepare();
+    if (projectInfo) {
+      this.downloadTemplate();
+    }
   };
+
+  downloadTemplate = () => {
+    // 1. 在github仓库中创建对应的模板
+    // 2. 将模板上传到npm上
+    // 3. 可以将模板对应的信息存储到数据库中，然后提供API来供脚手架调用
+    // 4. 脚手架调用API获取模板信息
+    // 3，4步骤也可以使用本地的数据，只是每次改动之后需要修改代码
+  };
+
   prepare = async () => {
     const cwd = process.cwd();
     // another way of get cli execute location: https://devdocs.io/node~14_lts/path#path_path_resolve_paths
@@ -54,18 +63,14 @@ class Creator {
             }
           }
         } else {
-          return false;
         }
       } else {
         npmlog.warn('cli', colors.yellow('Directory not empty!'));
-        return false;
       }
     } else {
       console.log('path not exist');
     }
-    const info = await this.getProjectInfo();
-    console.log('info', info);
-    return info;
+    return await this.getProjectInfo();
   };
   getProjectInfo = async () => {
     return await inquirer.prompt([
