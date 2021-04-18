@@ -1,4 +1,3 @@
-
 ## strategy of separate package
 
 * 核心模块: core
@@ -17,6 +16,7 @@
 * dotenv
 * pkg-dir
 * npminstall
+* fs-extra(emptyDir)
 
 ### knowledge
 
@@ -29,6 +29,8 @@
 * npm init egg do what?
 * [symbolic link](https://en.wikipedia.org/wiki/Symbolic_link)
   * etc -> private/etc
+* [inquirer validate input message and display error message](https://github.com/SBoudrias/Inquirer.js/#question)
+* [inquirer filter](https://github.com/SBoudrias/Inquirer.js/#question)
 
 ### feature
 
@@ -37,7 +39,7 @@
 * check root account
 * check homedir whether exist
 * check debug mode from command line arguments
-* set default environment variable if `.ppk-cli` file not exists
+* set default environment variable when `.ppk-cli` file not exists
 
 ### environment variable
 
@@ -52,5 +54,6 @@ requirement:
 * rxjs
 
 ### custom template
+
 * ejs
 * glob
