@@ -5,6 +5,7 @@ const pfs = require('fs/promises');
 const npmlog = require('../../util/log');
 const colors = require('colors');
 const semver = require('semver');
+const { TEMPLATE_INFO } = require('../../const');
 
 class Creator {
   constructor (projectName, options, cmd) {
@@ -20,16 +21,18 @@ class Creator {
     // 1. 准备阶段
     const projectInfo = await this.prepare();
     if (projectInfo) {
-      this.downloadTemplate();
+      this.downloadTemplate(projectInfo);
     }
   };
 
-  downloadTemplate = () => {
+  downloadTemplate = (projectInfo) => {
     // 1. 在github仓库中创建对应的模板
     // 2. 将模板上传到npm上
     // 3. 可以将模板对应的信息存储到数据库中，然后提供API来供脚手架调用
     // 4. 脚手架调用API获取模板信息
     // 3，4步骤也可以使用本地的数据，只是每次改动之后需要修改代码
+    const { template } = projectInfo;
+    const selectedNpm = TEMPLATE_INFO.find(item => item.npmName === template);
   };
 
   prepare = async () => {
@@ -73,6 +76,7 @@ class Creator {
     return await this.getProjectInfo();
   };
   getProjectInfo = async () => {
+    // 连续调用inquirer来进行连续让用户进行交互
     return await inquirer.prompt([
       {
         type: 'input',
@@ -109,10 +113,21 @@ class Creator {
             return v;
           }
         }
-      }
+      },
+      {
+        type: 'list',
+        name: 'template',
+        message: 'Please input version of your project',
+        choices: this.createTemplate()
+      },
     ]);
   };
-
+  createTemplate = () => {
+    return TEMPLATE_INFO.map(item => ({
+      name: item.name,
+      value: item.npmName
+    }));
+  };
   isCwdEmpty = async (dir) => {
     const dirs = await pfs.readdir(dir);
     return dirs.length === 0;
