@@ -48,8 +48,8 @@ const registerCommand = () => {
     .command('create [projectName]')
     .description('create project that project directory name is projectName')
     .option('-f, --force', 'force create project')
-    .action((...args) => {
-      new Creator(...args).create();
+    .action(async (...args) => {
+      await new Creator(...args).create();
     });
   handleDebug();
   // 先执行
@@ -59,6 +59,7 @@ const registerCommand = () => {
 
   program.on('command:*', function (operands) {
     log.error('cli', colors.red(`Unknown command: ${operands[0]}`));
+    // cmd.name() 获取命令名称
     const availableCommands = program.commands.map(cmd => cmd.name());
     if (availableCommands.length > 0) {
       log.error('cli', colors.red(`Available commands: ${availableCommands.join(', ')}`));

@@ -5,6 +5,7 @@ const pfs = require('fs/promises');
 const npmlog = require('../../util/log');
 const colors = require('colors');
 const semver = require('semver');
+const Package = require('../../model/Package');
 const { TEMPLATE_INFO } = require('../../const');
 
 class Creator {
@@ -33,6 +34,8 @@ class Creator {
     // 3，4步骤也可以使用本地的数据，只是每次改动之后需要修改代码
     const { template } = projectInfo;
     const selectedNpm = TEMPLATE_INFO.find(item => item.npmName === template);
+    const pkg = new Package({ targetPath: path.resolve(__dirname, '../../../'), ...selectedNpm });
+    console.log(pkg.getEntryFile());
   };
 
   prepare = async () => {
