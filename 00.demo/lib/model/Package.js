@@ -21,6 +21,7 @@ class Package {
   };
   // 1. get package.json file information
   // 2. find main field: https://docs.npmjs.com/cli/v7/configuring-npm/package-json#main
+  // 3. compatible path of mac and windows
   getEntryFile = () => {
     const rootDir = pkgDir(this.targetPath);
     const pkgPath = path.resolve(rootDir, 'package.json');
