@@ -33,6 +33,7 @@
 * [inquirer validate input message and display error message](https://github.com/SBoudrias/Inquirer.js/#question)
 * [inquirer filter](https://github.com/SBoudrias/Inquirer.js/#question)
 * why async await promise error need to try catch
+* path.sep: format windows and mac path
 
 ### feature
 
