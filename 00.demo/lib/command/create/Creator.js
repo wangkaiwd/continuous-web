@@ -6,12 +6,14 @@ const npmlog = require('../../util/log');
 const colors = require('colors');
 const semver = require('semver');
 const Package = require('../../model/Package');
+const { CACHE_DIR } = require('../../const');
 const { TEMPLATE_INFO } = require('../../const');
 
 class Creator {
   constructor (projectName, options, cmd) {
     this.projectName = projectName || '';
     this.options = options;
+    this.templates = this.createTemplates();
   }
 
   init = () => {
@@ -22,22 +24,25 @@ class Creator {
     // 1. 准备阶段
     const projectInfo = await this.prepare();
     if (projectInfo) {
-      this.downloadTemplate(projectInfo);
+      await this.downloadTemplate(projectInfo);
     }
   };
 
-  downloadTemplate = (projectInfo) => {
+  downloadTemplate = async (projectInfo) => {
+    const homePath = process.env.CLI_HOME_PATH;
+
     // 1. 在github仓库中创建对应的模板
     // 2. 将模板上传到npm上
     // 3. 可以将模板对应的信息存储到数据库中，然后提供API来供脚手架调用
     // 4. 脚手架调用API获取模板信息
     // 3，4步骤也可以使用本地的数据，只是每次改动之后需要修改代码
     const { template } = projectInfo;
-    const selectedNpm = TEMPLATE_INFO.find(item => item.npmName === template);
-    const pkg = new Package({ targetPath: path.resolve(__dirname, '../../../'), ...selectedNpm });
-    console.log(pkg.getEntryFile());
+    const selectedNpm = this.templates.find(item => item.value === template);
+    const targetPath = path.resolve(homePath, CACHE_DIR);
+    const storeDir = path.resolve(targetPath, 'node_modules');
+    const pkg = new Package({ targetPath, storeDir, name: selectedNpm.value, version: selectedNpm.version });
+    await pkg.install();
   };
-
   prepare = async () => {
     const cwd = process.cwd();
     // another way of get cli execute location: https://devdocs.io/node~14_lts/path#path_path_resolve_paths
@@ -121,14 +126,15 @@ class Creator {
         type: 'list',
         name: 'template',
         message: 'Please input version of your project',
-        choices: this.createTemplate()
+        choices: this.templates
       },
     ]);
   };
-  createTemplate = () => {
+  createTemplates = () => {
     return TEMPLATE_INFO.map(item => ({
-      name: item.name,
-      value: item.npmName
+      name: item.templateName,
+      value: item.npmName,
+      version: item.version
     }));
   };
   isCwdEmpty = async (dir) => {

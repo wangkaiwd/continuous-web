@@ -22,13 +22,14 @@ class Package {
       // install root dir
       root: this.targetPath,
       // optional packages need to install, default is package.json's dependencies and devDependencies
-      pkgs: [{ name: this.name, version: this.version },],
+      pkgs: [{ name: this.name, version: this.version }],
       registry,
       storeDir: this.storeDir, // directory store real file which symbol link to
     }).catch((err) => {
       console.log('install error:', err);
     });
   };
+  l;
   update = () => {
 
   };
