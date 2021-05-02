@@ -1,10 +1,13 @@
 const pkgDir = require('pkg-dir').sync;
 const path = require('path');
+const npmInstall = require('npminstall');
+const { getDefaultRegistry } = require('../util/npm-info');
 
 // 进行package的相关操作
 class Package {
   constructor (options = {}) {
     this.targetPath = options.targetPath;
+    this.storeDir = options.storeDir;
     this.name = options.name;
     this.version = options.version;
   }
@@ -13,8 +16,18 @@ class Package {
 
   };
 
-  install = () => {
-
+  install = async () => {
+    const registry = getDefaultRegistry();
+    await npmInstall({
+      // install root dir
+      root: this.targetPath,
+      // optional packages need to install, default is package.json's dependencies and devDependencies
+      pkgs: [{ name: this.name, version: this.version },],
+      registry,
+      storeDir: this.storeDir, // directory store real file which symbol link to
+    }).catch((err) => {
+      console.log('install error:', err);
+    });
   };
   update = () => {
 

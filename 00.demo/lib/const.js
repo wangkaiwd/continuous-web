@@ -14,8 +14,11 @@ const TEMPLATE_INFO = [
   }
 ];
 
+const CACHE_DIR = 'dependencies';
+
 module.exports = {
   LOWEST_NODE_VERSION,
   DEFAULT_CLI_HOME,
-  TEMPLATE_INFO
+  TEMPLATE_INFO,
+  CACHE_DIR
 };

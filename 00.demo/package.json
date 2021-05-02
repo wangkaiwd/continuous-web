@@ -20,6 +20,7 @@
     "fs-extra": "^9.1.0",
     "import-local": "^3.0.2",
     "inquirer": "^8.0.0",
+    "npminstall": "^4.11.0",
     "npmlog": "^4.1.2",
     "pkg-dir": "^5.0.0",
     "root-check": "^1.0.0",
