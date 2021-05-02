@@ -40,13 +40,19 @@ class Creator {
     const selectedNpm = this.templates.find(item => item.value === template);
     const targetPath = path.resolve(homePath, CACHE_DIR);
     const storeDir = path.resolve(targetPath, 'node_modules');
-    const pkg = new Package();
-    await pkg.ready({ targetPath, storeDir, name: selectedNpm.value, version: selectedNpm.version });
+    const pkg = new Package({ storeDir, targetPath, name: selectedNpm.value, version: selectedNpm.version });
+    await pkg.prepare();
     if (pkg.exist()) {
-      console.log('update');
+      const { isUpdate } = await inquirer.prompt({
+        type: 'confirm',
+        name: 'isUpdate',
+        message: 'current template version is not latest latest, would you like to update it to latest?'
+      });
+      if (isUpdate) {
+        await pkg.update();
+      }
     } else {
-      console.log('install');
-      // await pkg.install();
+      await pkg.install();
     }
   };
   prepare = async () => {

@@ -2,36 +2,41 @@ const pkgDir = require('pkg-dir').sync;
 const path = require('path');
 const npmInstall = require('npminstall');
 const fs = require('fs');
+const fsp = require('fs/promises');
 const { getDefaultRegistry, getNpmLatestVersion } = require('../util/npm-info');
 
 // 进行package的相关操作
 class Package {
-  constructor (a) {
+  constructor (options = {}) {
+    this.ready(options);
   }
 
-  ready = async (options) => {
+  ready = (options) => {
     this.targetPath = options.targetPath;
     this.storeDir = options.storeDir;
     this.name = options.name;
-    this.version = await this.transferLatestVersion(options.version);
+    this.version = options.version;
     this.registry = getDefaultRegistry();
     this.cacheFilePrefix = this.name.replace('/', '_');
   };
 
-  get cacheFile () {
+  getCacheFile = (version = this.version) => {
     // _vue3-vite@0.0.0@vue3-vite
-    return path.resolve(this.storeDir, `_${this.cacheFilePrefix}@${this.version}@${this.name}`);
-  }
+    return path.resolve(this.storeDir, `_${this.cacheFilePrefix}@${version}@${this.name}`);
+  };
 
-  transferLatestVersion = async (version) => {
-    if (version === 'latest') {
-      return await getNpmLatestVersion(this.name, this.registry);
+  prepare = async () => {
+    // create cache directory ahead of time avoid directory not exists
+    if (this.storeDir && !fs.existsSync(this.storeDir)) {
+      await fsp.mkdir(this.storeDir, { recursive: true });
     }
-    return version;
+    if (this.version === 'latest') {
+      this.version = await getNpmLatestVersion(this.name, this.registry);
+    }
   };
   exist = () => {
     if (this.storeDir) {
-      return fs.existsSync(this.cacheFile);
+      return fs.existsSync(this.getCacheFile());
     } else {
       return fs.existsSync(this.targetPath);
     }
@@ -49,9 +54,14 @@ class Package {
       console.log('install error:', err);
     });
   };
-  l;
-  update = () => {
 
+  update = async () => {
+    const latestVersion = await getNpmLatestVersion(this.name, this.registry);
+    // check current version whether newest version
+    if (latestVersion !== this.version) {
+      this.version = latestVersion;
+      await this.install();
+    }
   };
   // 1. get package.json file information
   // 2. find main field: https://docs.npmjs.com/cli/v7/configuring-npm/package-json#main
