@@ -40,8 +40,14 @@ class Creator {
     const selectedNpm = this.templates.find(item => item.value === template);
     const targetPath = path.resolve(homePath, CACHE_DIR);
     const storeDir = path.resolve(targetPath, 'node_modules');
-    const pkg = new Package({ targetPath, storeDir, name: selectedNpm.value, version: selectedNpm.version });
-    await pkg.install();
+    const pkg = new Package();
+    await pkg.ready({ targetPath, storeDir, name: selectedNpm.value, version: selectedNpm.version });
+    if (pkg.exist()) {
+      console.log('update');
+    } else {
+      console.log('install');
+      // await pkg.install();
+    }
   };
   prepare = async () => {
     const cwd = process.cwd();
