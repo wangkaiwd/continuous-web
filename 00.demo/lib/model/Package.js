@@ -6,6 +6,7 @@ const fsp = require('fs/promises');
 const { getDefaultRegistry, getNpmLatestVersion } = require('../util/npm-info');
 
 // 进行package的相关操作
+// support local package and npm package
 class Package {
   constructor (options = {}) {
     this.ready(options);
@@ -67,7 +68,13 @@ class Package {
   // 2. find main field: https://docs.npmjs.com/cli/v7/configuring-npm/package-json#main
   // 3. compatible path of mac and windows
   getEntryFile = () => {
-    const rootDir = pkgDir(this.targetPath);
+    let filePath = '';
+    if (this.storeDir) {
+      filePath = this.getCacheFile();
+    } else {
+      filePath = this.targetPath;
+    }
+    const rootDir = pkgDir(filePath);
     const pkgPath = path.resolve(rootDir, 'package.json');
     const pkgFile = require(pkgPath);
     if (pkgFile && pkgFile.main) {

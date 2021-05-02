@@ -34,6 +34,8 @@
 * [inquirer filter](https://github.com/SBoudrias/Inquirer.js/#question)
 * why async await promise error need to try catch
 * path.sep: format windows and mac path
+* child_process: spawn: `{ stdio: 'inherit' }`
+* window cmd execute node code
 
 ### feature
 
