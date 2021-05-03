@@ -7,6 +7,7 @@ const colors = require('colors');
 const semver = require('semver');
 const Package = require('../../model/Package');
 const ora = require('ora');
+const { spawn } = require('../../util/exec');
 const { sleep } = require('../../util');
 const { TEMPLATE_TYPE_CUSTOM } = require('../../const');
 const { TEMPLATE_TYPE_NORMAL } = require('../../const');
@@ -19,6 +20,7 @@ class Creator {
     this.options = options;
     this.templates = this.createTemplates();
     this.template = {};
+    this.projectInfo = {};
   }
 
   init = () => {
@@ -26,15 +28,15 @@ class Creator {
   };
 
   create = async () => {
-    const projectInfo = await this.prepare();
+    const projectInfo = this.projectInfo = await this.prepare();
     if (projectInfo) {
-      const cacheDir = await this.downloadTemplate(projectInfo);
+      const cacheDir = await this.downloadTemplate();
       // generate template to cwd
       await this.installTemplate(cacheDir);
     }
   };
 
-  downloadTemplate = async (projectInfo) => {
+  downloadTemplate = async () => {
     const homePath = process.env.CLI_HOME_PATH;
 
     // 1. 在github仓库中创建对应的模板
@@ -42,7 +44,7 @@ class Creator {
     // 3. 可以将模板对应的信息存储到数据库中，然后提供API来供脚手架调用
     // 4. 脚手架调用API获取模板信息
     // 3，4步骤也可以使用本地的数据，只是每次改动之后需要修改代码
-    const { template } = projectInfo;
+    const { template } = this.projectInfo;
     const selectedNpm = this.template = this.templates.find(item => item.value === template);
     const targetPath = path.resolve(homePath, CACHE_DIR);
     const storeDir = path.resolve(targetPath, 'node_modules');
@@ -67,13 +69,41 @@ class Creator {
       this.installCustomTemplate(cacheDir);
     }
     spinner.stop();
-    npmlog.info('cli', colors.green(`install template successfully, you can start your project right now!`));
+    npmlog.info('cli', colors.green(`install template successfully, start init project...`));
+    await this.enableProject();
+  };
+
+  enableProject = async () => {
+    const { installCommand, startCommand } = this.template;
+    try {
+      if (installCommand) {
+        let [cmd, ...args] = installCommand.split(' ');
+        await spawn(cmd, args, {
+          cwd: process.cwd(),
+          stdio: 'inherit'
+        });
+        if (startCommand) {
+          const [cmd, ...args] = startCommand.split(' ');
+          await spawn(cmd, args, {
+            cwd: process.cwd(),
+            stdio: 'inherit'
+          });
+        }
+      }
+    } catch (e) {
+      console.log('e', e);
+    }
   };
 
   installNormalTemplate (cacheDir) {
     // copy all files to under directory that execute ppk-cli commands
+    const { value } = this.template;
     const cwd = process.cwd();
-    fsExtra.copySync(cacheDir, cwd);
+    fsExtra.copySync(cacheDir, cwd, function (src) {
+      // must to filter node_modules ?
+      const reg = new RegExp(`${value}/node_modules`);
+      return !reg.test(src);
+    });
   }
 
   installCustomTemplate () {
@@ -117,8 +147,6 @@ class Creator {
       } else {
         genEmptyTip();
       }
-    } else {
-      genEmptyTip();
     }
     return await this.getProjectInfo();
   };

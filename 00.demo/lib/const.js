@@ -9,12 +9,16 @@ const TEMPLATE_INFO = [
     npmName: 'vue3-vite',
     version: '0.0.0',
     type: TEMPLATE_TYPE_NORMAL,
+    installCommand: 'npm install',
+    startCommand: 'npm run dev'
   },
   {
     templateName: 'vue3-cli-standard-template',
     npmName: 'vue3-vuecli',
     version: '0.0.0',
-    type: TEMPLATE_TYPE_CUSTOM
+    type: TEMPLATE_TYPE_CUSTOM,
+    installCommand: 'npm install',
+    startCommand: 'npm run dev'
   }
 ];
 
