@@ -6,6 +6,8 @@ const npmlog = require('../../util/log');
 const colors = require('colors');
 const semver = require('semver');
 const Package = require('../../model/Package');
+const { TEMPLATE_TYPE_CUSTOM } = require('../../const');
+const { TEMPLATE_TYPE_NORMAL } = require('../../const');
 const { CACHE_DIR } = require('../../const');
 const { TEMPLATE_INFO } = require('../../const');
 
@@ -14,6 +16,7 @@ class Creator {
     this.projectName = projectName || '';
     this.options = options;
     this.templates = this.createTemplates();
+    this.template = {};
   }
 
   init = () => {
@@ -21,10 +24,11 @@ class Creator {
   };
 
   create = async () => {
-    // 1. 准备阶段
     const projectInfo = await this.prepare();
     if (projectInfo) {
-      await this.downloadTemplate(projectInfo);
+      const cacheDir = await this.downloadTemplate(projectInfo);
+      // generate template to cwd
+      this.installTemplate(cacheDir);
     }
   };
 
@@ -37,11 +41,12 @@ class Creator {
     // 4. 脚手架调用API获取模板信息
     // 3，4步骤也可以使用本地的数据，只是每次改动之后需要修改代码
     const { template } = projectInfo;
-    const selectedNpm = this.templates.find(item => item.value === template);
+    const selectedNpm = this.template = this.templates.find(item => item.value === template);
     const targetPath = path.resolve(homePath, CACHE_DIR);
     const storeDir = path.resolve(targetPath, 'node_modules');
     const pkg = new Package({ storeDir, targetPath, name: selectedNpm.value, version: selectedNpm.version });
     await pkg.prepare();
+    let cacheDir = '';
     if (pkg.exist()) {
       const { isUpdate } = await inquirer.prompt({
         type: 'confirm',
@@ -49,12 +54,33 @@ class Creator {
         message: 'current template version is not latest latest, would you like to update it to latest?'
       });
       if (isUpdate) {
-        await pkg.update();
+        cacheDir = await pkg.update();
       }
     } else {
-      await pkg.install();
+      cacheDir = await pkg.install();
+    }
+    return cacheDir;
+  };
+  installTemplate = (cacheDir) => {
+    const type = this.template.type = this.template.type || TEMPLATE_TYPE_NORMAL;
+    if (type === TEMPLATE_TYPE_NORMAL) {
+      this.installNormalTemplate(cacheDir);
+    }
+    if (type === TEMPLATE_TYPE_CUSTOM) {
+      this.installCustomTemplate(cacheDir);
     }
   };
+
+  installNormalTemplate (cacheDir) {
+    // copy all files to under directory that execute ppk-cli commands
+    const cwd = process.cwd();
+
+  }
+
+  installCustomTemplate () {
+
+  }
+
   prepare = async () => {
     const cwd = process.cwd();
     // another way of get cli execute location: https://devdocs.io/node~14_lts/path#path_path_resolve_paths
@@ -146,7 +172,8 @@ class Creator {
     return TEMPLATE_INFO.map(item => ({
       name: item.templateName,
       value: item.npmName,
-      version: item.version
+      version: item.version,
+      ...item
     }));
   };
   isCwdEmpty = async (dir) => {

@@ -1,16 +1,20 @@
 const LOWEST_NODE_VERSION = 'v12.0.0';
 const DEFAULT_CLI_HOME = '.ppk-cli';
 
+const TEMPLATE_TYPE_NORMAL = 'normal';
+const TEMPLATE_TYPE_CUSTOM = 'custom';
 const TEMPLATE_INFO = [
   {
     templateName: 'vue3-vite-standard-template',
     npmName: 'vue3-vite',
-    version: '0.0.0'
+    version: '0.0.0',
+    type: TEMPLATE_TYPE_NORMAL,
   },
   {
     templateName: 'vue3-cli-standard-template',
     npmName: 'vue3-vuecli',
-    version: '0.0.0'
+    version: '0.0.0',
+    type: TEMPLATE_TYPE_CUSTOM
   }
 ];
 
@@ -20,5 +24,7 @@ module.exports = {
   LOWEST_NODE_VERSION,
   DEFAULT_CLI_HOME,
   TEMPLATE_INFO,
-  CACHE_DIR
+  CACHE_DIR,
+  TEMPLATE_TYPE_NORMAL,
+  TEMPLATE_TYPE_CUSTOM
 };

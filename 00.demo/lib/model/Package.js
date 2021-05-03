@@ -54,6 +54,7 @@ class Package {
     }).catch((err) => {
       console.log('install error:', err);
     });
+    return this.getCacheFile();
   };
 
   update = async () => {
@@ -63,6 +64,7 @@ class Package {
       this.version = latestVersion;
       await this.install();
     }
+    return this.getCacheFile();
   };
   // 1. get package.json file information
   // 2. find main field: https://docs.npmjs.com/cli/v7/configuring-npm/package-json#main
