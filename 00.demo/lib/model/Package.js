@@ -1,10 +1,11 @@
 const pkgDir = require('pkg-dir').sync;
 const path = require('path');
+const ora = require('ora');
 const npmInstall = require('npminstall');
+const npmlog = require('../util/log');
 const fs = require('fs');
 const fsp = require('fs/promises');
 const { getDefaultRegistry, getNpmLatestVersion } = require('../util/npm-info');
-
 // 进行package的相关操作
 // support local package and npm package
 class Package {
@@ -44,6 +45,7 @@ class Package {
   };
 
   install = async () => {
+    const spinner = ora('install package...').start();
     await npmInstall({
       // install root dir
       root: this.targetPath,
@@ -52,8 +54,11 @@ class Package {
       registry: this.registry,
       storeDir: this.storeDir, // directory store real file which symbol link to
     }).catch((err) => {
-      console.log('install error:', err);
+      spinner.stop();
+      npmlog.error('cli', `install error:${err}`);
     });
+    spinner.stop();
+    npmlog.info('cli', 'install package successful');
     return this.getCacheFile();
   };
 
@@ -61,8 +66,15 @@ class Package {
     const latestVersion = await getNpmLatestVersion(this.name, this.registry);
     // check current version whether newest version
     if (latestVersion !== this.version) {
-      this.version = latestVersion;
-      await this.install();
+      const { isUpdate } = await inquirer.prompt({
+        type: 'confirm',
+        name: 'isUpdate',
+        message: 'current template version is not latest version, would you like to update it to latest?'
+      });
+      if (isUpdate) {
+        this.version = latestVersion;
+        await this.install();
+      }
     }
     return this.getCacheFile();
   };

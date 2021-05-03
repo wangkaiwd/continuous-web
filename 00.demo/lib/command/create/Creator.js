@@ -6,6 +6,8 @@ const npmlog = require('../../util/log');
 const colors = require('colors');
 const semver = require('semver');
 const Package = require('../../model/Package');
+const ora = require('ora');
+const { sleep } = require('../../util');
 const { TEMPLATE_TYPE_CUSTOM } = require('../../const');
 const { TEMPLATE_TYPE_NORMAL } = require('../../const');
 const { CACHE_DIR } = require('../../const');
@@ -28,7 +30,7 @@ class Creator {
     if (projectInfo) {
       const cacheDir = await this.downloadTemplate(projectInfo);
       // generate template to cwd
-      this.installTemplate(cacheDir);
+      await this.installTemplate(cacheDir);
     }
   };
 
@@ -48,20 +50,15 @@ class Creator {
     await pkg.prepare();
     let cacheDir = '';
     if (pkg.exist()) {
-      const { isUpdate } = await inquirer.prompt({
-        type: 'confirm',
-        name: 'isUpdate',
-        message: 'current template version is not latest latest, would you like to update it to latest?'
-      });
-      if (isUpdate) {
-        cacheDir = await pkg.update();
-      }
+      cacheDir = await pkg.update();
     } else {
       cacheDir = await pkg.install();
     }
     return cacheDir;
   };
-  installTemplate = (cacheDir) => {
+  installTemplate = async (cacheDir) => {
+    const spinner = ora('generate template....').start();
+    await sleep(1000);
     const type = this.template.type = this.template.type || TEMPLATE_TYPE_NORMAL;
     if (type === TEMPLATE_TYPE_NORMAL) {
       this.installNormalTemplate(cacheDir);
@@ -69,12 +66,14 @@ class Creator {
     if (type === TEMPLATE_TYPE_CUSTOM) {
       this.installCustomTemplate(cacheDir);
     }
+    spinner.stop();
+    npmlog.info('cli', colors.green(`install template successfully, you can start your project right now!`));
   };
 
   installNormalTemplate (cacheDir) {
     // copy all files to under directory that execute ppk-cli commands
     const cwd = process.cwd();
-
+    fsExtra.copySync(cacheDir, cwd);
   }
 
   installCustomTemplate () {
@@ -86,38 +85,40 @@ class Creator {
     // another way of get cli execute location: https://devdocs.io/node~14_lts/path#path_path_resolve_paths
     // console.log(path.resolve(),path.resolve('.'));
     const projectDir = path.resolve(cwd, this.projectName);
+    fsExtra.ensureDirSync(projectDir);
     const { force } = this.options;
-    if (fsExtra.pathExistsSync(projectDir)) {
-      const empty = await this.isCwdEmpty(projectDir);
-      if (!empty) {
-        if (force) {
-          const { clear } = await inquirer.prompt({
+    const empty = await this.isCwdEmpty(projectDir);
+    const genEmptyTip = () => {
+      npmlog.warn('cli', colors.yellow('Directory is not empty, you can use --force option to force create project!'));
+      process.exit(1);
+    };
+    if (!empty) {
+      if (force) {
+        const { clear } = await inquirer.prompt({
+          type: 'confirm',
+          name: 'clear',
+          default: false,
+          message: 'Current directory is not empty, is force clean all files to continue create project?'
+        });
+        if (clear) {
+          // delete operate is too dangerous, so need to execute twice confirm
+          const { confirmDelete } = await inquirer.prompt({
             type: 'confirm',
-            name: 'clear',
+            name: 'confirmDelete',
             default: false,
-            message: 'Current directory is not empty, is force clean all files to continue create project?'
+            message: `Confirm delete all contents under directory ${projectDir}?`
           });
-          if (clear) {
-            // delete operate is too dangerous, so need to execute twice confirm
-            const { confirmDelete } = await inquirer.prompt({
-              type: 'confirm',
-              name: 'confirmDelete',
-              default: false,
-              message: `Confirm delete all contents under directory ${projectDir}?`
-            });
-            if (confirmDelete) {
-              // emptyDir： Delete directory contents if the directory is not empty. If directory does not exist, it is created. The directory itself is not deleted.  
-              await fsExtra.emptyDir(projectDir);
-              npmlog.notice('cli', 'delete all content successfully');
-            }
+          if (confirmDelete) {
+            // emptyDir： Delete directory contents if the directory is not empty. If directory does not exist, it is created. The directory itself is not deleted.  
+            await fsExtra.emptyDir(projectDir);
+            npmlog.notice('cli', 'delete all content successfully');
           }
-        } else {
         }
       } else {
-        npmlog.warn('cli', colors.yellow('Directory not empty!'));
+        genEmptyTip();
       }
     } else {
-      console.log('path not exist');
+      genEmptyTip();
     }
     return await this.getProjectInfo();
   };

@@ -22,6 +22,7 @@
     "inquirer": "^8.0.0",
     "npminstall": "^4.11.0",
     "npmlog": "^4.1.2",
+    "ora": "^5.4.0",
     "pkg-dir": "^5.0.0",
     "root-check": "^1.0.0",
     "semver": "^7.3.5",

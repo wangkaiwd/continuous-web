@@ -17,7 +17,16 @@ const formatPath = (p) => {
   return p;
 };
 
+const sleep = (delay) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, delay);
+  });
+};
+
 module.exports = {
   isObject,
-  formatPath
+  formatPath,
+  sleep
 };
