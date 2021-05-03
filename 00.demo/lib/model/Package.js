@@ -5,6 +5,7 @@ const npmInstall = require('npminstall');
 const npmlog = require('../util/log');
 const fs = require('fs');
 const fsp = require('fs/promises');
+const inquirer = require('inquirer');
 const { getDefaultRegistry, getNpmLatestVersion } = require('../util/npm-info');
 // 进行package的相关操作
 // support local package and npm package

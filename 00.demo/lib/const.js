@@ -16,9 +16,9 @@ const TEMPLATE_INFO = [
     templateName: 'vue3-cli-standard-template',
     npmName: 'vue3-vuecli',
     version: '0.0.0',
-    type: TEMPLATE_TYPE_CUSTOM,
+    type: TEMPLATE_TYPE_NORMAL,
     installCommand: 'npm install',
-    startCommand: 'npm run dev'
+    startCommand: 'npm run serve'
   }
 ];
 
