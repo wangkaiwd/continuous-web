@@ -1,7 +1,7 @@
 const log = require('npmlog');
 const colors = require('colors');
 const LOG_LEVEL = process.env.LOG_EVEL;
-log.heading = 'ppk-cli';
+log.heading = 'ppk';
 log.headingStyle = { fg: 'green', bg: 'black' };
 log.level = LOG_LEVEL || 'info';
 log.addLevel('success', 2200, { fg: 'green', bold: true });
