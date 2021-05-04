@@ -36,6 +36,7 @@
 * path.sep: format windows and mac path
 * child_process: spawn: `{ stdio: 'inherit' }`
 * window cmd execute node code
+* glob match options: [nodir](https://github.com/isaacs/node-glob#options)
 
 ### feature
 

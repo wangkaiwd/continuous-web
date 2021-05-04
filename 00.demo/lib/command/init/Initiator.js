@@ -13,8 +13,11 @@ const { TEMPLATE_TYPE_CUSTOM } = require('../../const');
 const { TEMPLATE_TYPE_NORMAL } = require('../../const');
 const { CACHE_DIR } = require('../../const');
 const { TEMPLATE_INFO } = require('../../const');
+const ejs = require('ejs');
+const glob = require('glob');
+const colors = require('colors');
 
-class Creator {
+class Initiator {
   constructor (projectName, options, cmd) {
     this.projectName = projectName || '';
     this.options = options;
@@ -23,9 +26,9 @@ class Creator {
     this.projectInfo = {};
   }
 
-  create = async () => {
-    const projectInfo = this.projectInfo = await this.prepare();
-    if (projectInfo) {
+  init = async () => {
+    await this.prepare();
+    if (this.projectInfo) {
       const cacheDir = await this.downloadTemplate();
       // generate template to cwd
       const templateDir = path.resolve(cacheDir, 'template');
@@ -58,7 +61,7 @@ class Creator {
 
   /**
    *  filter commands to avoid execute look like `rm -rf **\/*` malicious code
-   * @param command
+   * @param command {String}
    * @returns {null|*}
    */
   checkCommand = (command) => {
@@ -75,6 +78,7 @@ class Creator {
     const type = this.template.type = this.template.type || TEMPLATE_TYPE_NORMAL;
     if (type === TEMPLATE_TYPE_NORMAL) {
       this.installNormalTemplate(templateDir);
+      await this.ejsRender();
     }
     if (type === TEMPLATE_TYPE_CUSTOM) {
       this.installCustomTemplate(templateDir);
@@ -102,16 +106,28 @@ class Creator {
     await this.execCmd(startCommand);
     cliLog.success('setup successfully');
   };
+  ejsRender = () => {
+    return new Promise((resolve, reject) => {
+      const files = glob.sync('**', { nodir: true, ignore: ['**/node_modules/**', '**/public/**'] });
+      const promises = this.genPromises(files);
+      Promise.all(promises).then(resolve, reject);
+    });
+  };
+  genPromises = (files) => {
+    return files.map(file => {
+      return new Promise((resolve, reject) => {
+        const filename = path.resolve(process.cwd(), file);
+        ejs.renderFile(filename, this.projectInfo, {}, (err, str) => {
+          pfs.writeFile(filename, str).then(resolve, reject);
+        });
+      });
+    });
+  };
 
   installNormalTemplate (templateDir) {
     // copy all files to under directory that execute ppk-cli commands
-    const { value } = this.template;
     const cwd = process.cwd();
-    fsExtra.copySync(templateDir, cwd, function (src) {
-      // must to filter node_modules ?
-      const reg = new RegExp(`${value}/node_modules`);
-      return !reg.test(src);
-    });
+    fsExtra.copySync(templateDir, cwd);
   }
 
   installCustomTemplate (templateDir) {
@@ -122,12 +138,11 @@ class Creator {
     const cwd = process.cwd();
     // another way of get cli execute location: https://devdocs.io/node~14_lts/path#path_path_resolve_paths
     // console.log(path.resolve(),path.resolve('.'));
-    const projectDir = path.resolve(cwd, this.projectName);
-    fsExtra.ensureDirSync(projectDir);
+    fsExtra.ensureDirSync(cwd);
     const { force } = this.options;
-    const empty = await this.isCwdEmpty(projectDir);
+    const empty = await this.isCwdEmpty(cwd);
     const genEmptyTip = () => {
-      cliLog.warn('Directory is not empty, you can use --force option to force create project!');
+      cliLog.warn('Directory is not empty, you can use --force option to force init project!');
       process.exit(1);
     };
     if (!empty) {
@@ -136,7 +151,7 @@ class Creator {
           type: 'confirm',
           name: 'clear',
           default: false,
-          message: 'Current directory is not empty, is force clean all files to continue create project?'
+          message: 'Current directory is not empty, is force clean all files to continue init project?'
         });
         if (clear) {
           // delete operate is too dangerous, so need to execute twice confirm
@@ -144,11 +159,11 @@ class Creator {
             type: 'confirm',
             name: 'confirmDelete',
             default: false,
-            message: `Confirm delete all contents under directory ${projectDir}?`
+            message: `${colors.yellow(`Sure delete all contents under directory ${cwd}?`)}`
           });
           if (confirmDelete) {
-            // emptyDir： Delete directory contents if the directory is not empty. If directory does not exist, it is created. The directory itself is not deleted.  
-            await fsExtra.emptyDir(projectDir);
+            // emptyDir： Delete directory contents if the directory is not empty. If directory does not exist, it is created 
+            await fsExtra.emptyDir(cwd);
             cliLog.success('delete all content successfully');
           }
         }
@@ -156,30 +171,36 @@ class Creator {
         genEmptyTip();
       }
     }
-    return await this.getProjectInfo();
+    await this.getProjectInfo();
   };
+
+  isValidName = (name = this.projectName) => {
+    const reg = /^[a-zA-Z]*[\w-]*[a-zA-Z0-9]$/;
+    return reg.test(name);
+  };
+
   getProjectInfo = async () => {
-    // 连续调用inquirer来进行连续让用户进行交互
-    return await inquirer.prompt([
-      {
-        type: 'input',
-        name: 'projectName',
-        message: 'Please input name of your project',
-        validate (input) {
-          // 1. 首字符必须为英文字符
-          // 2. 尾字符必须是英文或数字，不能是字符
-          // 3. 字符仅允许"-_"
-          const reg = /^[a-zA-Z]*[\w-]*[a-zA-Z0-9]$/;
-          if (reg.test(input)) {
-            return true;
-          } else {
-            return 'project name is illegal!';
-          }
+    const projectNamePrompt = {
+      type: 'input',
+      name: 'projectName',
+      default: this.template.name,
+      message: 'Please input name of your project',
+      validate: (input) => {
+        // 1. 首字符必须为英文字符
+        // 2. 尾字符必须是英文或数字，不能是字符
+        // 3. 字符仅允许"-_"
+        if (this.isValidName(input)) {
+          return true;
+        } else {
+          return 'project name is illegal!';
         }
-      },
+      }
+    };
+    const prompts = [
       {
         type: 'input',
         name: 'version',
+        default: '1.0.0',
         message: 'Please input version of your project',
         validate (input) {
           if (semver.valid(input)) {
@@ -200,10 +221,21 @@ class Creator {
       {
         type: 'list',
         name: 'template',
-        message: 'Please input version of your project',
         choices: this.templates
       },
-    ]);
+    ];
+    if (!this.projectName) {
+      prompts.unshift(projectNamePrompt);
+    }
+    // 连续调用inquirer来进行连续让用户进行交互
+    const projectInfo = this.projectInfo = await inquirer.prompt(prompts);
+    if (!projectInfo.projectName) {
+      projectInfo.projectName = this.projectName;
+    }
+    if (!this.isValidName(projectInfo.projectName)) {
+      cliLog.error('project name is illegal, please init project again!');
+      process.exit(1);
+    }
   };
   createTemplates = () => {
     return TEMPLATE_INFO.map(item => ({
@@ -219,4 +251,4 @@ class Creator {
   };
 }
 
-module.exports = Creator;
+module.exports = Initiator;

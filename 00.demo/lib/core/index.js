@@ -12,7 +12,7 @@ const homedir = require('os').homedir();
 const path = require('path');
 const commander = require('commander');
 const exec = require('./exec');
-const Creator = require('../command/create/Creator');
+const Initiator = require('../command/init/Initiator');
 const { getNpmLatestVersion } = require('../util/npm-info');
 const program = new commander.Command();
 
@@ -45,11 +45,11 @@ const registerCommand = () => {
   // .option('-tp, --target-path <targetPath>', 'specify location of local debug file', '');
 
   program
-    .command('create [projectName]')
-    .description('create project that project directory name is projectName')
-    .option('-f, --force', 'force create project')
+    .command('init [projectName]')
+    .description('init project that package name is projectName')
+    .option('-f, --force', 'force init project')
     .action(async (...args) => {
-      await new Creator(...args).create();
+      await new Initiator(...args).init();
     });
   handleDebug();
   // 先执行

@@ -16,8 +16,9 @@ const logOptions = [
   { type: 'error', color: 'red' }
 ];
 logOptions.forEach(({ type, color }) => {
-  cliLog[type] = function (msg) {
-    return log[type]('', colors[color](msg));
+  cliLog[type] = function (...args) {
+    const logs = args.map(text => colors[color](text));
+    return log[type]('', ...logs);
   };
 });
 module.exports = cliLog;
