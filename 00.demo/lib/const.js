@@ -21,7 +21,7 @@ const TEMPLATE_INFO = [
     startCommand: 'npm run serve'
   }
 ];
-
+const WHITE_COMMANDS = ['npm', 'yarn', 'cnpm'];
 const CACHE_DIR = 'dependencies';
 
 module.exports = {
@@ -30,5 +30,6 @@ module.exports = {
   TEMPLATE_INFO,
   CACHE_DIR,
   TEMPLATE_TYPE_NORMAL,
-  TEMPLATE_TYPE_CUSTOM
+  TEMPLATE_TYPE_CUSTOM,
+  WHITE_COMMANDS
 };

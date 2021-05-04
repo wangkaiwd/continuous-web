@@ -7,6 +7,7 @@ const colors = require('colors');
 const semver = require('semver');
 const Package = require('../../model/Package');
 const ora = require('ora');
+const { WHITE_COMMANDS } = require('../../const');
 const { spawn } = require('../../util/exec');
 const { sleep } = require('../../util');
 const { TEMPLATE_TYPE_CUSTOM } = require('../../const');
@@ -58,6 +59,16 @@ class Creator {
     }
     return cacheDir;
   };
+
+  // filter commands to avoid execute look like rm -rf **/* malicious code
+  checkCommand = (command) => {
+    if (WHITE_COMMANDS.includes(command)) {
+      return command;
+    } else {
+      return null;
+    }
+  };
+
   installTemplate = async (cacheDir) => {
     const spinner = ora('generate template....').start();
     await sleep(1000);
@@ -73,21 +84,21 @@ class Creator {
     await this.enableProject();
   };
 
+  execCmd = async (string) => {
+    const [cmd, ...args] = string.split(' ');
+    await spawn(cmd, args, {
+      cwd: process.cwd(),
+      stdio: 'inherit'
+    });
+  };
+
   enableProject = async () => {
     const { installCommand, startCommand } = this.template;
     try {
       if (installCommand) {
-        let [cmd, ...args] = installCommand.split(' ');
-        await spawn(cmd, args, {
-          cwd: process.cwd(),
-          stdio: 'inherit'
-        });
+        await this.execCmd(installCommand);
         if (startCommand) {
-          const [cmd, ...args] = startCommand.split(' ');
-          await spawn(cmd, args, {
-            cwd: process.cwd(),
-            stdio: 'inherit'
-          });
+          await this.execCmd(startCommand);
         }
       }
     } catch (e) {
