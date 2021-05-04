@@ -33,7 +33,8 @@ class Creator {
     if (projectInfo) {
       const cacheDir = await this.downloadTemplate();
       // generate template to cwd
-      await this.installTemplate(cacheDir);
+      const templateDir = path.resolve(cacheDir, 'template');
+      await this.installTemplate(templateDir);
     }
   };
 
@@ -60,7 +61,11 @@ class Creator {
     return cacheDir;
   };
 
-  // filter commands to avoid execute look like rm -rf **/* malicious code
+  /**
+   *  filter commands to avoid execute look like `rm -rf **\/*` malicious code
+   * @param command
+   * @returns {null|*}
+   */
   checkCommand = (command) => {
     if (WHITE_COMMANDS.includes(command)) {
       return command;
@@ -69,15 +74,15 @@ class Creator {
     }
   };
 
-  installTemplate = async (cacheDir) => {
+  installTemplate = async (templateDir) => {
     const spinner = ora('generate template....').start();
     await sleep(1000);
     const type = this.template.type = this.template.type || TEMPLATE_TYPE_NORMAL;
     if (type === TEMPLATE_TYPE_NORMAL) {
-      this.installNormalTemplate(cacheDir);
+      this.installNormalTemplate(templateDir);
     }
     if (type === TEMPLATE_TYPE_CUSTOM) {
-      this.installCustomTemplate(cacheDir);
+      this.installCustomTemplate(templateDir);
     }
     spinner.stop();
     npmlog.info('cli', colors.green(`install template successfully, start init project...`));
@@ -85,8 +90,9 @@ class Creator {
   };
 
   execCmd = async (string) => {
+    if (!string) { throw Error('Command not exist!');}
     const [cmd, ...args] = string.split(' ');
-    await spawn(cmd, args, {
+    await spawn(this.checkCommand(cmd), args, {
       cwd: process.cwd(),
       stdio: 'inherit'
     });
@@ -94,30 +100,22 @@ class Creator {
 
   enableProject = async () => {
     const { installCommand, startCommand } = this.template;
-    try {
-      if (installCommand) {
-        await this.execCmd(installCommand);
-        if (startCommand) {
-          await this.execCmd(startCommand);
-        }
-      }
-    } catch (e) {
-      console.log('e', e);
-    }
+    await this.execCmd(installCommand);
+    await this.execCmd(startCommand);
   };
 
-  installNormalTemplate (cacheDir) {
+  installNormalTemplate (templateDir) {
     // copy all files to under directory that execute ppk-cli commands
     const { value } = this.template;
     const cwd = process.cwd();
-    fsExtra.copySync(cacheDir, cwd, function (src) {
+    fsExtra.copySync(templateDir, cwd, function (src) {
       // must to filter node_modules ?
       const reg = new RegExp(`${value}/node_modules`);
       return !reg.test(src);
     });
   }
 
-  installCustomTemplate () {
+  installCustomTemplate (templateDir) {
 
   }
 
