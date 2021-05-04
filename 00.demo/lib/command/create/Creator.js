@@ -2,8 +2,7 @@ const path = require('path');
 const fsExtra = require('fs-extra');
 const inquirer = require('inquirer');
 const pfs = require('fs/promises');
-const npmlog = require('../../util/log');
-const colors = require('colors');
+const cliLog = require('../../util/log');
 const semver = require('semver');
 const Package = require('../../model/Package');
 const ora = require('ora');
@@ -23,10 +22,6 @@ class Creator {
     this.template = {};
     this.projectInfo = {};
   }
-
-  init = () => {
-
-  };
 
   create = async () => {
     const projectInfo = this.projectInfo = await this.prepare();
@@ -85,7 +80,7 @@ class Creator {
       this.installCustomTemplate(templateDir);
     }
     spinner.stop();
-    npmlog.info('cli', colors.green(`install template successfully, start init project...`));
+    cliLog.success('install template successfully, start init project...');
     await this.enableProject();
   };
 
@@ -100,8 +95,12 @@ class Creator {
 
   enableProject = async () => {
     const { installCommand, startCommand } = this.template;
+    cliLog.notice('install dependencies...');
     await this.execCmd(installCommand);
+    cliLog.success('install dependencies successfully');
+    cliLog.notice('prepare to setup project...');
     await this.execCmd(startCommand);
+    cliLog.success('setup successfully');
   };
 
   installNormalTemplate (templateDir) {
@@ -128,7 +127,7 @@ class Creator {
     const { force } = this.options;
     const empty = await this.isCwdEmpty(projectDir);
     const genEmptyTip = () => {
-      npmlog.warn('cli', colors.yellow('Directory is not empty, you can use --force option to force create project!'));
+      cliLog.warn('Directory is not empty, you can use --force option to force create project!');
       process.exit(1);
     };
     if (!empty) {
@@ -150,7 +149,7 @@ class Creator {
           if (confirmDelete) {
             // emptyDir： Delete directory contents if the directory is not empty. If directory does not exist, it is created. The directory itself is not deleted.  
             await fsExtra.emptyDir(projectDir);
-            npmlog.notice('cli', 'delete all content successfully');
+            cliLog.success('delete all content successfully');
           }
         }
       } else {

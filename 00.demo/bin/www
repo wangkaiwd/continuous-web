@@ -1,8 +1,8 @@
 #! /usr/bin/env node
 const importLocal = require('import-local');
-const npmlog = require('npmlog');
+const cliLog = require('../lib/util/log');
 if (importLocal(__filename)) {
-  npmlog.info('ppk-cli', 'Using local version of ppk-cli');
+  cliLog.info('Using local version of ppk-cli');
 } else {
   // npmlog.info('ppk-cli', 'global command');
   require('../lib/core')(process.argv.slice(2));

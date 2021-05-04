@@ -2,7 +2,7 @@ const pkgDir = require('pkg-dir').sync;
 const path = require('path');
 const ora = require('ora');
 const npmInstall = require('npminstall');
-const npmlog = require('../util/log');
+const cliLog = require('../util/log');
 const fs = require('fs');
 const fsp = require('fs/promises');
 const inquirer = require('inquirer');
@@ -56,10 +56,10 @@ class Package {
       storeDir: this.storeDir, // directory store real file which symbol link to
     }).catch((err) => {
       spinner.stop();
-      npmlog.error('cli', `install error:${err}`);
+      cliLog.error(`install error:${err}`);
     });
     spinner.stop();
-    npmlog.info('cli', 'install package successful');
+    cliLog.info('install package successful');
     return this.getCacheFile();
   };
 

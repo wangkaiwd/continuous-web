@@ -3,7 +3,7 @@
 // .json: 通过fs.readFile读取到文件内容，执行JSON.parse即可
 const pkg = require('../../package.json');
 const semver = require('semver');
-const log = require('../util/log');
+const cliLog = require('../util/log');
 const { LOWEST_NODE_VERSION, DEFAULT_CLI_HOME } = require('../const');
 const colors = require('colors/safe');
 const rootCheck = require('root-check');
@@ -21,7 +21,7 @@ const core = async argv => {
     await prepare();
     registerCommand();
   } catch (e) { // 通过try catch来自己处理错误，防止程序终止以及打印堆栈信息
-    log.error('cli', colors.red(e.message));
+    cliLog.error(e.message);
   }
 };
 
@@ -58,11 +58,11 @@ const registerCommand = () => {
   });
 
   program.on('command:*', function (operands) {
-    log.error('cli', colors.red(`Unknown command: ${operands[0]}`));
+    cliLog.error(`Unknown command: ${operands[0]}`);
     // cmd.name() 获取命令名称
     const availableCommands = program.commands.map(cmd => cmd.name());
     if (availableCommands.length > 0) {
-      log.error('cli', colors.red(`Available commands: ${availableCommands.join(', ')}`));
+      cliLog.error(`Available commands: ${availableCommands.join(', ')}`);
     }
   });
 
@@ -72,12 +72,12 @@ const handleDebug = () => {
   // 启动debug模式
   program.on('option:debug', function () {
     process.env.LOG_LEVEL = 'verbose';
-    log.level = process.env.LOG_LEVEL;
-    log.verbose('cli', 'test');
+    cliLog.level = process.env.LOG_LEVEL;
+    cliLog.verbose('cli', 'test');
   });
 };
 const checkPkgVersion = () => {
-  log.info('cli', pkg.version);
+  cliLog.info(pkg.version);
 };
 
 const checkNodeVersion = () => {
@@ -132,7 +132,7 @@ const checkLatestVersion = () => {
   return getNpmLatestVersion(name)
     .then((lastVersion) => {
       if (semver.gt(lastVersion, version)) {
-        log.warn('update', colors.yellow(`please update ${name} manually, current version: ${version}, last version: ${lastVersion}. update command: npm i -g ${name}`));
+        cliLog.warn(`please update ${name} manually, current version: ${version}, last version: ${lastVersion}. update command: npm i -g ${name}`);
       }
     });
 };
