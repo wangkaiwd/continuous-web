@@ -11,8 +11,9 @@
 ### knowledges
 
 * [literal type](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#literal-types)
-* [typeof operator](https://www.typescriptlang.org/docs/handbook/2/typeof-types.html#the-typeof-type-operator)
-* [keyof operator](https://www.typescriptlang.org/docs/handbook/2/keyof-types.html#the-keyof-type-operator)
+* [typeof type operator](https://www.typescriptlang.org/docs/handbook/2/typeof-types.html#the-typeof-type-operator)
+* [keyof type operator](https://www.typescriptlang.org/docs/handbook/2/keyof-types.html#the-keyof-type-operator)
+* [mapped types](https://www.typescriptlang.org/docs/handbook/2/mapped-types.html)
 
 ### run typescript with webstorm
 
