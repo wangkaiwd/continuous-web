@@ -1,9 +1,9 @@
 ## strategy of separate package
 
-* 核心模块: core
-* 命令模块：command
-* 模型模块：model
-* 工具模块：util
+* core
+* command
+* model
+* util
 
 ### third party package
 
