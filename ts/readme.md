@@ -1,6 +1,6 @@
 ## typescript
 
-### 基础类型
+### everyday types
 
 ### interface
 
@@ -8,7 +8,7 @@
 
 * interface define shape of constructor method
 
-### knowledges
+### knowledge
 
 * [literal type](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#literal-types)
 * [typeof type operator](https://www.typescriptlang.org/docs/handbook/2/typeof-types.html#the-typeof-type-operator)

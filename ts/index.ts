@@ -11,13 +11,6 @@
 //
 // const result = swap(['a', 1]);
 
-// interface TestProps {
-//   name: string,
-//   age: number
-// }
-
-// type Keys = keyof TestProps
-
 // notice: here must be use type alias, use interface will occur error
 // type TestBool = {
 //   [key in Keys]: boolean
@@ -29,3 +22,4 @@
 
 // let define variable can change after, so it's type is string
 // let say = 'world';
+
