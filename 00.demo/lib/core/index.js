@@ -8,6 +8,7 @@ const { LOWEST_NODE_VERSION, DEFAULT_CLI_HOME } = require('../const');
 const colors = require('colors/safe');
 const rootCheck = require('root-check');
 const fs = require('fs');
+const dotenv = require('dotenv');
 const homedir = require('os').homedir();
 const path = require('path');
 const commander = require('commander');
@@ -51,12 +52,13 @@ const registerCommand = () => {
     .action(async (...args) => {
       await new Initiator(...args).init();
     });
-  handleDebug();
+  listenDebug();
+  promptAvailableComands();
   // 先执行
-  program.on('option:target-path', (targetPath) => {
-    process.env.TARGET_PATH = targetPath;
-  });
+  program.parse(process.argv);
+};
 
+const promptAvailableComands = () => {
   program.on('command:*', function (operands) {
     cliLog.error(`Unknown command: ${operands[0]}`);
     // cmd.name() 获取命令名称
@@ -65,10 +67,9 @@ const registerCommand = () => {
       cliLog.error(`Available commands: ${availableCommands.join(', ')}`);
     }
   });
+}
 
-  program.parse(process.argv);
-};
-const handleDebug = () => {
+const listenDebug = () => {
   // 启动debug模式
   program.on('option:debug', function () {
     process.env.LOG_LEVEL = 'verbose';
@@ -102,9 +103,9 @@ const checkHomedir = () => {
   }
 };
 const checkEnv = () => {
-  const dotenv = require('dotenv');
   const envPath = path.resolve(homedir, '.env');
   if (fs.existsSync(envPath)) {
+    // https://github.com/motdotla/dotenv#path
     dotenv.config({ path: envPath });
   }
   createDefaultConfig();
