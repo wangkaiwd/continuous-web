@@ -7,7 +7,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, watchEffect } from 'vue';
+
+import { defineComponent, reactive, watchEffect } from 'vue';
 
 interface IResult {
   id: number;
@@ -21,7 +22,6 @@ interface TodoProps {
 
 export default defineComponent({
   name: 'App',
-  components: {},
   setup () {
     const todos = reactive<TodoProps>({ result: null });
     const count = ref<number>(0);
@@ -41,5 +41,5 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style lang="less" scoped>
 </style>
