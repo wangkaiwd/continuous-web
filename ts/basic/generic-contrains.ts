@@ -14,3 +14,4 @@ type NonType<T> = T extends null | undefined ? never : T;
 
 let demo1: NonType<string>;
 let demo2: NonType<null>;
+export {};

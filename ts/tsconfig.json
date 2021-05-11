@@ -3,7 +3,8 @@
     "module": "commonjs",
     "target": "ESNext",
     "sourceMap": true,
-    "outDir": "build"
+    "outDir": "dist",
+    "strict": true
   },
   "exclude": [
     "node_modules"
