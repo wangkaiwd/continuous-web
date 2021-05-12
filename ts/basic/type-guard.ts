@@ -6,7 +6,6 @@
 // 4. Object.prototype.toString.call (all-round)
 
 // 也可以用in来进行不同object类型区分
-
 function fn (val: string | number) {
   if (typeof val === 'string') {
     val.replace('', '');
@@ -14,5 +13,11 @@ function fn (val: string | number) {
     val.toFixed(2);
   }
 }
+
+// discriminate union
+
+// type predicate
+
+// null: 内部函数类型检测无法智能判断
 
 export {};
