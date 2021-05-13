@@ -16,8 +16,27 @@ function fn (val: string | number) {
 
 // discriminate union
 
-// type predicate
+// type predicate: is
+function isString (val: any): val is string {
+  return typeof val === 'boolean';
+}
+
+const str = 'aa';
+if (isString(str)) {
+  str.match('g');
+}
 
 // null: 内部函数类型检测无法智能判断
+function outer (val: number | null) {
+  val = val ?? 1;
+  val.toFixed(2);
+
+  function inner () {
+    // 这里并不能很好的推断出来，因为不能确定函数会在哪里调用
+    val?.toFixed();
+  }
+
+  inner();
+}
 
 export {};
