@@ -23,7 +23,7 @@ function isString (val: any): val is string {
 
 const str = 'aa';
 if (isString(str)) {
-  str.match('g');
+  str.match(' g');
 }
 
 // null: 内部函数类型检测无法智能判断
@@ -38,5 +38,7 @@ function outer (val: number | null) {
 
   inner();
 }
+
+// exhaustiveness checking
 
 export {};
