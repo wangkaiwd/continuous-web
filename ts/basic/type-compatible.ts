@@ -59,3 +59,5 @@ function getType (cb: (val: string | number) => string | number) {
 getType((val: string | number | boolean) => {
   return 1;
 });
+
+// 协变和逆变：Covariance / Contravariance, https://www.stephanboyer.com/post/132/what-are-covariance-and-contravariance
