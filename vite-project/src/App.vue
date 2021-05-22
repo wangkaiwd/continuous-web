@@ -15,7 +15,7 @@ import HelloWorld, { IInfo } from './components/hello-world.vue';
 interface IResult {
   id: number;
   name: string;
-  completed: boolean;
+  completed: boolean; 
 }
 
 interface TodoProps {
