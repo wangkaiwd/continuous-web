@@ -5,7 +5,7 @@
   "author": "wangkaiwd <1162486176@qq.com>",
   "homepage": "https://github.com/wangkaiwd/continuous-web#readme",
   "license": "ISC",
-  "main": "src/button.vue",
+  "main": "index.ts",
   "directories": {
     "lib": "src",
     "test": "__tests__"

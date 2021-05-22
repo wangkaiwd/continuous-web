@@ -1,6 +1,6 @@
 <template>
-  <div class="button">
-    按钮
+  <div class="app">
+
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 import { defineComponent, reactive, toRefs } from 'vue';
 
 export default defineComponent({
-  name: 'PButton',
+  name: 'App',
   setup () {
     const state = reactive({});
     return {
@@ -19,7 +19,7 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-.button {
+.app {
 
 }
 </style>
