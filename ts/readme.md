@@ -16,6 +16,7 @@
 * [mapped types](https://www.typescriptlang.org/docs/handbook/2/mapped-types.html)
 * [generic constrains](https://www.typescriptlang.org/docs/handbook/2/generics.html#generic-constraints)
 * [declare reference](https://www.typescriptlang.org/docs/handbook/declaration-files/by-example.html#global-variables)
+* [Covariance / Contravariance](https://www.stephanboyer.com/post/132/what-are-covariance-and-contravariance)
 
 ### run typescript with webstorm
 
